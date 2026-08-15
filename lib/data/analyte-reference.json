@@ -1169,5 +1169,819 @@
     "hStatement": null,
     "hazardClass": null,
     "hStatements": null
+  },
+  {
+    "analyteId": "fts-4-2",
+    "canonicalNameNo": "4:2 FTS (Fluortelomersulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "4:2 fluorotelomer sulfonic acid",
+    "casNumber": "757124-72-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "fts-6-2",
+    "canonicalNameNo": "6:2 FTS (Fluortelomersulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "6:2 fluorotelomer sulfonic acid",
+    "casNumber": "27619-97-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "fts-8-2",
+    "canonicalNameNo": "8:2 FTS (Fluortelomersulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "8:2 fluorotelomer sulfonic acid",
+    "casNumber": "39108-34-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "hpfhpa",
+    "canonicalNameNo": "HPFHpA (7H-Perfluorheptansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "7H-perfluoroheptanoic acid",
+    "casNumber": "1546-95-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pf-3-7-dmoa",
+    "canonicalNameNo": "PF-3,7-DMOA (Perfluor-3,7-dimetyloktansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoro-3,7-dimethyloctanoic acid",
+    "casNumber": "172155-07-6",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfda",
+    "canonicalNameNo": "PFDA (Perfluordekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorodecanoic acid",
+    "casNumber": "335-76-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H360Df",
+        "hazardClass": "Repr. 1B"
+      }
+    ]
+  },
+  {
+    "analyteId": "pfba",
+    "canonicalNameNo": "PFBA (Perfluorbutansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorobutanoic acid",
+    "casNumber": "375-22-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfbs",
+    "canonicalNameNo": "PFBS (Perfluorbutansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorobutanesulfonic acid",
+    "casNumber": "375-73-5",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfdoda",
+    "canonicalNameNo": "PFDoDA (Perfluordodekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorododecanoic acid",
+    "casNumber": "307-55-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pftrda",
+    "canonicalNameNo": "PFTrDA (Perfluortridekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorotridecanoic acid",
+    "casNumber": "72629-94-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfds",
+    "canonicalNameNo": "PFDS (Perfluordekansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorodecanesulfonic acid",
+    "casNumber": "335-77-3",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfhpa",
+    "canonicalNameNo": "PFHpA (Perfluorheptansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoroheptanoic acid",
+    "casNumber": "375-85-9",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H360D",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pfhps",
+    "canonicalNameNo": "PFHpS (Perfluorheptansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoroheptanesulfonic acid",
+    "casNumber": "375-92-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfhxa",
+    "canonicalNameNo": "PFHxA (Perfluorheksansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorohexanoic acid",
+    "casNumber": "307-24-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfhxda",
+    "canonicalNameNo": "PFHxDA (Perfluorheksadekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorohexadecanoic acid",
+    "casNumber": "67905-19-5",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfhxs",
+    "canonicalNameNo": "PFHxS (Perfluorheksansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorohexanesulfonic acid",
+    "casNumber": "355-46-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfna",
+    "canonicalNameNo": "PFNA (Perfluornonansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorononanoic acid",
+    "casNumber": "375-95-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      },
+      {
+        "hStatement": "H318",
+        "hazardClass": "Eye Dam. 1"
+      },
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H360Df",
+        "hazardClass": "Repr. 1B"
+      }
+    ]
+  },
+  {
+    "analyteId": "pfoa",
+    "canonicalNameNo": "PFOA (Perfluoroktansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorooctanoic acid",
+    "casNumber": "335-67-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H360D",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      },
+      {
+        "hStatement": "H318",
+        "hazardClass": "Eye Dam. 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pfos",
+    "canonicalNameNo": "PFOS (Perfluoroktylsulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorooctane sulfonic acid",
+    "casNumber": "1763-23-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      },
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H360D",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H411",
+        "hazardClass": "Aquatic Chronic 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "pfosa",
+    "canonicalNameNo": "PFOSA (Perfluoroktansulfonamid)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorooctanesulfonamide",
+    "casNumber": "754-91-6",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfpea",
+    "canonicalNameNo": "PFPeA (Perfluorpentansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoropentanoic acid",
+    "casNumber": "2706-90-3",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfteda",
+    "canonicalNameNo": "PFTeDA (Perfluortetradekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorotetradecanoic acid",
+    "casNumber": "376-06-7",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfunda",
+    "canonicalNameNo": "PFUnDA (Perfluorundekansyre)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoroundecanoic acid",
+    "casNumber": "2058-94-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "etfosa",
+    "canonicalNameNo": "EtFOSA (N-etylperfluoroktansulfonamid)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-ethylperfluorooctanesulfonamide",
+    "casNumber": "4151-50-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "etfosaa",
+    "canonicalNameNo": "EtFOSAA (N-etylperfluoroktansulfonamid-HAc)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-ethylperfluorooctanesulfonamidoacetic acid",
+    "casNumber": "2991-50-6",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "etfose",
+    "canonicalNameNo": "EtFOSE (N-etylperfluoroktansulfonamidetanol)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-ethylperfluorooctanesulfonamidoethanol",
+    "casNumber": "1691-99-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "mefosaa",
+    "canonicalNameNo": "MeFOSAA (N-metylperfluoroktansulfonamid-HAc)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-methylperfluorooctanesulfonamidoacetic acid",
+    "casNumber": "2355-31-9",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "mefose",
+    "canonicalNameNo": "MeFOSE (N-metylperfluoroktansulfonamidetanol)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-methylperfluorooctanesulfonamidoethanol",
+    "casNumber": "24448-09-7",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "mefosa",
+    "canonicalNameNo": "MeFOSA (N-metylperfluoroktansulfonamid)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "N-methylperfluorooctanesulfonamide",
+    "casNumber": "31506-32-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "fosaa",
+    "canonicalNameNo": "FOSAA (Perfluoroktansulfonamid-HAc)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorooctanesulfonamidoacetic acid",
+    "casNumber": "2806-24-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfpes",
+    "canonicalNameNo": "PFPeS (Perfluorpentansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoropentanesulfonic acid",
+    "casNumber": "2706-91-4",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfns",
+    "canonicalNameNo": "PFNS (Perfluornonansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorononanesulfonic acid",
+    "casNumber": "68259-12-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfunds",
+    "canonicalNameNo": "PFUnDS (Perfluorundekansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluoroundecanesulfonic acid",
+    "casNumber": "749786-16-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pfdods",
+    "canonicalNameNo": "PFDoDS (Perfluordodekansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorododecanesulfonic acid",
+    "casNumber": "79780-39-5",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pftrds",
+    "canonicalNameNo": "PFTrDS (Perfluortridekansulfonat)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "perfluorotridecanesulfonic acid",
+    "casNumber": "791563-89-8",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PFAS",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "pcb-28",
+    "canonicalNameNo": "PCB 28",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,4,4'-trichlorobiphenyl (PCB 28)",
+    "casNumber": "7012-37-5",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-52",
+    "canonicalNameNo": "PCB 52",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,2',5,5'-tetrachlorobiphenyl (PCB 52)",
+    "casNumber": "35693-99-3",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-101",
+    "canonicalNameNo": "PCB 101",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,2',4,5,5'-pentachlorobiphenyl (PCB 101)",
+    "casNumber": "37680-73-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-118",
+    "canonicalNameNo": "PCB 118",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,3',4,4',5-pentachlorobiphenyl (PCB 118)",
+    "casNumber": "31508-00-6",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-138",
+    "canonicalNameNo": "PCB 138",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,2',3,4,4',5'-hexachlorobiphenyl (PCB 138)",
+    "casNumber": "35065-28-2",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-153",
+    "canonicalNameNo": "PCB 153",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,2',4,4',5,5'-hexachlorobiphenyl (PCB 153)",
+    "casNumber": "35065-27-1",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pcb-180",
+    "canonicalNameNo": "PCB 180",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "2,2',3,4,4',5,5'-heptachlorobiphenyl (PCB 180)",
+    "casNumber": "35065-29-3",
+    "defaultUnit": "µg/kg",
+    "substanceGroup": "PCB",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
   }
 ]

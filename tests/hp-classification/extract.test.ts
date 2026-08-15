@@ -194,6 +194,17 @@ describe("buildMessageContent", () => {
     expect(text).toContain('"location": string | null');
     expect(text.toLowerCase()).toContain("never guess or infer a location");
   });
+
+  it("instructs the LLM to skip QA/methodology parameters and calculated sum rows, as a general rule (not a hardcoded list)", () => {
+    const content = buildMessageContent("some real report text with enough real words to count as usable, definitely", Buffer.from(""), analyteRef, null);
+    const text = (content[0] as { type: "text"; text: string }).text;
+    expect(text.toLowerCase()).toContain("quality-control/methodology parameter");
+    expect(text.toLowerCase()).toContain("pre-calculated aggregate sum");
+    // The rule must be phrased generally — it must NOT hardcode this one report's exact
+    // Norwegian labels, so it generalizes to any report's phrasing/language.
+    expect(text).not.toContain("Tørrstoff");
+    expect(text).not.toContain("Alifater");
+  });
 });
 
 describe("validateListSamplesResponse", () => {

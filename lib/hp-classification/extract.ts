@@ -103,6 +103,8 @@ Return ONLY a JSON object matching this exact shape, with no markdown fences and
 
 For "location", extract the site/property address, name, or municipality where the waste was generated or where the sampling took place, if the document clearly states one (e.g. a project name, site address, or municipality mentioned in the report header or sampling details) — set it to null if the document does not clearly state a location; never guess or infer a location from unrelated context.
 
+Do not report a row as an analyte result if it is a quality-control/methodology parameter (e.g. dry-matter or moisture content, measurement uncertainty, temperature) or a pre-calculated aggregate sum of other rows already being reported individually (e.g. a "Sum X" total) — these are never real, individually classifiable substances. Carbon-range hydrocarbon fraction rows (e.g. total petroleum hydrocarbon ranges reported by carbon-chain length) ARE real substances and must still be reported individually — do not exclude these.
+
 Do NOT populate an "originProcess" field — it is intentionally absent from this schema. It is never present in a lab report and must be supplied by the user, not guessed by you.
 
 For "suggestedOriginProcess" (a DIFFERENT field from "originProcess" above), pick the single closest match from this real list of origin/process values, based on the report's stated matrix type, material description, or process context. Return the exact "value" string shown (not the label), or return null if none of these confidently matches — never invent a value not in this list, and never guess when you are uncertain:

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card, Button } from "@heroui/react";
 import { ORIGIN_OPTIONS, suggestOriginProcess, EAL_CHAPTERS } from "@/lib/hp-classification/origin-options";
+import { groupAnalyteResults } from "@/lib/wizard/group-analyte-results";
 
 interface ExtractedMetadata {
   externalReportNo: string | null;
@@ -114,38 +115,40 @@ export function ExtractionReviewStep({ extraction, onConfirm, isClassifying = fa
       <Card>
         <Card.Content className="py-4">
           <p className="text-sm font-medium text-forest">Analyte results</p>
-          <div className="flex flex-col gap-1 mt-2">
-            {extraction.results.map((r, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm border-b border-black/5 py-1 last:border-0">
-                <span className="flex-1">{r.rawAnalyteName}</span>
-                <span className={r.analyteId === null ? "text-amber-700 text-xs" : "text-black/70 text-xs"}>
-                  {r.analyteId ?? "— unmatched —"}
-                </span>
-                <span className="text-black/50 text-xs w-24 text-right">
-                  {r.resultValue ?? "—"} {r.unitRaw}
-                </span>
-              </div>
+          <div className="flex flex-col gap-3 mt-2">
+            {groupAnalyteResults(extraction.results).map(group => (
+              <details key={group.groupName} open className="group">
+                <summary className="text-xs font-medium text-forest/70 cursor-pointer select-none">
+                  {group.groupName} ({group.rows.length})
+                </summary>
+                <div className="flex flex-col gap-1 mt-1 pl-2">
+                  {group.rows.map((r, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm border-b border-black/5 py-1 last:border-0">
+                      <span className="flex-1">{r.rawAnalyteName}</span>
+                      <span className="flex items-center gap-1">
+                        {r.analyteId === null && (
+                          <span
+                            className="text-amber-600 text-xs cursor-help"
+                            title="Excluded from hazard classification rather than guessed — this substance isn't in the current reference table."
+                          >
+                            &#9888;
+                          </span>
+                        )}
+                        <span className={r.analyteId === null ? "text-amber-700 text-xs" : "text-black/70 text-xs"}>
+                          {r.analyteId ?? "— unmatched —"}
+                        </span>
+                      </span>
+                      <span className="text-black/50 text-xs w-24 text-right">
+                        {r.resultValue ?? "—"} {r.unitRaw}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </details>
             ))}
           </div>
         </Card.Content>
       </Card>
-
-      {extraction.unmatchedAnalytes.length > 0 && (
-        <Card>
-          <Card.Content className="py-4">
-            <p className="text-sm font-medium text-amber-700">Not evaluated — no reference match</p>
-            <p className="text-xs text-black/60 mt-1">
-              These substances were found in the report but aren&rsquo;t in the current reference table, so they
-              were excluded from hazard classification rather than guessed:
-            </p>
-            <ul className="text-sm mt-2 flex flex-col gap-1">
-              {extraction.unmatchedAnalytes.map(name => (
-                <li key={name} className="text-black/70">{name}</li>
-              ))}
-            </ul>
-          </Card.Content>
-        </Card>
-      )}
 
       <Card>
         <Card.Content className="py-6 flex flex-col gap-2">
