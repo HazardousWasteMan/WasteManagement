@@ -1,0 +1,4 @@
+# ponytail: unrs-resolver's postinstall only speeds up eslint-import resolution;
+# denied so CI installs don't fail on undecided build scripts. Flip to true if lint slows.
+allowBuilds:
+  unrs-resolver: false
