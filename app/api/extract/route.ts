@@ -1,3 +1,4 @@
+import "@/lib/pdf-globals";
 import { NextRequest, NextResponse } from "next/server";
 import { PDFParse } from "pdf-parse";
 import { GlobalWorkerOptions } from "pdfjs-dist/legacy/build/pdf.mjs";

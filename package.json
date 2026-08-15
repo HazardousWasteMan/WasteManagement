@@ -14,6 +14,7 @@
     "@anthropic-ai/sdk": "^0.116.0",
     "@heroui/react": "^3.2.4",
     "@heroui/styles": "^3.2.4",
+    "@napi-rs/canvas": "0.1.80",
     "@react-pdf/renderer": "^4.6.0",
     "@types/leaflet": "^1.9.22",
     "framer-motion": "^13.1.0",

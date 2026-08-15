@@ -17,6 +17,9 @@ importers:
       '@heroui/styles':
         specifier: ^3.2.4
         version: 3.2.4(tailwind-merge@3.4.0)(tailwindcss@4.3.3)
+      '@napi-rs/canvas':
+        specifier: 0.1.80
+        version: 0.1.80
       '@react-pdf/renderer':
         specifier: ^4.6.0
         version: 4.6.0(react@19.2.8)
