@@ -311,8 +311,6 @@ export function Wizard() {
             <>
               <FacilityMatchStep
                 isHazardous={(classificationResult.hazard as { isHazardous: boolean }).isHazardous}
-                ealCode={(classificationResult.eal as { code: string | null }).code}
-                matrixType={extraction.metadata.matrixType}
               />
               <div className="mt-6 flex justify-end gap-2">
                 {remainingSamples.length > 0 && pendingFile && (

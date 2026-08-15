@@ -2,21 +2,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getProject, listCasesForProject, computeStatus, updateProject, type Project, type Case } from "@/lib/projects";
+import { getProject, listCasesForProject, updateProject, type Project, type Case } from "@/lib/projects";
 import { StatusChip } from "@/components/dashboard/StatusChip";
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<Project | null | undefined>(undefined);
   const [cases, setCases] = useState<Case[]>([]);
-  const [now, setNow] = useState(0);
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [locationDraft, setLocationDraft] = useState("");
 
   useEffect(() => {
     setProject(getProject(id) ?? null);
     setCases(listCasesForProject(id));
-    setNow(Date.now());
   }, [id]);
 
   function handleEditLocation() {
@@ -36,7 +34,7 @@ export default function ProjectDetailPage() {
     setIsEditingLocation(false);
   }
 
-  if (project === undefined || !now) return null;
+  if (project === undefined) return null;
   if (project === null) {
     return (
       <div className="max-w-3xl mx-auto py-10 px-6">
@@ -92,7 +90,6 @@ export default function ProjectDetailPage() {
 
       <div className="flex flex-col gap-2">
         {cases.map(c => {
-          const status = computeStatus(c.createdAt, now);
           const hazardousCount = c.wasteEntries.filter(e => e.isHazardous).length;
           return (
             <Link
@@ -103,11 +100,11 @@ export default function ProjectDetailPage() {
               <div className="min-w-0">
                 <p className="font-medium text-forest truncate">{c.name}</p>
                 <p className="text-xs text-black/40 mt-0.5">
-                  Sent {new Date(c.createdAt).toLocaleString()} · {c.wasteEntries.length} waste entr{c.wasteEntries.length === 1 ? "y" : "ies"}
+                  Uploaded {new Date(c.createdAt).toLocaleString()} · {c.wasteEntries.length} waste entr{c.wasteEntries.length === 1 ? "y" : "ies"}
                   {hazardousCount > 0 && ` · ${hazardousCount} hazardous`}
                 </p>
               </div>
-              <StatusChip status={status} />
+              <StatusChip />
             </Link>
           );
         })}

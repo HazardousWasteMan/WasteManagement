@@ -55,17 +55,6 @@ export function ExtractionReviewStep({ extraction, onConfirm, isClassifying = fa
 
   return (
     <div className="flex flex-col gap-4">
-      {extraction.sourceType === "document" && (
-        <Card>
-          <Card.Content className="py-4">
-            <p className="text-sm font-medium text-amber-700">Scanned document — lower extraction confidence</p>
-            <p className="text-xs text-black/60 mt-1">
-              This data was extracted from a scanned/image document, not a text layer — extraction accuracy may be
-              lower than usual. Please review every value carefully before proceeding.
-            </p>
-          </Card.Content>
-        </Card>
-      )}
       <Card>
         <Card.Content className="flex flex-col gap-3 py-6">
           <p className="text-sm font-medium text-forest">Extracted sample details</p>

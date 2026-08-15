@@ -1,4 +1,3 @@
-export type CaseStatus = "sent" | "in_progress" | "complete";
 
 export interface Project {
   id: string;
@@ -27,17 +26,6 @@ export interface Case {
 
 const PROJECTS_KEY = "projects-v1";
 const CASES_KEY = "cases-v1";
-const IN_PROGRESS_AFTER_MS = 30_000;
-const COMPLETE_AFTER_MS = 120_000;
-
-// ponytail: demo progress is just elapsed time since creation; swap for real backend status when one exists
-export function computeStatus(createdAt: number, now: number = Date.now()): CaseStatus {
-  const age = now - createdAt;
-  if (age >= COMPLETE_AFTER_MS) return "complete";
-  if (age >= IN_PROGRESS_AFTER_MS) return "in_progress";
-  return "sent";
-}
-
 function seedProjects(now: number): Project[] {
   const day = 86_400_000;
   return [

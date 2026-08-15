@@ -1,21 +1,8 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import {
-  computeStatus, listProjects, getProject, addProject, updateProject,
+  listProjects, getProject, addProject, updateProject,
   listCasesForProject, getCase, createCase, addWasteEntryToCase, __resetForTests,
 } from "@/lib/projects";
-
-describe("computeStatus", () => {
-  const createdAt = 1_000_000;
-  it("is 'sent' right after creation", () => {
-    expect(computeStatus(createdAt, createdAt + 10_000)).toBe("sent");
-  });
-  it("is 'in_progress' after 30 seconds", () => {
-    expect(computeStatus(createdAt, createdAt + 31_000)).toBe("in_progress");
-  });
-  it("is 'complete' after 2 minutes", () => {
-    expect(computeStatus(createdAt, createdAt + 121_000)).toBe("complete");
-  });
-});
 
 describe("projects/cases store", () => {
   beforeEach(() => __resetForTests());

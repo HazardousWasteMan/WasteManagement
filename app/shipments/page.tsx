@@ -38,6 +38,7 @@ const ROUTE_COLOR: Record<ShipmentStatus, string> = {
 export default function ShipmentsPage() {
   const [shipments, setShipments] = useState<Shipment[]>([]);
   const [now, setNow] = useState(0);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     setShipments(listShipments());
@@ -53,8 +54,11 @@ export default function ShipmentsPage() {
     return { ...s, depot, status: computeShipmentStatus(s.createdAt, now) };
   });
 
+  // ponytail: fall back to the first shipment so the map is never empty
+  const activeId = selectedId ?? rows[0]?.id ?? null;
+
   const routes: MapRoute[] = rows
-    .filter(r => r.depot)
+    .filter(r => r.depot && r.id === activeId)
     .map(r => ({
       from: [ORIGIN.lat, ORIGIN.lng],
       to: [r.depot!.lat, r.depot!.lng],
@@ -67,7 +71,7 @@ export default function ShipmentsPage() {
       <div>
         <h1 className="text-2xl font-semibold text-forest">Shipments</h1>
         <p className="text-xs text-black/40 mt-1">
-          Routes from {ORIGIN.label}. Grey: booked, amber: in transit, green: delivered.
+          Click a shipment to show its route from {ORIGIN.label}. Grey: booked, amber: in transit, green: delivered.
         </p>
       </div>
 
@@ -77,9 +81,13 @@ export default function ShipmentsPage() {
         {rows.map(r => {
           const km = r.depot ? Math.round(haversineKm(ORIGIN.lat, ORIGIN.lng, r.depot.lat, r.depot.lng)) : null;
           return (
-            <div
+            <button
               key={r.id}
-              className="rounded-2xl bg-white/80 border border-black/5 px-5 py-4 flex items-center justify-between gap-4"
+              type="button"
+              onClick={() => setSelectedId(r.id)}
+              className={`rounded-2xl bg-white/80 border px-5 py-4 flex items-center justify-between gap-4 text-left cursor-pointer transition-colors ${
+                r.id === activeId ? "border-forest ring-1 ring-forest" : "border-black/5 hover:border-black/20"
+              }`}
             >
               <div className="min-w-0">
                 <p className="font-medium text-forest truncate">{r.analysisName}</p>
@@ -91,7 +99,7 @@ export default function ShipmentsPage() {
               <Chip color={STATUS_COLOR[r.status]} variant="soft">
                 {STATUS_LABEL[r.status]}
               </Chip>
-            </div>
+            </button>
           );
         })}
         {rows.length === 0 && (

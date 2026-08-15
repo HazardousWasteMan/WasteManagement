@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Chip, Button } from "@heroui/react";
 import { StatusChip } from "@/components/dashboard/StatusChip";
-import { getCase, computeStatus, type Case, type WasteEntry } from "@/lib/projects";
+import { getCase, type Case, type WasteEntry } from "@/lib/projects";
 import { getReportFile } from "@/lib/wizard/report-storage";
 import type { Depot } from "@/lib/depots";
 import { ORIGIN, MODES, ASSUMED_LOAD_TONNES, haversineKm, co2Kg, addShipment, type TransportMode } from "@/lib/shipments";
@@ -121,16 +121,12 @@ function ReportLink({ caseId, fileName }: { caseId: string; fileName: string }) 
 export default function CaseDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [caseData, setCaseData] = useState<Case | null | undefined>(undefined);
-  const [now, setNow] = useState(0);
 
   useEffect(() => {
     setCaseData(getCase(id) ?? null);
-    setNow(Date.now());
-    const tick = setInterval(() => setNow(Date.now()), 5_000);
-    return () => clearInterval(tick);
   }, [id]);
 
-  if (caseData === undefined || !now) return null;
+  if (caseData === undefined) return null;
   if (caseData === null) {
     return (
       <div className="max-w-3xl mx-auto py-10 px-6">
@@ -140,31 +136,22 @@ export default function CaseDetailPage() {
     );
   }
 
-  const status = computeStatus(caseData.createdAt, now);
-
   return (
     <div className="max-w-3xl mx-auto py-10 px-6 flex flex-col gap-6">
       <div>
         <Link href={`/projects/${caseData.projectId}`} className="text-sm text-black/40 hover:text-forest">&larr; Back to project</Link>
         <div className="flex items-center gap-3 mt-2">
           <h1 className="text-2xl font-semibold text-forest">{caseData.name}</h1>
-          <StatusChip status={status} />
+          <StatusChip />
         </div>
-        <p className="text-xs text-black/40 mt-1">Sent {new Date(caseData.createdAt).toLocaleString()}</p>
+        <p className="text-xs text-black/40 mt-1">Uploaded {new Date(caseData.createdAt).toLocaleString()}</p>
       </div>
 
       {caseData.reportFileName && <ReportLink caseId={caseData.id} fileName={caseData.reportFileName} />}
 
-      {status !== "complete" && (
-        <p className="text-sm text-black/50">
-          The lab is processing this case. Results appear here automatically when it completes.
-        </p>
-      )}
+      {caseData.wasteEntries.map(entry => <WasteEntryCard key={entry.id} caseName={caseData.name} entry={entry} />)}
 
-      {status === "complete" &&
-        caseData.wasteEntries.map(entry => <WasteEntryCard key={entry.id} caseName={caseData.name} entry={entry} />)}
-
-      {status === "complete" && caseData.wasteEntries.length === 0 && (
+      {caseData.wasteEntries.length === 0 && (
         <p className="text-sm text-black/50">Case complete — no waste entries attached.</p>
       )}
     </div>
