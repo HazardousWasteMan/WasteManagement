@@ -2,3 +2,6 @@
 # denied so CI installs don't fail on undecided build scripts. Flip to true if lint slows.
 allowBuilds:
   unrs-resolver: false
+# Flat npm-style node_modules; Vercel's function packager fails on the
+# symlinked .pnpm layout when tracing externalized packages.
+nodeLinker: hoisted
