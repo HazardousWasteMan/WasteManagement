@@ -1,0 +1,46 @@
+[
+  {
+    "elementSymbol": "As",
+    "compoundName": "Triossido di diarsenico",
+    "casNumber": "1327-53-3",
+    "molecularWeightCompound": 197.84,
+    "atomsOfElement": 2,
+    "atomicWeightElement": 74.92,
+    "clpClassifications": [
+      { "hStatement": "H300", "hazardClass": "Acute Tox. 2 (Oral)", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H314", "hazardClass": "Skin Corr. 1B", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H350", "hazardClass": "Carc. 1A", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H400", "hazardClass": "Aquatic Acute 1", "mFactorAcute": 10, "mFactorChronic": null },
+      { "hStatement": "H410", "hazardClass": "Aquatic Chronic 1", "mFactorAcute": null, "mFactorChronic": 1 }
+    ]
+  },
+  {
+    "elementSymbol": "As",
+    "compoundName": "Pentaossido di diarsenico",
+    "casNumber": "1303-28-2",
+    "molecularWeightCompound": 229.84,
+    "atomsOfElement": 2,
+    "atomicWeightElement": 74.92,
+    "clpClassifications": [
+      { "hStatement": "H301", "hazardClass": "Acute Tox. 3 (Oral)", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H331", "hazardClass": "Acute Tox. 3 (Inhal.)", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H350", "hazardClass": "Carc. 1A", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H400", "hazardClass": "Aquatic Acute 1", "mFactorAcute": 10, "mFactorChronic": null },
+      { "hStatement": "H410", "hazardClass": "Aquatic Chronic 1", "mFactorAcute": null, "mFactorChronic": 1 }
+    ]
+  },
+  {
+    "elementSymbol": "As",
+    "compoundName": "Composti dell'arsenico, ad eccezione di quelli specificati altrove nel Reg 2008/1272",
+    "casNumber": null,
+    "molecularWeightCompound": null,
+    "atomsOfElement": null,
+    "atomicWeightElement": null,
+    "clpClassifications": [
+      { "hStatement": "H301", "hazardClass": "Acute Tox. 3 (Oral)", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H331", "hazardClass": "Acute Tox. 3 (Inhal.)", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H400", "hazardClass": "Aquatic Acute 1", "mFactorAcute": null, "mFactorChronic": null },
+      { "hStatement": "H410", "hazardClass": "Aquatic Chronic 1", "mFactorAcute": null, "mFactorChronic": null }
+    ]
+  }
+]

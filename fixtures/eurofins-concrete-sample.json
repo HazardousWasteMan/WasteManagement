@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "sampleId": "eurofins-concrete-sample-1",
+    "externalReportNo": "AR-25-MM-118438-01",
+    "labName": "Eurofins Environment Testing Norway",
+    "customerName": "Avinor AS",
+    "sampleMarking": "ENAT-BØF1-BO9OB1",
+    "matrixType": "Betong",
+    "samplingDate": null,
+    "receiptDate": "2025-10-08",
+    "originProcess": "concrete, brick, tile, or ceramic waste",
+    "producerName": "Avinor AS",
+    "physicalState": "solid",
+    "viscosity40cMm2s": null,
+    "ph": null,
+    "labClassificationGiven": false,
+    "labStatedEalCode": null
+  },
+  "dryMatterPct": 94.6,
+  "testResults": [],
+  "results": [
+    { "resultId": "r1", "analyteId": "arsenic", "rawAnalyteName": "Arsen (As)", "resultValue": 1.8, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r2", "analyteId": "lead-compounds", "rawAnalyteName": "Bly (Pb)", "resultValue": 3.3, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r3", "analyteId": "cadmium-oxide", "rawAnalyteName": "Kadmium (Cd)", "resultValue": null, "isBelowLoq": true, "loqValue": 0.20, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r4", "analyteId": "cupric-oxide", "rawAnalyteName": "Kobber (Cu)", "resultValue": 13, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r5", "analyteId": "mercury", "rawAnalyteName": "Kvikksølv (Hg)", "resultValue": null, "isBelowLoq": true, "loqValue": 0.0096, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r6", "analyteId": "nickel-monoxide", "rawAnalyteName": "Nikkel (Ni)", "resultValue": 9.4, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r7", "analyteId": "zinc-oxide", "rawAnalyteName": "Sink (Zn)", "resultValue": 41, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r8", "analyteId": "chromium-vi", "rawAnalyteName": "Krom (VI)", "resultValue": 1.6, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r9", "analyteId": "benzo-a-pyrene", "rawAnalyteName": "Benzo(a)pyren", "resultValue": null, "isBelowLoq": true, "loqValue": 0.030, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r10", "analyteId": null, "rawAnalyteName": "Krom (Cr)", "resultValue": 15, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r11", "analyteId": null, "rawAnalyteName": "Fenantren", "resultValue": 0.320, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r12", "analyteId": null, "rawAnalyteName": "Fluoren", "resultValue": 0.076, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r13", "analyteId": null, "rawAnalyteName": "Fluoranten", "resultValue": 0.038, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true },
+    { "resultId": "r14", "analyteId": null, "rawAnalyteName": "Pyren", "resultValue": 0.057, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": true }
+  ]
+}

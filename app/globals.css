@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+:root {
+  --background: #f5f1e8;
+  --foreground: #0d2b1f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-forest: #0d2b1f;
+  --color-forest-light: #163a29;
+  --color-cream: #f5f1e8;
+  --color-lime: #a8e05f;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* pulsing glow for depot stations that can receive the analysed waste */
+.depot-glow-lime {
+  animation: depot-pulse-lime 1.6s ease-in-out infinite;
+}
+@keyframes depot-pulse-lime {
+  0%, 100% { filter: drop-shadow(0 0 2px #65a30d); }
+  50% { filter: drop-shadow(0 0 10px #65a30d); }
+}

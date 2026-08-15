@@ -1,0 +1,35 @@
+{
+  "facilityId": "returkraft",
+  "facilityName": "Returkraft AS",
+  "facilityType": "forbrenning",
+  "permitNo": "2007.0312.T",
+  "permitLastChanged": "2020-12-28",
+  "sourceUrl": "https://www.statsforvalteren.no/siteassets/fm-agder/dokument-agder/miljo-og-klima/forurensning/tillatelser/2020-returkraft/endret-tillatelse-for-returkraft-as.pdf",
+  "annualCapacityTonnes": 160000,
+  "brennverdiRangeMjKg": [9, 13],
+  "acceptanceCriteria": {
+    "maxHalogenatedPctInRestavfall": 1.0,
+    "maxHazardousFractionOfFeedPct": 15.0,
+    "purePcbFractionsPermitted": false
+  },
+  "acceptedAvfallsstoffnummer": {
+    "1141": "Rent trevirke",
+    "1142": "Behandlet trevirke",
+    "1603": "Lett forurensede masser",
+    "1604": "Forurensede masser",
+    "1606": "Forurensede masser fra mudring",
+    "1614": "Forurenset betong og tegl",
+    "9911": "Blandet husholdningsavfall",
+    "9912": "Blandet næringsavfall",
+    "9913": "Utsortert brennbart avfall",
+    "9914": "Sorteringsrester",
+    "9915": "Sikterester",
+    "9917": "Shredderavfall",
+    "9918": "Ristgods, silgods, sandfang"
+  },
+  "specialCaps": {
+    "slamForurensedeJordmasserTonnesPerYear": 2000
+  },
+  "mineralMatrixExclusion": ["jord", "betong", "stein", "tegl", "aske asfalt", "asfalt"],
+  "note": "Contaminated mineral soil/rock (17 05 03*, high metals) does not fit here on composition grounds — inorganic content doesn't combust. This facility is for the organic/combustible waste stream. `mineralMatrixExclusion` is a Norwegian-only term list: a matrix type not written in Norwegian (e.g. Italian 'Terra e rocce' = soil and rock) will not be caught by a substring match here even if it is genuinely mineral. The matching logic in lib/hp-classification/facility-match.ts therefore treats any matrix string outside this vocabulary as unassessable ('insufficient data') rather than assuming it is safely non-mineral."
+}

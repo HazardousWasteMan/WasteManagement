@@ -1,0 +1,24 @@
+{
+  "facilityId": "stoleheia",
+  "facilityName": "Støleheia avfallsanlegg (Avfall Sør AS)",
+  "facilityType": "deponi",
+  "permitNo": "2016/915",
+  "permitLastChanged": "2024-11-15",
+  "sourceUrl": "https://www.norskeutslipp.no/WebHandlers/PDFDocumentHandler.ashx?documentID=837731&documentType=T&companyID=12913&aar=0&epslanguage=no",
+  "fixedHazardousEalLines": [
+    { "ealCode": "12 01 16*", "description": "Avfall fra sandblåsing som inneholder farlige stoffer", "annualMaxTonnes": 1000 },
+    { "ealCode": "13 05 03*", "description": "Slam fra oljeutskillere", "annualMaxTonnes": 1000 },
+    { "ealCode": "16 02 12*", "description": "Kassert utstyr som inneholder fri asbest", "annualMaxTonnes": 100 },
+    { "ealCode": "17 06 01*", "description": "Asbestholdig isolasjonsmateriale", "annualMaxTonnes": 10000 }
+  ],
+  "genericHazardousBucket": {
+    "description": "Annet stabilt, ikke-reaktivt farlig avfall (avfallsforskriften vedlegg II pkt 2.3)",
+    "annualMaxTonnes": 20000
+  },
+  "ordinaryContaminatedMassPath": {
+    "description": "Forurensede masser (incl. 17 05 03*/04) route here, NOT via the fixed hazardous list. Requires leachate/eluat test against avfallsforskriften vedlegg II tiers (A1/B1/C1) plus basiskarakterisering before acceptance.",
+    "annualCap": null,
+    "requiresEluatData": true
+  },
+  "excluded": ["biologisk nedbrytbart avfall", "flytende avfall"]
+}

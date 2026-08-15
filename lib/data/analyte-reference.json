@@ -1,0 +1,1173 @@
+[
+  {
+    "analyteId": "arsenic",
+    "canonicalNameNo": "arsenico",
+    "canonicalNameIt": "arsenico",
+    "canonicalNameEn": "arsenic",
+    "casNumber": "7440-38-2",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": "As",
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "sulfur",
+    "canonicalNameNo": "zolfo",
+    "canonicalNameIt": "zolfo",
+    "canonicalNameEn": "sulfur",
+    "casNumber": "63705-05-5",
+    "defaultUnit": "%",
+    "substanceGroup": "other",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": "H315",
+    "hazardClass": "Skin Irrit. 2",
+    "hStatements": null
+  },
+  {
+    "analyteId": "total-hydrocarbons",
+    "canonicalNameNo": "idrocarburi totali",
+    "canonicalNameIt": "idrocarburi totali",
+    "canonicalNameEn": "total hydrocarbons",
+    "casNumber": null,
+    "defaultUnit": "%",
+    "substanceGroup": "hydrocarbon",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H304",
+        "hazardClass": "Asp. Tox. 1"
+      },
+      {
+        "hStatement": "H319",
+        "hazardClass": "Eye Irrit. 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "hydrocarbons-c10-c40",
+    "canonicalNameNo": "idrocarburi C10-C40",
+    "canonicalNameIt": "idrocarburi C10-C40",
+    "canonicalNameEn": "hydrocarbons C10-C40",
+    "casNumber": null,
+    "defaultUnit": "%",
+    "substanceGroup": "hydrocarbon",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": "H411",
+    "hazardClass": "Aquatic Chronic 2",
+    "hStatements": null
+  },
+  {
+    "analyteId": "barium-compounds",
+    "canonicalNameNo": "composti del bario",
+    "canonicalNameIt": "composti del bario",
+    "canonicalNameEn": "barium compounds",
+    "casNumber": "056-002-00-7",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      }
+    ]
+  },
+  {
+    "analyteId": "cadmium-oxide",
+    "canonicalNameNo": "ossido di cadmio non piroforico",
+    "canonicalNameIt": "ossido di cadmio non piroforico",
+    "canonicalNameEn": "non-pyrophoric cadmium oxide",
+    "casNumber": "1306-19-0",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H330",
+        "hazardClass": "Acute Tox. 2 (Inhal.)"
+      },
+      {
+        "hStatement": "H341",
+        "hazardClass": "Muta. 2"
+      },
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "cobalt-monoxide",
+    "canonicalNameNo": "monossido di cobalto",
+    "canonicalNameIt": "monossido di cobalto",
+    "canonicalNameEn": "cobalt monoxide",
+    "casNumber": "1307-96-6",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H317",
+        "hazardClass": "Skin Sens. 1"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "manganese-dioxide",
+    "canonicalNameNo": "diossido di manganese",
+    "canonicalNameIt": "diossido di manganese",
+    "canonicalNameEn": "manganese dioxide",
+    "casNumber": "1313-13-9",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      }
+    ]
+  },
+  {
+    "analyteId": "molybdenum-trioxide",
+    "canonicalNameNo": "triossido di molibdeno",
+    "canonicalNameIt": "triossido di molibdeno",
+    "canonicalNameEn": "molybdenum trioxide",
+    "casNumber": "1313-27-5",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H319",
+        "hazardClass": "Eye Irrit. 2"
+      },
+      {
+        "hStatement": "H335",
+        "hazardClass": "STOT SE 3"
+      },
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "nickel-monoxide",
+    "canonicalNameNo": "monossido di nichel",
+    "canonicalNameIt": "monossido di nichel",
+    "canonicalNameEn": "nickel monoxide",
+    "casNumber": "1313-99-1",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H317",
+        "hazardClass": "Skin Sens. 1"
+      },
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1A"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H413",
+        "hazardClass": "Aquatic Chronic 4"
+      }
+    ]
+  },
+  {
+    "analyteId": "lead-compounds",
+    "canonicalNameNo": "composti del piombo",
+    "canonicalNameIt": "composti del piombo",
+    "canonicalNameEn": "lead compounds",
+    "casNumber": "082-001-00-6",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      },
+      {
+        "hStatement": "H360",
+        "hazardClass": "Repr. 1A"
+      },
+      {
+        "hStatement": "H373",
+        "hazardClass": "STOT RE 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "cupric-oxide",
+    "canonicalNameNo": "ossido rameico",
+    "canonicalNameIt": "ossido rameico",
+    "canonicalNameEn": "cupric oxide",
+    "casNumber": "1317-38-0",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "tin-organostannic-compounds",
+    "canonicalNameNo": "composti organostannici",
+    "canonicalNameIt": "composti organostannici",
+    "canonicalNameEn": "organostannic compounds",
+    "casNumber": null,
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H300",
+        "hazardClass": "Acute Tox. 2 (Oral)"
+      },
+      {
+        "hStatement": "H360",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      },
+      {
+        "hStatement": "H413",
+        "hazardClass": "Aquatic Chronic 4"
+      }
+    ]
+  },
+  {
+    "analyteId": "vanadium-pentoxide",
+    "canonicalNameNo": "pentossido di divanadio",
+    "canonicalNameIt": "pentossido di divanadio",
+    "canonicalNameEn": "vanadium pentoxide",
+    "casNumber": "1314-62-1",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H332",
+        "hazardClass": "Acute Tox. 4 (Inhal.)"
+      },
+      {
+        "hStatement": "H335",
+        "hazardClass": "STOT SE 3"
+      },
+      {
+        "hStatement": "H341",
+        "hazardClass": "Muta. 2"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      },
+      {
+        "hStatement": "H411",
+        "hazardClass": "Aquatic Chronic 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "zinc-oxide",
+    "canonicalNameNo": "ossido di zinco",
+    "canonicalNameIt": "ossido di zinco",
+    "canonicalNameEn": "zinc oxide",
+    "casNumber": "1314-13-2",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": 1,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "mercury",
+    "canonicalNameNo": "kvikksølv",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "mercury",
+    "casNumber": "7439-97-6",
+    "substanceGroup": "metal",
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H330",
+        "hazardClass": "Acute Tox. 2 (Inhal.)"
+      },
+      {
+        "hStatement": "H360D",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H372",
+        "hazardClass": "STOT RE 1"
+      }
+    ],
+    "mFactorAcute": null,
+    "mFactorChronic": null
+  },
+  {
+    "analyteId": "chromium-vi",
+    "canonicalNameNo": "krom (VI)",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "chromium VI",
+    "casNumber": "18540-29-9",
+    "substanceGroup": "metal",
+    "elementSymbol": null,
+    "hStatement": "H350",
+    "hazardClass": "Carc. 1B",
+    "hStatements": null,
+    "mFactorAcute": null,
+    "mFactorChronic": null
+  },
+  {
+    "analyteId": "benzo-a-pyrene",
+    "canonicalNameNo": "benzo(a)pyren",
+    "canonicalNameIt": null,
+    "canonicalNameEn": "benzo[a]pyrene",
+    "casNumber": "50-32-8",
+    "substanceGroup": "PAH",
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H340",
+        "hazardClass": "Muta. 1B"
+      },
+      {
+        "hStatement": "H360",
+        "hazardClass": "Repr. 1B"
+      },
+      {
+        "hStatement": "H317",
+        "hazardClass": "Skin Sens. 1"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ],
+    "mFactorAcute": null,
+    "mFactorChronic": null
+  },
+  {
+    "analyteId": "aluminum",
+    "canonicalNameNo": "aluminium",
+    "canonicalNameIt": "alluminio",
+    "canonicalNameEn": "aluminum",
+    "casNumber": "7429-90-5",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "boron",
+    "canonicalNameNo": "bor",
+    "canonicalNameIt": "boro",
+    "canonicalNameEn": "boron",
+    "casNumber": "7440-42-8",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "iron",
+    "canonicalNameNo": "jern",
+    "canonicalNameIt": "ferro",
+    "canonicalNameEn": "iron",
+    "casNumber": "7439-89-6",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "lithium",
+    "canonicalNameNo": "litium",
+    "canonicalNameIt": "litio",
+    "canonicalNameEn": "lithium",
+    "casNumber": "7439-93-2",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "selenium",
+    "canonicalNameNo": "selen",
+    "canonicalNameIt": "selenio",
+    "canonicalNameEn": "selenium",
+    "casNumber": "7782-49-2",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "strontium",
+    "canonicalNameNo": "strontium",
+    "canonicalNameIt": "stronzio",
+    "canonicalNameEn": "strontium",
+    "casNumber": "7440-24-6",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "thallium",
+    "canonicalNameNo": "thallium",
+    "canonicalNameIt": "tallio",
+    "canonicalNameEn": "thallium",
+    "casNumber": "7440-28-0",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "tellurium",
+    "canonicalNameNo": "tellur",
+    "canonicalNameIt": "tellurio",
+    "canonicalNameEn": "tellurium",
+    "casNumber": "13494-80-9",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "titanium",
+    "canonicalNameNo": "titan",
+    "canonicalNameIt": "titanio",
+    "canonicalNameEn": "titanium",
+    "casNumber": "7440-32-6",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "chromium-total",
+    "canonicalNameNo": "krom",
+    "canonicalNameIt": "cromo",
+    "canonicalNameEn": "chromium",
+    "casNumber": "7440-47-3",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "tin-inorganic",
+    "canonicalNameNo": "tinn",
+    "canonicalNameIt": "stagno",
+    "canonicalNameEn": "tin",
+    "casNumber": "7440-31-5",
+    "defaultUnit": "%",
+    "substanceGroup": "metal",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "naphthalene",
+    "canonicalNameNo": "naftalen",
+    "canonicalNameIt": "naftalene",
+    "canonicalNameEn": "naphthalene",
+    "casNumber": "91-20-3",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "acenaphthylene",
+    "canonicalNameNo": "acenaftylen",
+    "canonicalNameIt": "acenaftilene",
+    "canonicalNameEn": "acenaphthylene",
+    "casNumber": "208-96-8",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "acenaphthene",
+    "canonicalNameNo": "acenaften",
+    "canonicalNameIt": "acenaftene",
+    "canonicalNameEn": "acenaphthene",
+    "casNumber": "83-32-9",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "fluorene",
+    "canonicalNameNo": "fluoren",
+    "canonicalNameIt": "fluorene",
+    "canonicalNameEn": "fluorene",
+    "casNumber": "86-73-7",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "phenanthrene",
+    "canonicalNameNo": "fenantren",
+    "canonicalNameIt": "fenantrene",
+    "canonicalNameEn": "phenanthrene",
+    "casNumber": "85-01-8",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      }
+    ]
+  },
+  {
+    "analyteId": "anthracene",
+    "canonicalNameNo": "antracen",
+    "canonicalNameIt": "antracene",
+    "canonicalNameEn": "anthracene",
+    "casNumber": "120-12-7",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H319",
+        "hazardClass": "Eye Irrit. 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "fluoranthene",
+    "canonicalNameNo": "fluoranten",
+    "canonicalNameIt": "fluorantene",
+    "canonicalNameEn": "fluoranthene",
+    "casNumber": "206-44-0",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H302",
+        "hazardClass": "Acute Tox. 4 (Oral)"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "pyrene",
+    "canonicalNameNo": "pyren",
+    "canonicalNameIt": "pirene",
+    "canonicalNameEn": "pyrene",
+    "casNumber": "129-00-0",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-a-anthracene",
+    "canonicalNameNo": "benzo(a)antracen",
+    "canonicalNameIt": "benzo(a)antracene",
+    "canonicalNameEn": "benzo[a]anthracene",
+    "casNumber": "56-55-3",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "chrysene",
+    "canonicalNameNo": "krysen",
+    "canonicalNameIt": "crisene",
+    "canonicalNameEn": "chrysene",
+    "casNumber": "218-01-9",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H341",
+        "hazardClass": "Muta. 2"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "indeno-123cd-pyrene",
+    "canonicalNameNo": "indeno(1,2,3-cd)pyren",
+    "canonicalNameIt": "indeno[1,2,3-c,d]pirene",
+    "canonicalNameEn": "indeno[1,2,3-cd]pyrene",
+    "casNumber": "193-39-5",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-b-fluoranthene",
+    "canonicalNameNo": "benzo(b)fluoranten",
+    "canonicalNameIt": "benzo(b)fluorantene",
+    "canonicalNameEn": "benzo[b]fluoranthene",
+    "casNumber": "205-99-2",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-j-fluoranthene",
+    "canonicalNameNo": "benzo(j)fluoranten",
+    "canonicalNameIt": "benzo(j)fluorantene",
+    "canonicalNameEn": "benzo[j]fluoranthene",
+    "casNumber": "205-82-3",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-k-fluoranthene",
+    "canonicalNameNo": "benzo(k)fluoranten",
+    "canonicalNameIt": "benzo(k)fluorantene",
+    "canonicalNameEn": "benzo[k]fluoranthene",
+    "casNumber": "207-08-9",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-e-pyrene",
+    "canonicalNameNo": "benzo(e)pyren",
+    "canonicalNameIt": "benzo(e)pirene",
+    "canonicalNameEn": "benzo[e]pyrene",
+    "casNumber": "192-97-2",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "dibenzo-ah-anthracene",
+    "canonicalNameNo": "dibenzo(a,h)antracen",
+    "canonicalNameIt": "dibenzo(a,h)antracene",
+    "canonicalNameEn": "dibenzo[a,h]anthracene",
+    "casNumber": "53-70-3",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H350",
+        "hazardClass": "Carc. 1B"
+      },
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "benzo-ghi-perylene",
+    "canonicalNameNo": "benzo(g,h,i)perylen",
+    "canonicalNameIt": "benzo(g,h,i)perilene",
+    "canonicalNameEn": "benzo[g,h,i]perylene",
+    "casNumber": "191-24-2",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H400",
+        "hazardClass": "Aquatic Acute 1"
+      },
+      {
+        "hStatement": "H410",
+        "hazardClass": "Aquatic Chronic 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "dibenzo-ae-pyrene",
+    "canonicalNameNo": "dibenzo(a,e)pyren",
+    "canonicalNameIt": "dibenzo(a,e)pirene",
+    "canonicalNameEn": "dibenzo[a,e]pyrene",
+    "casNumber": "192-65-4",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": [
+      {
+        "hStatement": "H351",
+        "hazardClass": "Carc. 2"
+      },
+      {
+        "hStatement": "H318",
+        "hazardClass": "Eye Dam. 1"
+      }
+    ]
+  },
+  {
+    "analyteId": "dibenzo-ai-pyrene",
+    "canonicalNameNo": "dibenzo(a,i)pyren",
+    "canonicalNameIt": "dibenzo(a,i)pirene",
+    "canonicalNameEn": "dibenzo[a,i]pyrene",
+    "casNumber": "189-55-9",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "perylene",
+    "canonicalNameNo": "perylen",
+    "canonicalNameIt": "perilene",
+    "canonicalNameEn": "perylene",
+    "casNumber": "198-55-0",
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  },
+  {
+    "analyteId": "dibenzo-aj-pyrene",
+    "canonicalNameNo": "dibenzo(a,j)pyren",
+    "canonicalNameIt": "dibenzo(a,j)pirene",
+    "canonicalNameEn": "dibenzo[a,j]pyrene",
+    "casNumber": null,
+    "defaultUnit": "%",
+    "substanceGroup": "PAH",
+    "mFactorAcute": null,
+    "mFactorChronic": null,
+    "elementSymbol": null,
+    "hStatement": null,
+    "hazardClass": null,
+    "hStatements": null
+  }
+]

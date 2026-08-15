@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "sampleId": "italian-sample-1",
+    "externalReportNo": "EV-21-039071-288752",
+    "labName": "LabAnalysis",
+    "customerName": "Eni Rewind SPA",
+    "sampleMarking": "00S-B-CRI-ST-0:2",
+    "matrixType": "Terra e rocce",
+    "samplingDate": "2021-11-10",
+    "receiptDate": "2021-11-11",
+    "originProcess": "escavo terre e rocce",
+    "producerName": "Eni Rewind",
+    "physicalState": "solid",
+    "viscosity40cMm2s": null,
+    "ph": 7.61,
+    "labClassificationGiven": true,
+    "labStatedEalCode": "17 05 03*"
+  },
+  "dryMatterPct": 76.5,
+  "testResults": [
+    { "testName": "flammability", "result": "Non infiammabile", "isPositive": false },
+    { "testName": "skin_corrosion", "result": "non corrosivo", "isPositive": false },
+    { "testName": "skin_irritation", "result": "non irritante", "isPositive": false }
+  ],
+  "results": [
+    { "resultId": "r1", "analyteId": "arsenic", "rawAnalyteName": "arsenico", "resultValue": 51700, "isBelowLoq": false, "loqValue": null, "unitRaw": "mg/kg", "expressedOnDryBasis": false },
+    { "resultId": "r2", "analyteId": "sulfur", "rawAnalyteName": "zolfo", "resultValue": 0.327, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r3", "analyteId": "total-hydrocarbons", "rawAnalyteName": "idrocarburi totali", "resultValue": 0.00255, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r4", "analyteId": "hydrocarbons-c10-c40", "rawAnalyteName": "idrocarburi C10-C40", "resultValue": 0.00255, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r5", "analyteId": "barium-compounds", "rawAnalyteName": "composti del bario", "resultValue": 0.00430, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r6", "analyteId": "cadmium-oxide", "rawAnalyteName": "ossido di cadmio non piroforico", "resultValue": 0.00337, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r7", "analyteId": "cobalt-monoxide", "rawAnalyteName": "monossido di cobalto", "resultValue": 0.00570, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r8", "analyteId": "manganese-dioxide", "rawAnalyteName": "diossido di manganese", "resultValue": 0.00713, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r9", "analyteId": "molybdenum-trioxide", "rawAnalyteName": "triossido di molibdeno", "resultValue": 0.000355, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r10", "analyteId": "nickel-monoxide", "rawAnalyteName": "monossido di nichel", "resultValue": 0.00194, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r11", "analyteId": "lead-compounds", "rawAnalyteName": "composti del piombo", "resultValue": 0.534, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r12", "analyteId": "cupric-oxide", "rawAnalyteName": "ossido rameico", "resultValue": 0.178, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r13", "analyteId": "tin-organostannic-compounds", "rawAnalyteName": "composti organostannici", "resultValue": 0.000500, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r14", "analyteId": "vanadium-pentoxide", "rawAnalyteName": "pentossido di divanadio", "resultValue": 0.000572, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true },
+    { "resultId": "r15", "analyteId": "zinc-oxide", "rawAnalyteName": "ossido di zinco", "resultValue": 0.152, "isBelowLoq": false, "loqValue": null, "unitRaw": "%", "expressedOnDryBasis": true }
+  ]
+}
