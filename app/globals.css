@@ -31,3 +31,9 @@ body {
   0%, 100% { filter: drop-shadow(0 0 2px #65a30d); }
   50% { filter: drop-shadow(0 0 10px #65a30d); }
 }
+
+/* the citation highlight settling onto its source region in the document */
+@keyframes cite-in {
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: scale(1); }
+}

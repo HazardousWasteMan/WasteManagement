@@ -1,6 +1,5 @@
 {
   "summary": {
-    "totalFormFields": 103,
     "fieldsMapped": 103,
     "filled": 19,
     "fromExtraction": 3,
@@ -32,7 +31,7 @@
       "src": "receiver",
       "filled": false,
       "value": null,
-      "note": "lab report carries referanse 'Alta lufthavn - PFAS-prosjektet' but extraction has no field for it"
+      "note": null
     },
     {
       "field": "TextField3",
@@ -48,7 +47,7 @@
       "src": "human",
       "filled": false,
       "value": null,
-      "note": "site address not extracted (no metadata field for it)"
+      "note": "site address not present in the document"
     },
     {
       "field": "TextField5",
@@ -56,7 +55,7 @@
       "src": "extracted",
       "filled": true,
       "value": "439-2025-10080994",
-      "note": "PARTIAL: this is the lab's Prøvenr.; the producer's own marking (ENAT-BØF1-BO9OB1) was not captured"
+      "note": "verify this is the producer's own marking and not the lab's Prøvenr."
     },
     {
       "field": "TextField6",
@@ -296,7 +295,7 @@
       "src": "derived",
       "filled": true,
       "value": true,
-      "note": "CONSERVATIVE: non-hazardous, but no leaching test in the report, so inert cannot be claimed"
+      "note": "CONSERVATIVE: inert cannot be claimed without a leaching test"
     },
     {
       "field": "Checkbox2",
@@ -304,7 +303,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": null
+      "note": "requires ristetest/kolonnetest results, which a standard total-analysis report lacks"
     },
     {
       "field": "Checkbox3",
@@ -368,7 +367,7 @@
       "src": "derived",
       "filled": true,
       "value": true,
-      "note": "hazardous substances detected above LOQ (PAH, alifater, Cr(VI)) but all below HP thresholds"
+      "note": "hazardous substances detected above LOQ, though all below HP thresholds"
     },
     {
       "field": "TextField35",
@@ -376,7 +375,7 @@
       "src": "human",
       "filled": false,
       "value": null,
-      "note": "GAP: TOC not measured in this report, and it is required for ordinært deponi"
+      "note": "GAP: TOC not measured, but required for deponi for ordinært avfall"
     },
     {
       "field": "TextField36",
@@ -392,7 +391,7 @@
       "src": "derived",
       "filled": true,
       "value": "Radio1",
-      "note": "Nei — no leaching test in the report"
+      "note": "Nei — no leaching test in the document"
     },
     {
       "field": "group3",
@@ -400,7 +399,7 @@
       "src": "derived",
       "filled": true,
       "value": "Radio1",
-      "note": "Nei — no column test in the report"
+      "note": "Nei — no column test in the document"
     },
     {
       "field": "TextField37",
@@ -408,14 +407,14 @@
       "src": "n/a",
       "filled": false,
       "value": null,
-      "note": "matrix is concrete, not soil/sediment"
+      "note": "only applies to soil/sediment; matrix here is Betong"
     },
     {
       "field": "TextField38",
       "label": "Beskriv avfallet og hvordan det oppstår",
       "src": "derived",
       "filled": true,
-      "value": "Betong fra Avinor AS. Prøve 439-2025-10080994, analysert av Eurofins Environment Testing Norway (Moss), rapport AR-25-MM-118438-01 (prøvetatt 07.10.2025, mottatt 08.10.2025). Kjemisk analyse omfatter metaller, Cr(VI), alifater/aromater, PAH16 og PCB7 — 45 analyseparametere. Påviste verdier over LOQ: Arsen (As) 1.8 mg/kg TS; Bly (Pb) 3.3 mg/kg TS; Kobber (Cu) 13 mg/kg TS; Krom (Cr) 15 mg/kg TS; Nikkel (Ni) 9.4 mg/kg TS; Sink (Zn) 41 mg/kg TS; Krom (VI) 1.6 mg/kg TS; Alifater >C12-C16 150 mg/kg TS. Alle øvrige parametere under deteksjonsgrense. Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014): ingen HP-kategori utløst, avfallet er ikke farlig avfall. Tildelt EAL-kode 17 01 01. Merk: AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended. Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.",
+      "value": "Betong fra Avinor AS. Prøve 439-2025-10080994, analysert av Eurofins Environment Testing Norway (Moss), rapport AR-25-MM-118438-01 (prøvetatt 07.10.2025, mottatt 08.10.2025). Kjemisk analyse omfatter 45 analyseparametere. Påviste verdier over LOQ: Arsen (As) 1.8 mg/kg TS; Bly (Pb) 3.3 mg/kg TS; Kobber (Cu) 13 mg/kg TS; Krom (Cr) 15 mg/kg TS; Nikkel (Ni) 9.4 mg/kg TS; Sink (Zn) 41 mg/kg TS; Krom (VI) 1.6 mg/kg TS; Alifater >C12-C16 150 mg/kg TS. Alle øvrige parametere under deteksjonsgrense. Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014): ingen HP-kategori utløst, avfallet er ikke farlig avfall. Tildelt EAL-kode 17 01 01. Merk: AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended. Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.",
       "note": null
     },
     {
@@ -424,7 +423,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox12",
@@ -432,7 +431,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox13",
@@ -440,7 +439,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox14",
@@ -448,7 +447,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox15",
@@ -456,7 +455,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox16",
@@ -464,7 +463,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox17",
@@ -472,7 +471,7 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox18",
@@ -480,91 +479,11 @@
       "src": "human",
       "filled": false,
       "value": false,
-      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
-    },
-    {
-      "field": "Checkbox23",
-      "label": "Avfallstype: Betong eller tegl",
-      "src": "extracted",
-      "filled": true,
-      "value": true,
-      "note": "from matrixType \"Betong\""
-    },
-    {
-      "field": "Checkbox19",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox20",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox21",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox22",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox24",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox25",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox26",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox39",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
-    },
-    {
-      "field": "Checkbox40",
-      "label": "Avfallstype (annen)",
-      "src": "extracted",
-      "filled": false,
-      "value": false,
-      "note": null
+      "note": "GAP: origin/process is not stated in a lab report; a person must pick it"
     },
     {
       "field": "Checkbox27",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -572,7 +491,7 @@
     },
     {
       "field": "Checkbox28",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -580,7 +499,7 @@
     },
     {
       "field": "Checkbox29",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -588,7 +507,7 @@
     },
     {
       "field": "Checkbox30",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -596,7 +515,7 @@
     },
     {
       "field": "Checkbox31",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -604,7 +523,7 @@
     },
     {
       "field": "Checkbox32",
-      "label": "Fysiske egenskaper",
+      "label": "Avfallets fysiske egenskaper",
       "src": "human",
       "filled": false,
       "value": false,
@@ -612,7 +531,7 @@
     },
     {
       "field": "Checkbox33",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -620,7 +539,7 @@
     },
     {
       "field": "Checkbox34",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -628,7 +547,7 @@
     },
     {
       "field": "Checkbox35",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -636,7 +555,7 @@
     },
     {
       "field": "Checkbox36",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -644,7 +563,7 @@
     },
     {
       "field": "Checkbox37",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -652,7 +571,7 @@
     },
     {
       "field": "Checkbox38",
-      "label": "Forbehandling",
+      "label": "Har avfallet vært forbehandlet?",
       "src": "human",
       "filled": false,
       "value": false,
@@ -664,7 +583,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "Checkbox42",
@@ -672,7 +591,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "Checkbox43",
@@ -680,7 +599,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "Checkbox44",
@@ -688,7 +607,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "Checkbox45",
@@ -696,7 +615,7 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "Checkbox46",
@@ -704,23 +623,23 @@
       "src": "derived",
       "filled": false,
       "value": false,
-      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+      "note": "left unticked = negative declaration; TOC and glødetap were not measured, so those two cannot be positively confirmed"
     },
     {
       "field": "TextField39",
-      "label": "Farge",
+      "label": "Farge (beskriv)",
       "src": "human",
       "filled": false,
       "value": null,
-      "note": "GAP: not observed in a lab report"
+      "note": "GAP: visual observation, not in a lab report"
     },
     {
       "field": "TextField40",
-      "label": "Lukt",
+      "label": "Lukt (beskriv)",
       "src": "human",
       "filled": false,
       "value": null,
-      "note": "GAP: not observed in a lab report"
+      "note": "GAP: visual observation, not in a lab report"
     },
     {
       "field": "TextField41",
@@ -833,6 +752,86 @@
       "filled": false,
       "value": null,
       "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "Checkbox19",
+      "label": "Avfallstype (materiale): Jord og sediment som er forurenset",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox20",
+      "label": "Avfallstype (materiale): Gravemasser som inneholder avfall",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox21",
+      "label": "Avfallstype (materiale): Gateoppsop og strøsand",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox22",
+      "label": "Avfallstype (materiale): Sandfangmasser",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox23",
+      "label": "Avfallstype (materiale): Betong eller tegl",
+      "src": "extracted",
+      "filled": true,
+      "value": true,
+      "note": "from matrixType \"Betong\""
+    },
+    {
+      "field": "Checkbox24",
+      "label": "Avfallstype (materiale): Aske eller slagg",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox25",
+      "label": "Avfallstype (materiale): Avløpsslam",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox26",
+      "label": "Avfallstype (materiale): Ristegods, silgods",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox39",
+      "label": "Avfallstype (materiale): Blandet",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox40",
+      "label": "Avfallstype (materiale): Annet",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
     }
   ]
 }

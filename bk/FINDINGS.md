@@ -143,3 +143,90 @@ npx vitest run bk/fill-form.test.ts      # no API, writes bk-skjema-utfylt.pdf +
 
 `map_fields.py` needs `pypdf` and the `pdftotext` binary; its output is committed, so it only
 needs re-running if the form itself changes.
+
+---
+
+# Part 2 — the Data Lab tab, and Datalab vs the Anthropic pipeline
+
+A new tab (`/data-lab`, "Data Lab" in the sidebar) takes a chemical analysis and returns the
+BK-skjema's fields, with a side-by-side view: the document on the left, the form's 103 fields on
+the right, and clicking a field draws a box on the exact region the value came from.
+
+## How it works
+
+Extraction is [Datalab](https://datalab.to)'s structured-extraction API, in two calls:
+
+1. `POST /api/v1/convert` — `output_format=json`, `add_block_ids=true`, `save_checkpoint=true`.
+   Returns a block tree where every block has an id (`/page/2/Table/11`), a `bbox` and its html,
+   plus a `checkpoint_id`.
+2. `POST /api/v1/extract` — `checkpoint_id` + `page_schema`. Returns the schema filled in, with a
+   `<field>_citations` sibling for **every field and every table cell**, holding those same ids.
+
+Passing the checkpoint means the document is parsed and billed once. The block ids are the join
+key that makes "press the field, see the original text" possible — resolving a citation gives the
+page, the bbox and the verbatim text. Cost for the 3-page concrete sub-report: **2–5 cents**.
+
+Two design notes worth keeping:
+
+- **The schema mirrors the form, not a generic lab report** (`buildBkPageSchema`), because the
+  tab's job is "put in the sample, get the form's fields". `analyte_id` is a JSON-schema `enum` of
+  the real 92-entry `AnalyteReference` vocabulary, so Datalab matches analyte names against the
+  same ids the classification engine keys on instead of us guessing Norwegian synonyms locally.
+- **Datalab bboxes are in its own rendered-page pixel space.** The `Page` block's own bbox is the
+  frame they share, so the overlay normalizes to fractions of it and positions in percentages —
+  aligned at any zoom, with no canvas-pixel bookkeeping and no need to know Datalab's DPI.
+
+Origin/process still cannot be extracted (no lab report states it) and still gates the EAL code,
+so the tab asks for it up front. Changing it afterwards hits `/api/data-lab/reclassify`, which
+re-derives the form from the extraction already paid for — free and instant.
+
+## Datalab vs the Anthropic pipeline, same sub-report
+
+| | Anthropic pipeline | Datalab |
+|---|---|---|
+| Result rows | 45 | 51 |
+| `provemerking` | ✗ lab Prøvenr. `439-2025-10080994` | ✓ **`ENAT-BØF1-BO9OB1`**, the customer's own marking |
+| Dry matter | extracted then dropped (no field consumes it) | ✓ `torrstoff_prosent` 94.6 |
+| Hentested | ✗ not extracted | ✓ "Alta lufthavn - PFAS-prosjektet" |
+| Copper | ✗ unmatched (finding 4) | ✓ matched — the enum bypasses the bad `canonicalNameNo` |
+| `labName` | ✓ Eurofins Norway | ✗ "Eurofins Environment **Sweden** AB (Lidköping)" |
+| Per-value provenance | none | ✓ page + bbox + verbatim text, per field and per cell |
+| Sample detection | nondeterministic (finding 2) | not used — page range is explicit |
+| Fields filled | 19 of 103 | **20 of 103** (4 from the document, 14 classified, 2 assumed) |
+| Verdict | not hazardous, EAL 17 01 01 | not hazardous, EAL 17 01 01 (both match gold) |
+
+Datalab wins on nearly every field, and the one place it loses is instructive: it reported the
+*subcontracted* Swedish lab, citing a list on page 4 rather than the report header. Because the
+value is cited, a reviewer clicks it and sees immediately where it came from — which is the
+argument for the whole feature. An uncited wrong value is indistinguishable from a right one.
+
+The 20 unmatched analytes are sums and hydrocarbon fractions with no CLP entry (`Sum PAH(16) EPA`,
+`Alifater >C12-C16`, …). They are surfaced in the UI, not silently dropped, and correctly excluded
+from hazard classification — the same "skip, never guess" discipline the engine already uses.
+
+Note the unit fix from Part 1 is load-bearing here: Datalab returns `enhet: "mg/kg TS"` verbatim,
+so without it this backend would have hit the same 18 000× error.
+
+## Verified / not verified
+
+Verified: `next build` clean, `eslint` clean, 490 unit tests pass, the live route returns 103
+fields with citations resolving to real pages and bboxes (`bk/data-lab.test.ts`), the page renders
+and serves its controls, and the pdf.js worker is served.
+
+**Not verified: the interactive UI in a real browser.** There is no browser tool in this session,
+so the upload → render → click-to-highlight loop has not been exercised visually. The pieces it
+depends on are individually checked (bbox maths unit-tested, pdf.js `render()` signature checked
+against the installed 5.4.296, worker served with the right content type), but the assembled
+interaction has not been seen working.
+
+## Reproducing
+
+```bash
+set -a && . ./.env.local && set +a
+npx vitest run tests/                      # 490 unit tests, no API calls
+npx vitest run bk/data-lab.test.ts         # live Datalab, ~2-5c, writes bk/datalab-output.json
+npx vitest run bk/fill-form.test.ts        # no API; fills from the Anthropic dump
+pnpm dev                                   # then open /data-lab
+```
+
+`DATALAB_API_KEY` must be set in `.env.local` (it is gitignored).

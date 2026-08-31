@@ -42,3 +42,6 @@ next-env.d.ts
 
 # superpowers brainstorm session artifacts (local ephemeral)
 .superpowers/brainstorm/
+
+# copied from node_modules at dev/build time by scripts/copy-pdf-worker.mjs
+public/pdf.worker.min.mjs

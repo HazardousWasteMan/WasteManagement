@@ -6,6 +6,7 @@ const LINKS = [
   { href: "/", label: "My projects" },
   { href: "/order", label: "Order analysis" },
   { href: "/shipments", label: "Shipments" },
+  { href: "/data-lab", label: "Data Lab" },
 ] as const;
 
 export function Sidebar() {
