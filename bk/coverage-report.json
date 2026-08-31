@@ -1,0 +1,838 @@
+{
+  "summary": {
+    "totalFormFields": 103,
+    "fieldsMapped": 103,
+    "filled": 19,
+    "fromExtraction": 3,
+    "fromClassificationEngine": 14,
+    "needsHuman": 49,
+    "landfillFills": 3,
+    "notApplicable": 13
+  },
+  "fields": [
+    {
+      "field": "group1",
+      "label": "Skjemaet gjelder: En enkelt leveranse",
+      "src": "human",
+      "filled": true,
+      "value": "Radio1",
+      "note": "delivery type is a commercial fact, not in the lab report; single delivery assumed"
+    },
+    {
+      "field": "TextField1",
+      "label": "Kundenummer",
+      "src": "receiver",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField2",
+      "label": "Prosjektnummer og navn",
+      "src": "receiver",
+      "filled": false,
+      "value": null,
+      "note": "lab report carries referanse 'Alta lufthavn - PFAS-prosjektet' but extraction has no field for it"
+    },
+    {
+      "field": "TextField3",
+      "label": "Deponiets merknad",
+      "src": "receiver",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField4",
+      "label": "Hentested for avfallet",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "site address not extracted (no metadata field for it)"
+    },
+    {
+      "field": "TextField5",
+      "label": "ID nr. fra avfallsprodusent",
+      "src": "extracted",
+      "filled": true,
+      "value": "439-2025-10080994",
+      "note": "PARTIAL: this is the lab's Prøvenr.; the producer's own marking (ENAT-BØF1-BO9OB1) was not captured"
+    },
+    {
+      "field": "TextField6",
+      "label": "Avfallsprodusent",
+      "src": "extracted",
+      "filled": true,
+      "value": "Avinor AS",
+      "note": null
+    },
+    {
+      "field": "TextField7",
+      "label": "Organisasjonsnummer",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "not present in a lab report"
+    },
+    {
+      "field": "TextField8",
+      "label": "Adresse",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField11",
+      "label": "Postnummer",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField14",
+      "label": "Poststed",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField9",
+      "label": "Kontaktperson",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField12",
+      "label": "Telefon (produsent)",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField15",
+      "label": "e-post (produsent)",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField10",
+      "label": "Transportør/Entreprenør",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "never in a lab report by nature"
+    },
+    {
+      "field": "TextField13",
+      "label": "Telefon (transportør)",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField16",
+      "label": "e-post (transportør)",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": null
+    },
+    {
+      "field": "TextField17",
+      "label": "EAL-kode siffer 1",
+      "src": "derived",
+      "filled": true,
+      "value": "1",
+      "note": null
+    },
+    {
+      "field": "TextField18",
+      "label": "EAL-kode siffer 2",
+      "src": "derived",
+      "filled": true,
+      "value": "7",
+      "note": null
+    },
+    {
+      "field": "TextField19",
+      "label": "EAL-kode siffer 3",
+      "src": "derived",
+      "filled": true,
+      "value": "0",
+      "note": null
+    },
+    {
+      "field": "TextField20",
+      "label": "EAL-kode siffer 4",
+      "src": "derived",
+      "filled": true,
+      "value": "1",
+      "note": null
+    },
+    {
+      "field": "TextField21",
+      "label": "EAL-kode siffer 5",
+      "src": "derived",
+      "filled": true,
+      "value": "0",
+      "note": null
+    },
+    {
+      "field": "TextField22",
+      "label": "EAL-kode siffer 6",
+      "src": "derived",
+      "filled": true,
+      "value": "1",
+      "note": null
+    },
+    {
+      "field": "TextField23",
+      "label": "Avfallsstoffnummer NS 9431",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "avfallsstoffnummer-eal-crosswalk.json holds only 4 entries, none for chapter 1701"
+    },
+    {
+      "field": "TextField24",
+      "label": "Avfallsstoffnummer NS 9431",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "avfallsstoffnummer-eal-crosswalk.json holds only 4 entries, none for chapter 1701"
+    },
+    {
+      "field": "TextField25",
+      "label": "Avfallsstoffnummer NS 9431",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "avfallsstoffnummer-eal-crosswalk.json holds only 4 entries, none for chapter 1701"
+    },
+    {
+      "field": "TextField26",
+      "label": "Avfallsstoffnummer NS 9431",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "avfallsstoffnummer-eal-crosswalk.json holds only 4 entries, none for chapter 1701"
+    },
+    {
+      "field": "TextField27",
+      "label": "Næring",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField28",
+      "label": "Næring",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField29",
+      "label": "Næring",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField30",
+      "label": "Kommune",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField31",
+      "label": "Kommune",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField32",
+      "label": "Kommune",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField33",
+      "label": "Kommune",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "TextField34",
+      "label": "Kommune",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "administrative code, not analysis data"
+    },
+    {
+      "field": "Checkbox1",
+      "label": "Deponi for ordinært avfall",
+      "src": "derived",
+      "filled": true,
+      "value": true,
+      "note": "CONSERVATIVE: non-hazardous, but no leaching test in the report, so inert cannot be claimed"
+    },
+    {
+      "field": "Checkbox2",
+      "label": "Deponi for inert avfall",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox3",
+      "label": "Deponi for farlig avfall",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox4",
+      "label": "Avfallstype: Ordinært avfall",
+      "src": "derived",
+      "filled": true,
+      "value": true,
+      "note": null
+    },
+    {
+      "field": "Checkbox5",
+      "label": "Avfallstype: Inert avfall",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox6",
+      "label": "Avfallstype: Farlig avfall",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox7",
+      "label": "Testpliktig: Nei",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox8",
+      "label": "Testpliktig: Ja",
+      "src": "derived",
+      "filled": true,
+      "value": true,
+      "note": "chemical analysis exists and is attached"
+    },
+    {
+      "field": "Checkbox9",
+      "label": "Innhold av farlige stoffer: Nei",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox10",
+      "label": "Innhold av farlige stoffer: Ja",
+      "src": "derived",
+      "filled": true,
+      "value": true,
+      "note": "hazardous substances detected above LOQ (PAH, alifater, Cr(VI)) but all below HP thresholds"
+    },
+    {
+      "field": "TextField35",
+      "label": "TOC %",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "GAP: TOC not measured in this report, and it is required for ordinært deponi"
+    },
+    {
+      "field": "TextField36",
+      "label": "Glødetap %",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "GAP: not measured in this report"
+    },
+    {
+      "field": "group2",
+      "label": "Ristetest",
+      "src": "derived",
+      "filled": true,
+      "value": "Radio1",
+      "note": "Nei — no leaching test in the report"
+    },
+    {
+      "field": "group3",
+      "label": "Kolonnetest",
+      "src": "derived",
+      "filled": true,
+      "value": "Radio1",
+      "note": "Nei — no column test in the report"
+    },
+    {
+      "field": "TextField37",
+      "label": "Tilstandsklasse 1-5 (gravemasser/jord/sediment)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "matrix is concrete, not soil/sediment"
+    },
+    {
+      "field": "TextField38",
+      "label": "Beskriv avfallet og hvordan det oppstår",
+      "src": "derived",
+      "filled": true,
+      "value": "Betong fra Avinor AS. Prøve 439-2025-10080994, analysert av Eurofins Environment Testing Norway (Moss), rapport AR-25-MM-118438-01 (prøvetatt 07.10.2025, mottatt 08.10.2025). Kjemisk analyse omfatter metaller, Cr(VI), alifater/aromater, PAH16 og PCB7 — 45 analyseparametere. Påviste verdier over LOQ: Arsen (As) 1.8 mg/kg TS; Bly (Pb) 3.3 mg/kg TS; Kobber (Cu) 13 mg/kg TS; Krom (Cr) 15 mg/kg TS; Nikkel (Ni) 9.4 mg/kg TS; Sink (Zn) 41 mg/kg TS; Krom (VI) 1.6 mg/kg TS; Alifater >C12-C16 150 mg/kg TS. Alle øvrige parametere under deteksjonsgrense. Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014): ingen HP-kategori utløst, avfallet er ikke farlig avfall. Tildelt EAL-kode 17 01 01. Merk: AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended. Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.",
+      "note": null
+    },
+    {
+      "field": "Checkbox11",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox12",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox13",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox14",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox15",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox16",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox17",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox18",
+      "label": "Avfallets opprinnelse",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: extraction returned suggestedOriginProcess = null, so origin is unknown"
+    },
+    {
+      "field": "Checkbox23",
+      "label": "Avfallstype: Betong eller tegl",
+      "src": "extracted",
+      "filled": true,
+      "value": true,
+      "note": "from matrixType \"Betong\""
+    },
+    {
+      "field": "Checkbox19",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox20",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox21",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox22",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox24",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox25",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox26",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox39",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox40",
+      "label": "Avfallstype (annen)",
+      "src": "extracted",
+      "filled": false,
+      "value": false,
+      "note": null
+    },
+    {
+      "field": "Checkbox27",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox28",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox29",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox30",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox31",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox32",
+      "label": "Fysiske egenskaper",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: physicalState \"solid\" does not map onto any of the form's six options"
+    },
+    {
+      "field": "Checkbox33",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox34",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox35",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox36",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox37",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox38",
+      "label": "Forbehandling",
+      "src": "human",
+      "filled": false,
+      "value": false,
+      "note": "GAP: pre-treatment is not lab-report data"
+    },
+    {
+      "field": "Checkbox41",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "Checkbox42",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "Checkbox43",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "Checkbox44",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "Checkbox45",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "Checkbox46",
+      "label": "Forbudt å deponere",
+      "src": "derived",
+      "filled": false,
+      "value": false,
+      "note": "left unticked = negative declaration; note TOC/glødetap were not measured, so those two cannot be positively confirmed"
+    },
+    {
+      "field": "TextField39",
+      "label": "Farge",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "GAP: not observed in a lab report"
+    },
+    {
+      "field": "TextField40",
+      "label": "Lukt",
+      "src": "human",
+      "filled": false,
+      "value": null,
+      "note": "GAP: not observed in a lab report"
+    },
+    {
+      "field": "TextField41",
+      "label": "Må deponiet treffe ekstra forhåndsregler?",
+      "src": "derived",
+      "filled": true,
+      "value": "Nei — ingen HP-kategori utløst.",
+      "note": null
+    },
+    {
+      "field": "group6",
+      "label": "Oppstår avfallet jevnlig?",
+      "src": "human",
+      "filled": true,
+      "value": "Radio1",
+      "note": "Nei — single delivery; recurrence is a commercial fact"
+    },
+    {
+      "field": "TextField42",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField43",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField44",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField45",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField46",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField47",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField48",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField49",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField50",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField51",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField52",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    },
+    {
+      "field": "TextField53",
+      "label": "Del 5 (jevnlig avfall)",
+      "src": "n/a",
+      "filled": false,
+      "value": null,
+      "note": "not applicable — waste does not arise regularly"
+    }
+  ]
+}

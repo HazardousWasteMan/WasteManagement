@@ -1,0 +1,448 @@
+{
+  "sourcePdf": "bk/analyse-eurofins-betong.pdf",
+  "hasUsableText": false,
+  "sourceType": "document",
+  "detectedSamples": [
+    {
+      "sampleIdentifier": "439-2025-09301193",
+      "matrixType": "Aske Asfalt",
+      "parentSampleIdentifier": null
+    },
+    {
+      "sampleIdentifier": "439-2025-10080994",
+      "matrixType": "Betong",
+      "parentSampleIdentifier": null
+    },
+    {
+      "sampleIdentifier": "439-2025-10080996",
+      "matrixType": "Betong",
+      "parentSampleIdentifier": null
+    },
+    {
+      "sampleIdentifier": "439-2025-10080998",
+      "matrixType": "Betong",
+      "parentSampleIdentifier": null
+    },
+    {
+      "sampleIdentifier": "439-2025-10081002",
+      "matrixType": "Betong",
+      "parentSampleIdentifier": null
+    }
+  ],
+  "targetSample": {
+    "sampleIdentifier": "439-2025-09301193",
+    "matrixType": "Aske Asfalt",
+    "parentSampleIdentifier": null
+  },
+  "extraction": {
+    "metadata": {
+      "externalReportNo": "AR-25-MM-120316-01",
+      "labName": "Eurofins Environment Testing Norway (Moss)",
+      "customerName": "Avinor AS",
+      "sampleMarking": "439-2025-09301193",
+      "matrixType": "Aske Asfalt",
+      "samplingDate": "22.09.2025",
+      "receiptDate": "02.10.2025",
+      "producerName": null,
+      "location": null,
+      "physicalState": null,
+      "viscosity40cMm2s": null,
+      "ph": null,
+      "labClassificationGiven": false,
+      "labStatedEalCode": null
+    },
+    "results": [
+      {
+        "rawAnalyteName": "4:2 FTS (Fluortelomersulfonat)",
+        "analyteId": "fts-4-2",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r1"
+      },
+      {
+        "rawAnalyteName": "6:2 FTS (Fluortelomersulfonat)",
+        "analyteId": "fts-6-2",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r2"
+      },
+      {
+        "rawAnalyteName": "8:2 FTS (Fluortelomersulfonat)",
+        "analyteId": "fts-8-2",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r3"
+      },
+      {
+        "rawAnalyteName": "HPFHpA (7H-Perfluorheptansyre)",
+        "analyteId": "hpfhpa",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r4"
+      },
+      {
+        "rawAnalyteName": "PF-3,7-DMOA (Perfluor-3,7-dimetyloktansyre)",
+        "analyteId": "pf-3-7-dmoa",
+        "resultValue": 0.5,
+        "isBelowLoq": true,
+        "loqValue": 0.5,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r5"
+      },
+      {
+        "rawAnalyteName": "PFDA (Perfluordekansyre)",
+        "analyteId": "pfda",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r6"
+      },
+      {
+        "rawAnalyteName": "PFBA (Perfluorbutansyre)",
+        "analyteId": "pfba",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r7"
+      },
+      {
+        "rawAnalyteName": "PFBS (Perfluorbutansulfonat)",
+        "analyteId": "pfbs",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r8"
+      },
+      {
+        "rawAnalyteName": "PFDoDA (Perfluordodekansyre)",
+        "analyteId": "pfdoda",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r9"
+      },
+      {
+        "rawAnalyteName": "PFTrDA (Perfluortridekansyre)",
+        "analyteId": "pftrda",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r10"
+      },
+      {
+        "rawAnalyteName": "PFDS (Perfluordekansulfonat)",
+        "analyteId": "pfds",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r11"
+      },
+      {
+        "rawAnalyteName": "PFHpA (Perfluorheptansyre)",
+        "analyteId": "pfhpa",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r12"
+      },
+      {
+        "rawAnalyteName": "PFHpS (Perfluorheptansulfonat)",
+        "analyteId": "pfhps",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r13"
+      },
+      {
+        "rawAnalyteName": "PFHxA (Perfluorheksansyre)",
+        "analyteId": "pfhxa",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r14"
+      },
+      {
+        "rawAnalyteName": "PFHxDA (Perfluorheksadekansyre)",
+        "analyteId": "pfhxda",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r15"
+      },
+      {
+        "rawAnalyteName": "PFHxS (Perfluorheksansulfonat)",
+        "analyteId": "pfhxs",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r16"
+      },
+      {
+        "rawAnalyteName": "PFNA (Perfluornonansyre)",
+        "analyteId": "pfna",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r17"
+      },
+      {
+        "rawAnalyteName": "PFOA (Perfluoroktansyre)",
+        "analyteId": "pfoa",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r18"
+      },
+      {
+        "rawAnalyteName": "PFOS (Perfluoroktylsulfonat)",
+        "analyteId": "pfos",
+        "resultValue": 0.26,
+        "isBelowLoq": false,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r19"
+      },
+      {
+        "rawAnalyteName": "PFOSA (Perfluoroktansulfonamid)",
+        "analyteId": "pfosa",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r20"
+      },
+      {
+        "rawAnalyteName": "PFPeA (Perfluorpentansyre)",
+        "analyteId": "pfpea",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r21"
+      },
+      {
+        "rawAnalyteName": "PFTeDA (Perfluortetradekansyre)",
+        "analyteId": "pfteda",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r22"
+      },
+      {
+        "rawAnalyteName": "PFUnDA (Perfluorundekansyre)",
+        "analyteId": "pfunda",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r23"
+      },
+      {
+        "rawAnalyteName": "EtFOSA (N-etylperfluoroktansulfonamid)",
+        "analyteId": "etfosa",
+        "resultValue": 0.2,
+        "isBelowLoq": true,
+        "loqValue": 0.2,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r24"
+      },
+      {
+        "rawAnalyteName": "EtFOSAA (N-etylperfluoroktansulfonamid-HAc)",
+        "analyteId": "etfosaa",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r25"
+      },
+      {
+        "rawAnalyteName": "EtFOSE (N-etylperfluoroktansulfonamidetanol)",
+        "analyteId": "etfose",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r26"
+      },
+      {
+        "rawAnalyteName": "MeFOSAA (N-metylperfluoroktansulfonamid-HAc)",
+        "analyteId": "mefosaa",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r27"
+      },
+      {
+        "rawAnalyteName": "MeFOSE (N-metylperfluoroktansulfonamidetanol)",
+        "analyteId": "mefose",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r28"
+      },
+      {
+        "rawAnalyteName": "MeFOSA (N-metylperfluoroktansulfonamid)",
+        "analyteId": "mefosa",
+        "resultValue": 0.03,
+        "isBelowLoq": true,
+        "loqValue": 0.03,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r29"
+      },
+      {
+        "rawAnalyteName": "FOSAA (Perfluoroktansulfonamid-HAc)",
+        "analyteId": "fosaa",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r30"
+      },
+      {
+        "rawAnalyteName": "PFPeS (Perfluorpentansulfonat)",
+        "analyteId": "pfpes",
+        "resultValue": 0.1,
+        "isBelowLoq": true,
+        "loqValue": 0.1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r31"
+      },
+      {
+        "rawAnalyteName": "PFNS (Perfluornonansulfonat)",
+        "analyteId": "pfns",
+        "resultValue": 0.2,
+        "isBelowLoq": true,
+        "loqValue": 0.2,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r32"
+      },
+      {
+        "rawAnalyteName": "PFUnDS (Perfluorundekansulfonat)",
+        "analyteId": "pfunds",
+        "resultValue": 1,
+        "isBelowLoq": true,
+        "loqValue": 1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r33"
+      },
+      {
+        "rawAnalyteName": "PFDoDS (Perfluordodekansulfonat)",
+        "analyteId": "pfdods",
+        "resultValue": 1,
+        "isBelowLoq": true,
+        "loqValue": 1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r34"
+      },
+      {
+        "rawAnalyteName": "PFTrDS (Perfluortridekansulfonat)",
+        "analyteId": "pftrds",
+        "resultValue": 1,
+        "isBelowLoq": true,
+        "loqValue": 1,
+        "unitRaw": "µg/kg TS",
+        "expressedOnDryBasis": true,
+        "resultId": "r35"
+      }
+    ],
+    "testResults": [],
+    "unmatchedAnalytes": [
+      "Sum PFAS4 inkl. 1/2 LOQ",
+      "Sum PFAS 4 eksl. LOQ",
+      "Sum PFAS inkl. 1/2 LOQ",
+      "Sum oppgitte PFAS eksl. LOQ",
+      "Terrstoff"
+    ],
+    "suggestedOriginProcess": null,
+    "sourceType": "document"
+  },
+  "classification": {
+    "hazard": {
+      "resultsByHp": {
+        "HP1": "not tested — assumed not applicable",
+        "HP2": "not tested — assumed not applicable",
+        "HP3": "not tested — assumed not applicable",
+        "HP8": false,
+        "HP4": false,
+        "HP5": false,
+        "HP6": false,
+        "HP7": false,
+        "HP9": "requires case-specific assessment — not automatable from lab data alone",
+        "HP10": false,
+        "HP11": false,
+        "HP12": "requires case-specific assessment — not automatable from lab data alone",
+        "HP13": false,
+        "HP14": false,
+        "HP15": "requires case-specific assessment — not automatable from lab data alone"
+      },
+      "triggeringSubstancesByHp": {},
+      "isHazardous": false,
+      "triggeredHps": [],
+      "confidenceFlags": []
+    },
+    "eal": {
+      "code": null,
+      "description": null,
+      "confidence": "HALT — missing origin/process metadata, cannot select EAL chapter"
+    },
+    "noDataWarning": false
+  }
+}

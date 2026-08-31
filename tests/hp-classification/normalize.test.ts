@@ -85,4 +85,30 @@ describe("normalizeSample", () => {
     const normalized = normalizeSample(baseMetadata, results, analyteRef);
     expect(normalized).toEqual([]);
   });
+
+  it("strips the dry-basis marker real labs write into the unit (mg/kg TS)", () => {
+    // Regression: live extraction of the Eurofins concrete report emits "mg/kg TS", which used
+    // to fall through to the unrecognized-unit path and be read as a percentage — 1.8 mg/kg
+    // arsenic became 1.8%, tripping 8 HP categories on a clean sample.
+    const out = normalizeSample(baseMetadata, [{
+      resultId: "r1", sampleId: "s1", analyteId: "arsenic", rawAnalyteName: "Arsen (As)",
+      resultValue: 1.8, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS",
+      expressedOnDryBasis: true, method: null,
+    }], analyteRef);
+
+    expect(out).toHaveLength(1);
+    expect(out[0].resultDryBasisPct).toBeCloseTo(0.00018, 10);
+    expect(out[0].confidenceFlags).toEqual([]);
+  });
+
+  it("strips the µg/kg TS marker too", () => {
+    const out = normalizeSample(baseMetadata, [{
+      resultId: "r1", sampleId: "s1", analyteId: "arsenic", rawAnalyteName: "Fenantren",
+      resultValue: 320, isBelowLoq: false, loqValue: null, unitRaw: "µg/kg TS",
+      expressedOnDryBasis: true, method: null,
+    }], analyteRef);
+
+    expect(out[0].resultDryBasisPct).toBeCloseTo(0.000032, 12);
+    expect(out[0].confidenceFlags).toEqual([]);
+  });
 });

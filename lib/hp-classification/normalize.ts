@@ -20,12 +20,20 @@ export function normalizeSample(
       confidenceFlags.push(`non-detect at LOQ = ${rawValue} ${result.unitRaw} — using LOQ as conservative value`);
     }
 
+    // Real lab reports write the dry-basis marker into the unit itself ("mg/kg TS",
+    // "µg/kg TS", Italian "mg/kg ss"), and that is exactly what extraction emits. Matching
+    // unitRaw literally sent every such row down the "unrecognized unit" path, where the value
+    // was used as-is *as a percentage* — 1.8 mg/kg arsenic became 1.8%, 18000x too high, which
+    // tripped 8 HP categories on a genuinely clean concrete sample. The dry-basis fact is
+    // already carried by expressedOnDryBasis, so the marker is stripped, not interpreted.
+    const unit = result.unitRaw.replace(/\s*(TS|ts|tørrstoff|ss|s\.s\.|dw|DW)\s*$/u, "").trim();
+
     let resultDryBasisPct: number;
-    if (result.unitRaw === "%") {
+    if (unit === "%") {
       resultDryBasisPct = rawValue;
-    } else if (result.unitRaw === "mg/kg") {
+    } else if (unit === "mg/kg") {
       resultDryBasisPct = rawValue / 10000;
-    } else if (result.unitRaw === "µg/kg") {
+    } else if (unit === "µg/kg") {
       resultDryBasisPct = rawValue / 10000000;
     } else {
       confidenceFlags.push(`unrecognized unit "${result.unitRaw}" — value used as-is, may be incorrect`);

@@ -1,0 +1,65 @@
+{
+  "asExtracted": {
+    "hazard": {
+      "resultsByHp": {
+        "HP1": "not tested — assumed not applicable",
+        "HP2": "not tested — assumed not applicable",
+        "HP3": false,
+        "HP8": false,
+        "HP4": false,
+        "HP5": false,
+        "HP6": false,
+        "HP7": false,
+        "HP9": "requires case-specific assessment — not automatable from lab data alone",
+        "HP10": false,
+        "HP11": false,
+        "HP12": "requires case-specific assessment — not automatable from lab data alone",
+        "HP13": false,
+        "HP14": false,
+        "HP15": "requires case-specific assessment — not automatable from lab data alone"
+      },
+      "triggeringSubstancesByHp": {},
+      "isHazardous": false,
+      "triggeredHps": [],
+      "confidenceFlags": []
+    },
+    "eal": {
+      "code": null,
+      "description": null,
+      "confidence": "HALT — missing origin/process metadata, cannot select EAL chapter"
+    },
+    "noDataWarning": false
+  },
+  "withOrigin": {
+    "hazard": {
+      "resultsByHp": {
+        "HP1": "not tested — assumed not applicable",
+        "HP2": "not tested — assumed not applicable",
+        "HP3": false,
+        "HP8": false,
+        "HP4": false,
+        "HP5": false,
+        "HP6": false,
+        "HP7": false,
+        "HP9": "requires case-specific assessment — not automatable from lab data alone",
+        "HP10": false,
+        "HP11": false,
+        "HP12": "requires case-specific assessment — not automatable from lab data alone",
+        "HP13": false,
+        "HP14": false,
+        "HP15": "requires case-specific assessment — not automatable from lab data alone"
+      },
+      "triggeringSubstancesByHp": {},
+      "isHazardous": false,
+      "triggeredHps": [],
+      "confidenceFlags": []
+    },
+    "eal": {
+      "code": "17 01 01",
+      "description": "concrete",
+      "confidence": "AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended"
+    },
+    "noDataWarning": false
+  },
+  "humanOrigin": "concrete, brick, tile, or ceramic waste"
+}

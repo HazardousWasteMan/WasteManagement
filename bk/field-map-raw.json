@@ -1,0 +1,1667 @@
+[
+ {
+  "field": "group1",
+  "page": 1,
+  "x": 412,
+  "y": 105,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio1"
+  ],
+  "left": "En enkelt leveranse",
+  "above": "",
+  "right": "Fyll ut hele skjemaet unntatt del 6"
+ },
+ {
+  "field": "group1",
+  "page": 1,
+  "x": 412,
+  "y": 138,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio3"
+  ],
+  "left": "Første leveranse",
+  "above": "",
+  "right": "Fyll ut hele skjemaet"
+ },
+ {
+  "field": "group1",
+  "page": 1,
+  "x": 412,
+  "y": 159,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio4"
+  ],
+  "left": "Påfølgende leveranser",
+  "above": "",
+  "right": "Lever kopi av skjema fra siste"
+ },
+ {
+  "field": "group1",
+  "page": 1,
+  "x": 412,
+  "y": 179,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio5"
+  ],
+  "left": "Verifikasjon",
+  "above": "",
+  "right": "Fyll ut hele skjemaet"
+ },
+ {
+  "field": "TextField1",
+  "page": 1,
+  "x": 23,
+  "y": 235,
+  "w": 180,
+  "h": 78,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "1. Fylles ut av avfallsmottaker Kundenummer:",
+  "right": ""
+ },
+ {
+  "field": "TextField2",
+  "page": 1,
+  "x": 208,
+  "y": 235,
+  "w": 180,
+  "h": 78,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Prosjektnummer og navn:",
+  "right": ""
+ },
+ {
+  "field": "TextField3",
+  "page": 1,
+  "x": 395,
+  "y": 235,
+  "w": 180,
+  "h": 78,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Deponiets merknad:",
+  "right": ""
+ },
+ {
+  "field": "TextField4",
+  "page": 1,
+  "x": 104,
+  "y": 340,
+  "w": 232,
+  "h": 17,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Avfallsprodusent Les veiledning på baksiden",
+  "right": ""
+ },
+ {
+  "field": "TextField5",
+  "page": 1,
+  "x": 441,
+  "y": 340,
+  "w": 136,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "TextField6",
+  "page": 1,
+  "x": 201,
+  "y": 361,
+  "w": 134,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Avfallsprodusent (kommune for husholdningsavfall):",
+  "above": "",
+  "right": "Organisasjonsnummer:"
+ },
+ {
+  "field": "TextField7",
+  "page": 1,
+  "x": 440,
+  "y": 361,
+  "w": 136,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "husholdningsavfall): Organisasjonsnummer:",
+  "above": "avfallsprodusent",
+  "right": ""
+ },
+ {
+  "field": "TextField8",
+  "page": 1,
+  "x": 82,
+  "y": 382,
+  "w": 159,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Adresse:",
+  "above": "Avfallsprodusent (kommune for husholdningsavfall):",
+  "right": "Postnummer: Poststed"
+ },
+ {
+  "field": "TextField11",
+  "page": 1,
+  "x": 295,
+  "y": 383,
+  "w": 42,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Adresse: Postnummer:",
+  "above": "",
+  "right": "Poststed"
+ },
+ {
+  "field": "TextField14",
+  "page": 1,
+  "x": 379,
+  "y": 382,
+  "w": 196,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Postnummer: Poststed",
+  "above": "Organisasjonsnummer:",
+  "right": ""
+ },
+ {
+  "field": "TextField9",
+  "page": 1,
+  "x": 82,
+  "y": 404,
+  "w": 159,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Kontaktperson:",
+  "above": "Postnummer:",
+  "right": "Telefon: e-post:"
+ },
+ {
+  "field": "TextField12",
+  "page": 1,
+  "x": 279,
+  "y": 404,
+  "w": 57,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Kontaktperson: Telefon:",
+  "above": "Postnummer:",
+  "right": "e-post:"
+ },
+ {
+  "field": "TextField15",
+  "page": 1,
+  "x": 380,
+  "y": 404,
+  "w": 196,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Telefon: e-post:",
+  "above": "Poststed",
+  "right": ""
+ },
+ {
+  "field": "TextField10",
+  "page": 1,
+  "x": 113,
+  "y": 425,
+  "w": 128,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Transportør/Entreprenør:",
+  "above": "Telefon:",
+  "right": "Telefon: e-post:"
+ },
+ {
+  "field": "TextField13",
+  "page": 1,
+  "x": 279,
+  "y": 425,
+  "w": 57,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Transportør/Entreprenør: Telefon:",
+  "above": "Telefon:",
+  "right": "e-post:"
+ },
+ {
+  "field": "TextField16",
+  "page": 1,
+  "x": 379,
+  "y": 425,
+  "w": 196,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Telefon: e-post:",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "TextField17",
+  "page": 1,
+  "x": 22,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "EAL-kode:",
+  "right": ""
+ },
+ {
+  "field": "TextField18",
+  "page": 1,
+  "x": 48,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "EAL-kode:",
+  "right": "NS 9431-2011:"
+ },
+ {
+  "field": "TextField19",
+  "page": 1,
+  "x": 73,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "",
+  "right": "NS 9431-2011:"
+ },
+ {
+  "field": "TextField20",
+  "page": 1,
+  "x": 100,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "",
+  "right": "NS 9431-2011:"
+ },
+ {
+  "field": "TextField21",
+  "page": 1,
+  "x": 125,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "",
+  "right": "NS 9431-2011:"
+ },
+ {
+  "field": "TextField22",
+  "page": 1,
+  "x": 152,
+  "y": 484,
+  "w": 21,
+  "h": 15,
+  "export": null,
+  "left": "",
+  "above": "",
+  "right": "0 NS 9431-2011:"
+ },
+ {
+  "field": "TextField23",
+  "page": 1,
+  "x": 298,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "NS 9431-2011:",
+  "above": "Material Avfallstoffnummer",
+  "right": "0 0 1 1"
+ },
+ {
+  "field": "TextField24",
+  "page": 1,
+  "x": 315,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "NS 9431-2011:",
+  "above": "Material",
+  "right": "0 0 1 1"
+ },
+ {
+  "field": "TextField25",
+  "page": 1,
+  "x": 332,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "NS 9431-2011:",
+  "above": "Material",
+  "right": "0 0 1 1"
+ },
+ {
+  "field": "TextField26",
+  "page": 1,
+  "x": 348,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "NS 9431-2011:",
+  "above": "Håndtering",
+  "right": "0 0 1 1"
+ },
+ {
+  "field": "TextField27",
+  "page": 1,
+  "x": 444,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 NS 9431-2011:",
+  "above": "Næring",
+  "right": ""
+ },
+ {
+  "field": "TextField28",
+  "page": 1,
+  "x": 461,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 NS 9431-2011:",
+  "above": "Næring",
+  "right": ""
+ },
+ {
+  "field": "TextField29",
+  "page": 1,
+  "x": 478,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 NS 9431-2011:",
+  "above": "Næring",
+  "right": ""
+ },
+ {
+  "field": "TextField30",
+  "page": 1,
+  "x": 495,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 NS 9431-2011:",
+  "above": "Kommune",
+  "right": ""
+ },
+ {
+  "field": "TextField31",
+  "page": 1,
+  "x": 511,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 NS 9431-2011:",
+  "above": "Kommune",
+  "right": ""
+ },
+ {
+  "field": "TextField32",
+  "page": 1,
+  "x": 528,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 9431-2011:",
+  "above": "Kommune",
+  "right": ""
+ },
+ {
+  "field": "TextField33",
+  "page": 1,
+  "x": 545,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1 9431-2011:",
+  "above": "Kommune",
+  "right": ""
+ },
+ {
+  "field": "TextField34",
+  "page": 1,
+  "x": 562,
+  "y": 485,
+  "w": 16,
+  "h": 16,
+  "export": null,
+  "left": "0 0 1 1",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox1",
+  "page": 1,
+  "x": 229,
+  "y": 508,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Spør deponiet før levering om du er i tvil.",
+  "above": "NS",
+  "right": "Deponi for ordinært avfall Deponi for inert avfall"
+ },
+ {
+  "field": "Checkbox2",
+  "page": 1,
+  "x": 361,
+  "y": 508,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Deponi for ordinært avfall levering om du er i tvil.",
+  "above": "0",
+  "right": "Deponi for inert avfall Deponi for farlig avfall"
+ },
+ {
+  "field": "Checkbox3",
+  "page": 1,
+  "x": 471,
+  "y": 508,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Deponi for ordinært avfall Deponi for inert avfall",
+  "above": "",
+  "right": "Deponi for farlig avfall"
+ },
+ {
+  "field": "Checkbox4",
+  "page": 1,
+  "x": 229,
+  "y": 537,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Avfallstype (sett kryss for riktig type)",
+  "above": "",
+  "right": "Ordinært avfall Inert avfall"
+ },
+ {
+  "field": "Checkbox5",
+  "page": 1,
+  "x": 361,
+  "y": 537,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "for riktig type) Ordinært avfall",
+  "above": "",
+  "right": "Inert avfall Farlig avfall"
+ },
+ {
+  "field": "Checkbox6",
+  "page": 1,
+  "x": 471,
+  "y": 537,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Ordinært avfall Inert avfall",
+  "above": "",
+  "right": "Farlig avfall"
+ },
+ {
+  "field": "Checkbox7",
+  "page": 1,
+  "x": 172,
+  "y": 564,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Er avfallet testpliktig (kjemisk testing)? Nei",
+  "above": "",
+  "right": "Ja Foreliggende analyseresultater skal vedlegges."
+ },
+ {
+  "field": "Checkbox8",
+  "page": 1,
+  "x": 217,
+  "y": 564,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Er avfallet testpliktig (kjemisk testing)? Nei Ja",
+  "above": "",
+  "right": "Foreliggende analyseresultater skal vedlegges."
+ },
+ {
+  "field": "group2",
+  "page": 1,
+  "x": 378,
+  "y": 599,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio1"
+  ],
+  "left": "Ristetest Nei",
+  "above": "Utlekkingsegenskaper",
+  "right": "Ja tilstandsklasse 1-5, evt. farlig avfall:"
+ },
+ {
+  "field": "group2",
+  "page": 1,
+  "x": 419,
+  "y": 599,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio2"
+  ],
+  "left": "Ristetest Nei Ja",
+  "above": "",
+  "right": "tilstandsklasse 1-5, evt. farlig avfall:"
+ },
+ {
+  "field": "Checkbox9",
+  "page": 1,
+  "x": 40,
+  "y": 614,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Nei",
+  "above": "(jfr. analyserapport)",
+  "right": "Ja TOC % Glødetap"
+ },
+ {
+  "field": "Checkbox10",
+  "page": 1,
+  "x": 80,
+  "y": 614,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Nei Ja",
+  "above": "analyserapport)",
+  "right": "TOC % Glødetap %"
+ },
+ {
+  "field": "TextField35",
+  "page": 1,
+  "x": 139,
+  "y": 613,
+  "w": 25,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Nei Ja TOC",
+  "above": "",
+  "right": "% Glødetap % Kolonnetest Nei"
+ },
+ {
+  "field": "TextField36",
+  "page": 1,
+  "x": 230,
+  "y": 613,
+  "w": 25,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Nei Ja TOC % Glødetap",
+  "above": "",
+  "right": "% Kolonnetest Nei Ja"
+ },
+ {
+  "field": "group3",
+  "page": 1,
+  "x": 378,
+  "y": 619,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio1"
+  ],
+  "left": "Kolonnetest Nei",
+  "above": "Nei",
+  "right": "Ja"
+ },
+ {
+  "field": "group3",
+  "page": 1,
+  "x": 419,
+  "y": 619,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio2"
+  ],
+  "left": "Kolonnetest Nei Ja",
+  "above": "Ja",
+  "right": ""
+ },
+ {
+  "field": "TextField37",
+  "page": 1,
+  "x": 443,
+  "y": 618,
+  "w": 131,
+  "h": 18,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Kolonnetest Nei Ja",
+  "above": "Angi om massene er i tilstandsklasse 1-5, evt. farlig avfall:",
+  "right": ""
+ },
+ {
+  "field": "TextField38",
+  "page": 1,
+  "x": 23,
+  "y": 668,
+  "w": 551,
+  "h": 129,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Beskriv avfallet og hvordan det oppstår (avfallstype/massetype, type forurensning, konsent",
+  "right": ""
+ },
+ {
+  "field": "Checkbox11",
+  "page": 2,
+  "x": 133,
+  "y": 98,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Graving / mudring",
+  "above": "",
+  "right": "Jord og sediment Pulver"
+ },
+ {
+  "field": "Checkbox19",
+  "page": 2,
+  "x": 235,
+  "y": 98,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Graving / mudring Jord og sediment",
+  "above": "",
+  "right": "Pulver Sorteringsanlegg"
+ },
+ {
+  "field": "Checkbox27",
+  "page": 2,
+  "x": 407,
+  "y": 98,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Jord og sediment Pulver",
+  "above": "egenskaper:",
+  "right": "Sorteringsanlegg"
+ },
+ {
+  "field": "Checkbox33",
+  "page": 2,
+  "x": 546,
+  "y": 98,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Pulver Sorteringsanlegg",
+  "above": "forbehandlet?",
+  "right": ""
+ },
+ {
+  "field": "Checkbox12",
+  "page": 2,
+  "x": 133,
+  "y": 130,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Bygg og anlegg (nybygg)",
+  "above": "",
+  "right": "Gravemasser som Flytende"
+ },
+ {
+  "field": "Checkbox20",
+  "page": 2,
+  "x": 235,
+  "y": 130,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Bygg og anlegg (nybygg) Gravemasser som",
+  "above": "",
+  "right": "Flytende Biologisk"
+ },
+ {
+  "field": "Checkbox28",
+  "page": 2,
+  "x": 406,
+  "y": 130,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Gravemasser som Flytende",
+  "above": "",
+  "right": "Biologisk"
+ },
+ {
+  "field": "Checkbox34",
+  "page": 2,
+  "x": 546,
+  "y": 130,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Flytende Biologisk",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox13",
+  "page": 2,
+  "x": 132,
+  "y": 161,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Produksjon/industri",
+  "above": "",
+  "right": "Gateoppsop og Stor gjenstand"
+ },
+ {
+  "field": "Checkbox21",
+  "page": 2,
+  "x": 235,
+  "y": 161,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Produksjon/industri Gateoppsop og",
+  "above": "",
+  "right": "Stor gjenstand Forbrenning"
+ },
+ {
+  "field": "Checkbox29",
+  "page": 2,
+  "x": 406,
+  "y": 161,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Gateoppsop og Stor gjenstand",
+  "above": "",
+  "right": "Forbrenning"
+ },
+ {
+  "field": "Checkbox35",
+  "page": 2,
+  "x": 546,
+  "y": 161,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Stor gjenstand Forbrenning",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox14",
+  "page": 2,
+  "x": 133,
+  "y": 193,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Husholdning/hytte",
+  "above": "",
+  "right": "Sandfangmasser Sammensatt /heterogent"
+ },
+ {
+  "field": "Checkbox22",
+  "page": 2,
+  "x": 235,
+  "y": 193,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Husholdning/hytte Sandfangmasser",
+  "above": "",
+  "right": "Sammensatt /heterogent Oppmaling"
+ },
+ {
+  "field": "Checkbox30",
+  "page": 2,
+  "x": 406,
+  "y": 193,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Sandfangmasser Sammensatt /heterogent",
+  "above": "",
+  "right": "Oppmaling / kverning"
+ },
+ {
+  "field": "Checkbox36",
+  "page": 2,
+  "x": 546,
+  "y": 193,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Sammensatt /heterogent Oppmaling / kverning",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox15",
+  "page": 2,
+  "x": 133,
+  "y": 214,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Handel/kontor",
+  "above": "",
+  "right": "Betong eller tegl Ensartet / homogent"
+ },
+ {
+  "field": "Checkbox23",
+  "page": 2,
+  "x": 235,
+  "y": 214,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Handel/kontor Betong eller tegl",
+  "above": "",
+  "right": "Ensartet / homogent Ingen"
+ },
+ {
+  "field": "Checkbox31",
+  "page": 2,
+  "x": 406,
+  "y": 214,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Betong eller tegl Ensartet / homogent",
+  "above": "",
+  "right": "Ingen"
+ },
+ {
+  "field": "Checkbox37",
+  "page": 2,
+  "x": 546,
+  "y": 214,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Ensartet / homogent Ingen",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox16",
+  "page": 2,
+  "x": 133,
+  "y": 237,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Sortering/avfallsanlegg",
+  "above": "",
+  "right": "Aske eller slagg Annet"
+ },
+ {
+  "field": "Checkbox24",
+  "page": 2,
+  "x": 235,
+  "y": 237,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Sortering/avfallsanlegg Aske eller slagg",
+  "above": "",
+  "right": "Annet Annen"
+ },
+ {
+  "field": "Checkbox32",
+  "page": 2,
+  "x": 406,
+  "y": 237,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Aske eller slagg Annet",
+  "above": "",
+  "right": "Annen"
+ },
+ {
+  "field": "Checkbox38",
+  "page": 2,
+  "x": 546,
+  "y": 237,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Annet Annen",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox17",
+  "page": 2,
+  "x": 133,
+  "y": 259,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Forbrenningsanlegg",
+  "above": "",
+  "right": "Avløpsslam"
+ },
+ {
+  "field": "Checkbox25",
+  "page": 2,
+  "x": 235,
+  "y": 259,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Forbrenningsanlegg Avløpsslam",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox18",
+  "page": 2,
+  "x": 133,
+  "y": 281,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Annet (beskrives)",
+  "above": "",
+  "right": "Ristegods, silgods Inneholder avfallet"
+ },
+ {
+  "field": "Checkbox26",
+  "page": 2,
+  "x": 235,
+  "y": 281,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Annet (beskrives) Ristegods, silgods",
+  "above": "",
+  "right": "Inneholder avfallet noe som er forbudt"
+ },
+ {
+  "field": "Checkbox39",
+  "page": 2,
+  "x": 235,
+  "y": 303,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Blandet",
+  "above": "",
+  "right": "Glødetap > 20% Våtorganisk/flytende"
+ },
+ {
+  "field": "Checkbox41",
+  "page": 2,
+  "x": 413,
+  "y": 308,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Blandet Glødetap > 20%",
+  "above": "som er forbudt",
+  "right": "Våtorganisk/flytende avfall"
+ },
+ {
+  "field": "Checkbox44",
+  "page": 2,
+  "x": 554,
+  "y": 307,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Glødetap > 20% Våtorganisk/flytende avfall",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox40",
+  "page": 2,
+  "x": 235,
+  "y": 325,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Annet",
+  "above": "",
+  "right": "TOC > 10% Smittefarlig"
+ },
+ {
+  "field": "Checkbox42",
+  "page": 2,
+  "x": 413,
+  "y": 328,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Annet TOC > 10%",
+  "above": "",
+  "right": "Smittefarlig avfall"
+ },
+ {
+  "field": "Checkbox45",
+  "page": 2,
+  "x": 554,
+  "y": 329,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "TOC > 10% Smittefarlig avfall",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "Checkbox43",
+  "page": 2,
+  "x": 413,
+  "y": 349,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "Hele eller kvernedekasserte dekk",
+  "above": "",
+  "right": "Eksplosivt, radioaktivt,"
+ },
+ {
+  "field": "Checkbox46",
+  "page": 2,
+  "x": 554,
+  "y": 351,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/YES"
+  ],
+  "left": "etsende, meget brannfarlig",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "TextField39",
+  "page": 2,
+  "x": 25,
+  "y": 357,
+  "w": 263,
+  "h": 32,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Farge (beskriv) Hele",
+  "right": "eller oksiderende"
+ },
+ {
+  "field": "TextField40",
+  "page": 2,
+  "x": 85,
+  "y": 395,
+  "w": 205,
+  "h": 21,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "",
+  "right": ""
+ },
+ {
+  "field": "TextField41",
+  "page": 2,
+  "x": 297,
+  "y": 402,
+  "w": 273,
+  "h": 14,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Må deponiet treffe ekstra forhåndsregler ved håndtering eller deponering?",
+  "right": ""
+ },
+ {
+  "field": "group6",
+  "page": 2,
+  "x": 220,
+  "y": 543,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio1"
+  ],
+  "left": "Oppstår avfallet jevnlig?",
+  "above": "",
+  "right": "Nei Ja"
+ },
+ {
+  "field": "group6",
+  "page": 2,
+  "x": 269,
+  "y": 542,
+  "w": 16,
+  "h": 16,
+  "export": [
+   "/Radio2"
+  ],
+  "left": "Oppstår avfallet jevnlig? Nei",
+  "above": "",
+  "right": "Ja"
+ },
+ {
+  "field": "TextField42",
+  "page": 2,
+  "x": 402,
+  "y": 602,
+  "w": 72,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Organisk fraksjon (tre, papp, papir, møbler etc.):",
+  "above": "Målt innhold (vekt %)",
+  "right": "% %"
+ },
+ {
+  "field": "TextField46",
+  "page": 2,
+  "x": 492,
+  "y": 601,
+  "w": 68,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Organisk fraksjon (tre, papp, papir, møbler etc.): %",
+  "above": "Normal variasjon (fra - til)",
+  "right": "%"
+ },
+ {
+  "field": "TextField43",
+  "page": 2,
+  "x": 402,
+  "y": 618,
+  "w": 72,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Uorganisk fraksjon (glass, stein, grus, betong, tegl, isolasjon etc.):",
+  "above": "%",
+  "right": "% %"
+ },
+ {
+  "field": "TextField47",
+  "page": 2,
+  "x": 492,
+  "y": 618,
+  "w": 68,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "fraksjon (glass, stein, grus, betong, tegl, isolasjon etc.): %",
+  "above": "%",
+  "right": "%"
+ },
+ {
+  "field": "TextField44",
+  "page": 2,
+  "x": 402,
+  "y": 636,
+  "w": 72,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Plastfraksjon:",
+  "above": "%",
+  "right": "% %"
+ },
+ {
+  "field": "TextField48",
+  "page": 2,
+  "x": 492,
+  "y": 635,
+  "w": 68,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Plastfraksjon: %",
+  "above": "%",
+  "right": "%"
+ },
+ {
+  "field": "TextField45",
+  "page": 2,
+  "x": 402,
+  "y": 652,
+  "w": 72,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Annet:",
+  "above": "%",
+  "right": "% %"
+ },
+ {
+  "field": "TextField49",
+  "page": 2,
+  "x": 492,
+  "y": 652,
+  "w": 68,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "Annet: %",
+  "above": "%",
+  "right": "%"
+ },
+ {
+  "field": "TextField50",
+  "page": 2,
+  "x": 27,
+  "y": 676,
+  "w": 105,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Dato for verifikasjon:",
+  "right": ""
+ },
+ {
+  "field": "TextField51",
+  "page": 2,
+  "x": 140,
+  "y": 676,
+  "w": 105,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Dato for neste verifikasjon:",
+  "right": ""
+ },
+ {
+  "field": "TextField52",
+  "page": 2,
+  "x": 260,
+  "y": 676,
+  "w": 310,
+  "h": 13,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "Annet: % % Parametere i bruk ved verifikasjon:",
+  "right": ""
+ },
+ {
+  "field": "TextField53",
+  "page": 2,
+  "x": 27,
+  "y": 709,
+  "w": 544,
+  "h": 30,
+  "export": [
+   "/BBox",
+   "/FormType",
+   "/Matrix",
+   "/Resources",
+   "/Subtype",
+   "/Type"
+  ],
+  "left": "",
+  "above": "For avfall som oppstår jevnlig skal det følge dokumentasjon med både basiskarakterisering ",
+  "right": ""
+ }
+]
