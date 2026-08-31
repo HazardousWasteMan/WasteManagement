@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import { DocumentPane, type Highlight } from "@/components/data-lab/DocumentPane";
 import { FieldsPane } from "@/components/data-lab/FieldsPane";
+import { ExtractionProgress, type Phase } from "@/components/data-lab/ExtractionProgress";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
 import type { BkField } from "@/lib/bk-skjema/form-map";
 import type { DatalabBlock, DatalabPage } from "@/lib/bk-skjema/datalab";
@@ -23,6 +24,8 @@ export default function DataLabPage() {
   const [origin, setOrigin] = useState("");
   const [pageRange, setPageRange] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [phase, setPhase] = useState<Phase | null>(null);
+  const [pageCount, setPageCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Extraction | null>(null);
   const [selected, setSelected] = useState<BkField | null>(null);
@@ -47,23 +50,70 @@ export default function DataLabPage() {
   }, [selected]);
 
   async function runExtraction(chosen: File) {
-    setBusy("Datalab is reading the report — parsing pages, then filling the form's fields.");
     setError(null);
     setResult(null);
     setSelected(null);
+    setPageCount(null);
+    setPhase("converting");
+
     const body = new FormData();
     body.append("file", chosen);
     if (origin) body.append("originProcess", origin);
     if (pageRange.trim()) body.append("pageRange", pageRange.trim());
+
     try {
       const res = await fetch("/api/data-lab", { method: "POST", body });
-      const json = await res.json();
-      if (!res.ok) { setError(json.error ?? "Extraction failed"); return; }
-      setResult(json);
+      // Validation failures happen before the stream opens, so they still arrive as real statuses.
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setError(json.error ?? `The request failed (${res.status}).`);
+        setPhase(null);
+        return;
+      }
+      const reader = res.body?.getReader();
+      if (!reader) {
+        setError("This browser could not read the response stream.");
+        setPhase(null);
+        return;
+      }
+
+      // NDJSON: one progress event per line, with the finished payload as the last one.
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let sawResult = false;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          let event: { phase?: string; pageCount?: number; error?: string; result?: Extraction };
+          try {
+            event = JSON.parse(line);
+          } catch {
+            continue; // a partial or malformed line must not abort a run that is still going
+          }
+          if (event.phase === "converting") setPhase("converting");
+          else if (event.phase === "extracting") {
+            setPhase("extracting");
+            setPageCount(event.pageCount ?? null);
+          } else if (event.phase === "done" && event.result) {
+            setResult(event.result);
+            sawResult = true;
+          } else if (event.phase === "error") {
+            setError(event.error ?? "Extraction failed");
+          }
+        }
+      }
+      if (!sawResult) {
+        setError(prev => prev ?? "The extraction ended without returning a result.");
+      }
     } catch {
       setError("Could not reach the extraction service. Check your connection and try again.");
     } finally {
-      setBusy(null);
+      setPhase(null);
     }
   }
 
@@ -167,7 +217,7 @@ export default function DataLabPage() {
           />
         </label>
 
-        {file && !busy && (
+        {file && !busy && !phase && (
           <button
             type="button"
             onClick={() => runExtraction(file)}
@@ -178,7 +228,9 @@ export default function DataLabPage() {
         )}
       </div>
 
-      {busy && (
+      {phase && <ExtractionProgress phase={phase} pageCount={pageCount} />}
+
+      {busy && !phase && (
         <p className="border-b border-forest/10 bg-lime/20 px-6 py-3 text-sm text-forest" role="status">
           {busy}
         </p>
@@ -191,7 +243,7 @@ export default function DataLabPage() {
         </div>
       )}
 
-      {!result && !busy && !error && (
+      {!result && !busy && !phase && !error && (
         <div className="flex flex-1 items-center justify-center px-6 py-20">
           <p className="max-w-md text-center text-sm text-forest/50">
             Choose a lab report to begin. Pick the origin/process too — it is the one thing a lab report
