@@ -16,6 +16,28 @@ export type BkSrc =
   | "receiver"   // section 1 — filled by the landfill, not the producer
   | "n/a";       // legitimately not applicable to this waste/delivery
 
+/**
+ * BK-skjema part 4's two one-of-six columns, in the order printed on the form. The option strings
+ * are exactly the enum the extraction schema offers, so matching is a string compare.
+ */
+export const PHYSICAL_FORMS = [
+  { box: 27, option: "Pulver" },
+  { box: 28, option: "Flytende" },
+  { box: 29, option: "Stor gjenstand (monolittisk)" },
+  { box: 30, option: "Sammensatt / heterogent" },
+  { box: 31, option: "Ensartet / homogent" },
+  { box: 32, option: "Annet" },
+] as const;
+
+export const PRETREATMENTS = [
+  { box: 33, option: "Sorteringsanlegg" },
+  { box: 34, option: "Biologisk behandling" },
+  { box: 35, option: "Forbrenning" },
+  { box: 36, option: "Oppmaling / kverning" },
+  { box: 37, option: "Ingen" },
+  { box: 38, option: "Annen forbehandling" },
+] as const;
+
 /** A citation back into the source document, so the UI can show the original text. */
 export interface BkCitation {
   blockId: string | null;
@@ -68,6 +90,10 @@ export interface BkSource {
     physicalState?: string | null;
     /** Site the waste is collected from, when the document happens to carry it. */
     pickupLocation?: string | null;
+    /** One of BK-skjema part 4's six "fysiske egenskaper" options, when the report states it. */
+    physicalForm?: string | null;
+    /** One of part 4's six "forbehandlet" options, when the report states it. */
+    pretreatment?: string | null;
     /** Producer address block — present on most lab reports, as the customer address. */
     address?: string | null;
     postCode?: string | null;
@@ -204,13 +230,28 @@ export function buildBkFields(s: BkSource): BkField[] {
       field: `Checkbox${n}`, label: "Avfallets opprinnelse", src: "human" as BkSrc, check: false,
       note: "GAP: origin/process is not stated in a lab report; a person must pick it",
     })),
-    ...[27, 28, 29, 30, 31, 32].map(n => ({
-      field: `Checkbox${n}`, label: "Avfallets fysiske egenskaper", src: "human" as BkSrc, check: false,
-      note: `GAP: physicalState "${m.physicalState ?? "unknown"}" does not map onto any of the form's six options`,
+    // Part 4's two one-of-six columns. Ticked only when the document actually said so; otherwise
+    // every box stays clear and editable, because both describe the delivered waste rather than
+    // the analysed sample and a lab report normally states neither.
+    ...PHYSICAL_FORMS.map(({ box, option }) => ({
+      field: `Checkbox${box}`,
+      label: `Fysiske egenskaper: ${option}`,
+      src: m.physicalForm ? ("extracted" as BkSrc) : ("human" as BkSrc),
+      check: m.physicalForm === option,
+      ...(m.physicalForm === option ? cite(s, "physicalForm") : {}),
+      note: m.physicalForm
+        ? undefined
+        : "the report does not describe the physical form of the delivery — pick one",
     })),
-    ...[33, 34, 35, 36, 37, 38].map(n => ({
-      field: `Checkbox${n}`, label: "Har avfallet vært forbehandlet?", src: "human" as BkSrc, check: false,
-      note: "GAP: pre-treatment is not lab-report data",
+    ...PRETREATMENTS.map(({ box, option }) => ({
+      field: `Checkbox${box}`,
+      label: `Forbehandlet: ${option}`,
+      src: m.pretreatment ? ("extracted" as BkSrc) : ("human" as BkSrc),
+      check: m.pretreatment === option,
+      ...(m.pretreatment === option ? cite(s, "pretreatment") : {}),
+      note: m.pretreatment
+        ? undefined
+        : "not in a lab report: the lab's own sample preparation (e.g. \"Homogenisering, knusing\", SS-EN 15002) is not pre-treatment of the waste — pick one",
     })),
     ...[41, 42, 43, 44, 45, 46].map(n => ({
       field: `Checkbox${n}`, label: "Forbudt å deponere", src: "derived" as BkSrc, check: false,
@@ -230,7 +271,9 @@ export function buildBkFields(s: BkSource): BkField[] {
     })),
   ];
 
-  // Waste-type column (Checkbox19..26, 39, 40) — the one column the matrix type actually decides.
+  // Waste-type column (Checkbox19..26, 39, 40) — the one column the matrix type decides.
+  // "Annet" is the catch-all: the form's list has no row for asphalt, so a known matrix that
+  // matches none of the named types belongs there rather than leaving the whole column blank.
   const MATRIX_CHECKBOX: { box: number; label: string; match: RegExp }[] = [
     { box: 19, label: "Jord og sediment som er forurenset", match: /jord|sediment|terra|soil/i },
     { box: 20, label: "Gravemasser som inneholder avfall", match: /gravemasse|excavat/i },
@@ -241,22 +284,28 @@ export function buildBkFields(s: BkSource): BkField[] {
     { box: 25, label: "Avløpsslam", match: /avløpsslam|sludge/i },
     { box: 26, label: "Ristegods, silgods", match: /ristegods|silgods/i },
     { box: 39, label: "Blandet", match: /blandet|mixed/i },
-    { box: 40, label: "Annet", match: /^$/ },
   ];
-  const matrix = m.matrixType ?? "";
-  const hit = MATRIX_CHECKBOX.find(c => c.match.test(matrix));
-  for (const c of MATRIX_CHECKBOX) {
+  const ANNET_BOX = 40;
+  const matrix = (m.matrixType ?? "").trim();
+  const named = matrix ? MATRIX_CHECKBOX.find(c => c.match.test(matrix)) : undefined;
+  // Only fall back to "Annet" for a matrix we actually read; an unknown matrix ticks nothing.
+  const ticked = named ? named.box : matrix ? ANNET_BOX : null;
+
+  for (const c of [...MATRIX_CHECKBOX, { box: ANNET_BOX, label: "Annet", match: /$^/ }]) {
+    const isTicked = ticked === c.box;
     fields.push({
       field: `Checkbox${c.box}`,
-      // "Avfallstype (materiale)" rather than plain "Avfallstype": part 3 already has an
-      // "Avfallstype" column (ordinært / inert / farlig). Sharing the label made the two
-      // impossible to tell apart in the field list.
       label: `Avfallstype (materiale): ${c.label}`,
-      src: hit ? "extracted" : "human",
-      check: hit?.box === c.box,
-      ...(hit?.box === c.box ? cite(s, "matrixType") : {}),
-      note: hit ? (hit.box === c.box ? `from matrixType "${matrix}"` : undefined)
-                : `GAP: matrixType "${matrix}" matched none of the form's waste types`,
+      src: matrix ? "extracted" : "human",
+      check: isTicked,
+      ...(isTicked ? cite(s, "matrixType") : {}),
+      note: !matrix
+        ? "GAP: no matrix/material type was read from the document"
+        : isTicked && c.box === ANNET_BOX
+          ? `matrixType "${matrix}" is not one of the form's listed waste types, so "Annet" is ticked`
+          : isTicked
+            ? `from matrixType "${matrix}"`
+            : undefined,
     });
   }
 

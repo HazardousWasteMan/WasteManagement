@@ -297,3 +297,98 @@ summary counts "Still blank" so it is obvious what remains.
 
 Telephone is deliberately left blank rather than filled from the report: the only numbers on a
 Eurofins report are Eurofins's own, and the schema tells the extractor not to use them.
+
+---
+
+# Part 4 — the two part-4 columns, and a second real report
+
+Felix pointed at the two columns the forms were leaving entirely blank: **Avfallets fysiske
+egenskaper** and **Har avfallet vært forbehandlet?**. A second report came with the question —
+`Asfaltprøver forurensede masser 4 av 4.pdf`, four asphalt sub-reports, and unlike the Alta bundle
+it has a real text layer.
+
+## Pre-treatment is not in a lab report, and the one thing that looks like it is a trap
+
+The Alta report has a row that reads exactly like an answer:
+
+```
+Homogenisering, knusing    1.0    SS-EN 15002:2015
+```
+
+**SS-EN 15002** is *"Characterization of waste — Preparation of test portions from the laboratory
+sample."* It is the laboratory crushing a sub-sample so it can be analysed. It says nothing about
+whether the waste stream was ever crushed, sorted, burned or treated. Ticking "Oppmaling /
+kverning" from that row would put a false statement on a signed regulatory declaration — and it is
+exactly the inference an extractor will make if left to its own devices.
+
+The asphalt report contains no such row at all, and states its own limit outright:
+
+> Resultater gjelder prøven slik den ble mottatt hos laboratoriet.
+
+So the column is genuinely underivable. The first attempt was to ask for it anyway, with the
+SS-EN 15002 case named explicitly in the field description as *not* an answer.
+
+**That did not work, and the failure is the finding.** Re-running the Alta bundle with that schema
+returned `forbehandling: "Oppmaling / kverning"` on **four of the six** sub-reports:
+
+| sub-report | lab-prep row in its results | returned |
+|---|---|---|
+| ENAT-BØF1-MK11 | no | — |
+| ENAT-BØF1-BO9OB1 | **no** | **Oppmaling / kverning** |
+| ENAT-BØF1-BO96B1 | yes | Oppmaling / kverning |
+| ENAT-BØF1-BO97B1 | yes | Oppmaling / kverning |
+| ENAT-BØF1-BO98B1 | yes | Oppmaling / kverning |
+| ENAT-BØF1-MK01 | no | — |
+
+Note row two: it asserted the waste had been crushed on a sub-report where no such row appears in
+its own extracted results at all. The asphalt report returned nothing only because it lacks the
+row, not because the instruction held.
+
+So the question was removed from the schema entirely. Part 4's forbehandling column is a person's
+to answer, and a blank field is honest where a confabulated one is a false statement on a signed
+declaration. Two tests pin this: the schema must not offer a `forbehandling` property, and a
+"Homogenisering, knusing" row present in the results must leave all six boxes clear. Re-adding it
+needs a better answer than a stronger prompt.
+
+The general lesson, worth carrying to other fields: for a value that is genuinely absent from the
+source, "ask and instruct it not to guess" is not a control. The model fills the slot because the
+slot is there. Not offering the slot is the control.
+
+## Physical form is partly derivable, and we were not asking at all
+
+The old schema asked for `fysisk_form` as "fast, flytende eller pulver" — three values against a
+form that offers six, none of them "fast". Even a liquid sample therefore ticked nothing.
+
+The physical-form column now mirrors the form's own six options as a schema `enum`, the same trick
+used for `analyte_id`, so mapping is a string compare and Datalab decides from the report text
+with a citation. It is described as report-only, with instructions to omit rather than guess, and
+has returned empty on all ten sub-reports tried across both reports — correct in every case, but
+given what `forbehandling` did, treat that as unproven rather than safe. On the asphalt report it
+came back empty, correctly: "Prøvetype: Asfalt" is a *material*, and says
+nothing about whether the delivery arrives as a monolithic core or crushed heterogeneous masses.
+
+The coarse solid/liquid/powder the hazard engine needs moved to its own `fysisk_tilstand` field,
+so the two purposes stop fighting over one value.
+
+## The asphalt report also fixed a hole in the waste-type column
+
+| | |
+|---|---|
+| sub-reports | 4 (ASF1–ASF4), one form each |
+| pages | 8, with a text layer |
+| EAL | `17 03 02` — bituminous mixtures, non-hazardous |
+| rows | 40 each |
+| cost | 19 cents, 79 s |
+
+`matrixType` came back "Asfalt", and the form's waste-type list has no asphalt row — so all ten
+boxes stayed blank with a "matched none" note. "Annet" is the right answer there, and is now the
+fallback for any matrix the form does not name. A matrix that was never read still ticks nothing,
+which a latent bug had got wrong: the old catch-all regex `/^$/` matched the empty string, so an
+unread matrix would have ticked "Annet".
+
+## What still cannot be filled, and why that is the correct answer
+
+Organisasjonsnummer, transporter, waste origin, pre-treatment, colour and odour are not in a lab
+report and are not inferable from one. They are editable in the UI, and the summary counts them as
+"Still blank". The alternative — plausible defaults — would produce a form that looks complete and
+is partly invented, on a document someone signs.

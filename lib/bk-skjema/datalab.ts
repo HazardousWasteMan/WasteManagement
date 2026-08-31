@@ -303,7 +303,25 @@ export function buildBkPageSchema(): object {
       toc_prosent: { type: "number", description: "TOC (totalt organisk karbon) i prosent. Kun hvis faktisk målt" },
       glodetap_prosent: { type: "number", description: "Glødetap i prosent. Kun hvis faktisk målt" },
       ph: { type: "number", description: "pH hvis målt" },
-      fysisk_form: { type: "string", description: "Prøvens fysiske form: fast, flytende eller pulver" },
+      // Mirrors BK-skjema part 4's own options so the mapping is a string compare, and is
+      // described as report-only: the physical form of a *delivery* is a fact about the waste
+      // stream, not the analysed sample. Eurofins says as much — "Resultater gjelder prøven slik
+      // den ble mottatt hos laboratoriet". Returned empty on all ten sub-reports tried so far,
+      // which is the correct answer for both of them; watch for it starting to guess.
+      //
+      // There is deliberately NO "forbehandling" field here. Part 4's "Har avfallet vært
+      // forbehandlet?" is not in a lab report, and asking produced a false answer four times out
+      // of six on the Alta bundle — "Oppmaling / kverning", off the back of the lab's own
+      // "Homogenisering, knusing" (SS-EN 15002, preparation of a test portion from the laboratory
+      // sample), and once with no such row in its results at all. An explicit instruction not to
+      // do this did not stop it. The column is left to a person: a blank field is honest, a
+      // confabulated one is a false statement on a signed declaration. See bk/FINDINGS.md part 4.
+      fysisk_form: {
+        type: "string",
+        enum: ["Pulver", "Flytende", "Stor gjenstand (monolittisk)", "Sammensatt / heterogent", "Ensartet / homogent", "Annet"],
+        description: "Avfallets fysiske egenskaper, KUN hvis rapporten faktisk beskriver formen (f.eks. flytende prøve, pulver, oppborret kjerne). Prøvetype/materiale alene (Betong, Asfalt, Jord) sier ingenting om fysisk form — utelat feltet helt i så fall. Ikke gjett.",
+      },
+      fysisk_tilstand: { type: "string", description: "Er prøven fast, flytende eller pulver? Brukes til fareklassifisering. Svar 'fast' hvis rapporten ikke sier noe annet" },
       ristetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en ristetest (utlekkingstest)" },
       kolonnetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en kolonnetest" },
       analyseresultater: {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { bkFromDatalab, resolveCitations } from "@/lib/bk-skjema/from-datalab";
-import { flattenBlocks, narrowCitation, parseRegions } from "@/lib/bk-skjema/datalab";
+import { flattenBlocks, narrowCitation, parseRegions, buildBkPageSchema } from "@/lib/bk-skjema/datalab";
 import { bkSection } from "@/lib/bk-skjema/form-map";
 
 // Shaped exactly like a real /convert json tree: nested children, ids that encode the page.
@@ -105,11 +105,61 @@ describe("bkFromDatalab", () => {
       .toEqual(["Avfallstype (materiale): Betong eller tegl"]);
   });
 
-  it("flags an unrecognised matrix rather than silently ticking nothing", () => {
-    const { fields } = bkFromDatalab(datalabPayload({ matrise: "Kryptonitt" }), blocks, ORIGIN);
-    const row = fields.find(f => f.label.startsWith("Avfallstype (materiale):"))!;
-    expect(row.src).toBe("human");
-    expect(row.note).toMatch(/matched none/);
+  it("puts a matrix the form does not list under \"Annet\" rather than leaving the column blank", () => {
+    // Real case: the form's waste-type list has no row for asphalt, and "Asfalt" is exactly what
+    // the Eurofins asphalt report states. "Annet" is the right answer, not an empty column.
+    const { fields } = bkFromDatalab(datalabPayload({ matrise: "Asfalt" }), blocks, ORIGIN);
+    const ticked = fields.filter(f => f.label.startsWith("Avfallstype (materiale):") && f.check);
+    expect(ticked.map(f => f.label)).toEqual(["Avfallstype (materiale): Annet"]);
+    expect(ticked[0].note).toMatch(/not one of the form's listed waste types/);
+  });
+
+  it("ticks nothing in that column when no matrix was read at all", () => {
+    const payload = datalabPayload();
+    delete (payload as Record<string, unknown>).matrise;
+    const { fields } = bkFromDatalab(payload, blocks, ORIGIN);
+    const column = fields.filter(f => f.label.startsWith("Avfallstype (materiale):"));
+    expect(column.every(f => !f.check)).toBe(true);
+    expect(column[0].src).toBe("human");
+  });
+
+  it("does not ask the extractor about pre-treatment at all", () => {
+    // Asking produced "Oppmaling / kverning" on four of six Alta sub-reports — inferred from the
+    // lab's own "Homogenisering, knusing" (SS-EN 15002, test-portion preparation), and on one
+    // sub-report with no such row in its results whatsoever. An explicit instruction not to do
+    // this did not stop it, so the question is gone: part 4's forbehandling column is a person's
+    // to answer. Re-adding it needs a better answer than a stronger prompt.
+    const props = (buildBkPageSchema() as { properties: Record<string, unknown> }).properties;
+    expect(props).not.toHaveProperty("forbehandling");
+    expect(props).toHaveProperty("fysisk_form");
+  });
+
+  it("does not read the lab's own sample prep as pre-treatment of the waste", () => {
+    // The Alta report lists "Homogenisering, knusing" with method SS-EN 15002:2015 — that is
+    // preparation of a test portion from the laboratory sample, not treatment of the waste
+    // stream. Ticking "Oppmaling / kverning" off the back of it would be a category error, so the
+    // column stays clear unless the extraction actually returned a forbehandling value.
+    const payload = datalabPayload();
+    (payload.analyseresultater as Record<string, unknown>[]).push({
+      parameter: "Homogenisering, knusing", verdi: 1, under_loq: false, loq: null, enhet: "SS-EN 15002:2015",
+    });
+    const { fields } = bkFromDatalab(payload, blocks, ORIGIN);
+    const column = fields.filter(f => f.label.startsWith("Forbehandlet:"));
+    expect(column).toHaveLength(6);
+    expect(column.every(f => !f.check)).toBe(true);
+    expect(column.find(f => f.label.includes("Oppmaling"))!.note).toMatch(/SS-EN 15002/);
+  });
+
+  it("ticks the physical form only when the report actually stated one", () => {
+    const blank = bkFromDatalab(datalabPayload(), blocks, ORIGIN).fields
+      .filter(f => f.label.startsWith("Fysiske egenskaper:"));
+    expect(blank).toHaveLength(6);
+    expect(blank.every(f => !f.check)).toBe(true);
+
+    const stated = bkFromDatalab(datalabPayload({ fysisk_form: "Flytende" }), blocks, ORIGIN).fields
+      .filter(f => f.label.startsWith("Fysiske egenskaper:") && f.check);
+    expect(stated.map(f => f.label)).toEqual(["Fysiske egenskaper: Flytende"]);
+    expect(stated[0].src).toBe("extracted");
   });
 
   it("covers all 103 form fields and gives every derived field something to point at", () => {

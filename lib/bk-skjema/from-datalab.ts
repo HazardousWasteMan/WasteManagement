@@ -92,7 +92,9 @@ export function bkFromDatalab(
     };
   });
 
-  const physical = (str(data.fysisk_form) ?? "").toLowerCase();
+  // fysisk_form now carries one of the form's six option strings; the coarse solid/liquid/powder
+  // the hazard engine needs comes from fysisk_tilstand, defaulting to solid.
+  const physical = ((str(data.fysisk_tilstand) ?? str(data.fysisk_form)) ?? "").toLowerCase();
   const physicalState: SampleMetadata["physicalState"] =
     /flyt|liquid/.test(physical) ? "liquid" : /pulver|powder/.test(physical) ? "powder" : "solid";
 
@@ -149,6 +151,8 @@ export function bkFromDatalab(
       receiptDate: metadata.receiptDate,
       physicalState: metadata.physicalState,
       pickupLocation: str(data.hentested),
+      physicalForm: str(data.fysisk_form),
+      pretreatment: str(data.forbehandling),
       address: str(data.oppdragsgiver_adresse),
       postCode: str(data.oppdragsgiver_postnummer),
       postArea: str(data.oppdragsgiver_poststed),
@@ -171,6 +175,8 @@ export function bkFromDatalab(
       samplingDate: citationsFor("provetakingsdato", metadata.samplingDate),
       receiptDate: citationsFor("mottaksdato", metadata.receiptDate),
       pickupLocation: citationsFor("hentested", str(data.hentested)),
+      physicalForm: citationsFor("fysisk_form", str(data.fysisk_form)),
+      pretreatment: citationsFor("forbehandling", str(data.forbehandling)),
       address: citationsFor("oppdragsgiver_adresse", str(data.oppdragsgiver_adresse)),
       postCode: citationsFor("oppdragsgiver_postnummer", str(data.oppdragsgiver_postnummer)),
       postArea: citationsFor("oppdragsgiver_poststed", str(data.oppdragsgiver_poststed)),
