@@ -17,7 +17,7 @@ import compoundFormsRaw from "@/lib/data/element-compound-forms.json";
 
 GlobalWorkerOptions.workerSrc = path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs");
 
-const PDF = "bk/analyse-eurofins-betong.pdf";
+const PDF = "public/samples/analyse-eurofins-betong.pdf";
 const GOLD_SAMPLE = "439-2025-10080994"; // lab Prøvenr. of ENAT-BØF1-BO9OB1, the sub-report fixtures/eurofins-concrete-sample.json transcribes
 
 test("extract + classify the Eurofins concrete report", async () => {

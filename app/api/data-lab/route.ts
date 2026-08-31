@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { convertDocument, extractStructured, buildBkPageSchema } from "@/lib/bk-skjema/datalab";
-import { bkFromDatalab } from "@/lib/bk-skjema/from-datalab";
+import { analyseBundle, citedBlocks } from "@/lib/bk-skjema/analyse-bundle";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
 
 // Datalab parses and extracts server-side; both are polled. Comfortable margin under Vercel's cap.
@@ -10,10 +9,9 @@ const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 const VALID_ORIGINS = new Set(ORIGIN_OPTIONS.map(o => o.value));
 
 /**
- * Streams NDJSON rather than returning a single JSON body. The work is two sequential Datalab
- * calls that together take 30-75s, and without progress events the client can only show an
- * unchanging "working" message for over a minute. Streaming lets it name the phase it is
- * actually in instead of guessing from a timer.
+ * Streams NDJSON rather than returning a single JSON body. A bundled report is one convert plus one
+ * extract per sub-report, which together run for minutes, and each finished sub-report is useful
+ * immediately. Streaming lets the UI show the first form while the rest are still extracting.
  *
  * One consequence: once the first event is written the status code is already 200, so failures
  * after that point arrive as a {phase:"error"} event rather than an HTTP error. Validation
@@ -60,33 +58,19 @@ export async function POST(request: NextRequest) {
       const send = (event: Record<string, unknown>) =>
         controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
       try {
-        send({ phase: "converting" });
-        // Convert with save_checkpoint, then extract against the checkpoint: the document is
-        // parsed (and billed) once, and the block tree is what makes citations resolvable.
-        const converted = await convertDocument(pdf, filename, { pageRange });
-
-        send({ phase: "extracting", pageCount: converted.pageCount, costCents: converted.costCents });
-        const extracted = await extractStructured(
-          buildBkPageSchema(),
-          converted.checkpointId ? { checkpointId: converted.checkpointId } : { pdf, filename },
-          { pageRange }
-        );
-
-        const result = bkFromDatalab(extracted.data, converted.blocks, originProcess);
+        // Forwards analyseBundle's own progress: convert, then the sub-reports it found, then each
+        // extracted form as it lands, so the first sample is usable before the last finishes.
+        const analysis = await analyseBundle(pdf, filename, {
+          originProcess,
+          pageRange,
+          onEvent: event => send(event as unknown as Record<string, unknown>),
+        });
         send({
           phase: "done",
-          result: {
-            fields: result.fields,
-            metadata: result.source.metadata,
-            results: result.source.results,
-            classification: result.classification,
-            unmatchedAnalytes: result.unmatchedAnalytes,
-            pages: converted.pages,
-            pageCount: converted.pageCount,
-            blocks: converted.blocks,
-            raw: extracted.data,
-            costCents: converted.costCents + extracted.costCents,
-          },
+          blocks: citedBlocks(analysis.samples, analysis.blocks),
+          costCents: analysis.costCents,
+          pageCount: analysis.pageCount,
+          pages: analysis.pages,
         });
       } catch (err) {
         console.error("Data Lab extraction failed:", err);

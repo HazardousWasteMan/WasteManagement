@@ -7,7 +7,7 @@ import { convertDocument, extractStructured, buildBkPageSchema } from "@/lib/bk-
 import { bkFromDatalab } from "@/lib/bk-skjema/from-datalab";
 import { fillBkPdf, summarizeCoverage, BK_BLANK_FORM_PATH } from "@/lib/bk-skjema/fill-pdf";
 
-const PDF = "bk/analyse-eurofins-betong.pdf";
+const PDF = "public/samples/analyse-eurofins-betong.pdf";
 const PAGE_RANGE = "2-4";            // the ENAT-BØF1-BO9OB1 concrete sub-report
 const ORIGIN = "concrete, brick, tile, or ceramic waste";
 

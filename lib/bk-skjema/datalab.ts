@@ -286,6 +286,13 @@ export function buildBkPageSchema(): object {
       laboratorium: { type: "string", description: "Navnet på laboratoriet som utførte analysen, slik det står i rapporthodet" },
       oppdragsgiver: { type: "string", description: "Kunden/oppdragsgiver som bestilte analysen" },
       avfallsprodusent: { type: "string", description: "Avfallsprodusent hvis oppgitt særskilt, ellers samme som oppdragsgiver" },
+      // The customer address block on a Eurofins report carries most of BK-skjema part 2.
+      oppdragsgiver_adresse: { type: "string", description: "Oppdragsgivers gateadresse eller postboks, fra adressefeltet øverst i rapporten. Kun gate/postboks, ikke postnummer eller poststed" },
+      oppdragsgiver_postnummer: { type: "string", description: "Oppdragsgivers postnummer, fire siffer" },
+      oppdragsgiver_poststed: { type: "string", description: "Oppdragsgivers poststed" },
+      kontaktperson: { type: "string", description: "Navngitt kontaktperson hos oppdragsgiver, f.eks. etter 'Attn:'. Bare personnavn" },
+      kontaktperson_epost: { type: "string", description: "E-postadressen som tilhører kontaktpersonen. Utelat feltet hvis rapporten ikke knytter en e-post til nettopp denne personen — ikke bruk laboratoriets egen e-post eller en generisk adresse" },
+      kontaktperson_telefon: { type: "string", description: "Telefonnummer til oppdragsgiver eller kontaktpersonen. Utelat feltet hvis bare laboratoriets eget telefonnummer står i rapporten" },
       provemerking: { type: "string", description: "Kundens egen prøvemerking/prøveidentifikasjon, IKKE laboratoriets interne prøvenummer" },
       provenummer: { type: "string", description: "Laboratoriets eget prøvenummer, f.eks. 439-2025-10080994" },
       hentested: { type: "string", description: "Sted/lokalitet prøven er tatt fra, f.eks. prosjektnavn eller adresse" },

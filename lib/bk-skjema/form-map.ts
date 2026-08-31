@@ -68,6 +68,13 @@ export interface BkSource {
     physicalState?: string | null;
     /** Site the waste is collected from, when the document happens to carry it. */
     pickupLocation?: string | null;
+    /** Producer address block — present on most lab reports, as the customer address. */
+    address?: string | null;
+    postCode?: string | null;
+    postArea?: string | null;
+    contactPerson?: string | null;
+    contactEmail?: string | null;
+    contactPhone?: string | null;
     /** Organic content, when measured. Both are commonly absent from a lab report. */
     tocPct?: number | null;
     glodetapPct?: number | null;
@@ -135,12 +142,19 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "TextField6", label: "Avfallsprodusent", src: "extracted",
       value: m.producerName ?? m.customerName ?? undefined, ...cite(s, "customerName") },
     { field: "TextField7", label: "Organisasjonsnummer", src: "human", note: "not present in a lab report" },
-    { field: "TextField8", label: "Adresse", src: "human" },
-    { field: "TextField11", label: "Postnummer", src: "human" },
-    { field: "TextField14", label: "Poststed", src: "human" },
-    { field: "TextField9", label: "Kontaktperson", src: "human" },
-    { field: "TextField12", label: "Telefon (produsent)", src: "human" },
-    { field: "TextField15", label: "e-post (produsent)", src: "human" },
+    { field: "TextField8", label: "Adresse", src: m.address ? "extracted" : "human",
+      value: m.address ?? undefined, ...cite(s, "address") },
+    { field: "TextField11", label: "Postnummer", src: m.postCode ? "extracted" : "human",
+      value: m.postCode ?? undefined, ...cite(s, "postCode") },
+    { field: "TextField14", label: "Poststed", src: m.postArea ? "extracted" : "human",
+      value: m.postArea ?? undefined, ...cite(s, "postArea") },
+    { field: "TextField9", label: "Kontaktperson", src: m.contactPerson ? "extracted" : "human",
+      value: m.contactPerson ?? undefined, ...cite(s, "contactPerson") },
+    { field: "TextField12", label: "Telefon (produsent)", src: m.contactPhone ? "extracted" : "human",
+      value: m.contactPhone ?? undefined, ...cite(s, "contactPhone"),
+      note: m.contactPhone ? undefined : "not stated for the producer — a lab report carries the lab's own number" },
+    { field: "TextField15", label: "e-post (produsent)", src: m.contactEmail ? "extracted" : "human",
+      value: m.contactEmail ?? undefined, ...cite(s, "contactEmail") },
     { field: "TextField10", label: "Transportør/Entreprenør", src: "human", note: "never in a lab report by nature" },
     { field: "TextField13", label: "Telefon (transportør)", src: "human" },
     { field: "TextField16", label: "e-post (transportør)", src: "human" },

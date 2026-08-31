@@ -21,7 +21,7 @@ export function DocumentPane({
   highlights,
   blocks,
 }: {
-  file: File;
+  file: Blob;
   pages: DatalabPage[];
   highlights: Highlight[];
   blocks: Record<string, DatalabBlock>;

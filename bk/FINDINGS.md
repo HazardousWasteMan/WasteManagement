@@ -230,3 +230,70 @@ pnpm dev                                   # then open /data-lab
 ```
 
 `DATALAB_API_KEY` must be set in `.env.local` (it is gitignored).
+
+---
+
+# Part 3 — one form per chemical test, and completing the rest by hand
+
+## The bundle holds six tests, not five
+
+The Alta PDF was described in the specs as five sub-reports. Detection over the converted blocks
+finds **six** distinct Prøvenr., and page 15 is a genuine sixth: its own report number
+`AR-25-MM-115718-01`, sample `439-2025-10081002`, marking `ENAT-BØF1-MK01`, analysed by
+**DS 259:2003** and — unlike every other sub-report — quoting results in `mg/kg`, not `mg/kg TS`.
+That is the "different measurement basis" sample the fixture spec mentions. Nine analytes, which
+matches what the extraction returns for it.
+
+`docs/superpowers/specs/2026-08-13-eurofins-concrete-fixture-design.md` says five. It also says
+the gold sample resolves to EAL `17 01 07` where the test asserts `17 01 01`. Treat that spec as
+stale on both counts.
+
+| pages | matrix | marking | rows |
+|---|---|---|---:|
+| 0–1 | Aske Asfalt | ENAT-BØF1-MK11 | 40 |
+| 2–4 | Betong | ENAT-BØF1-BO9OB1 | 50 |
+| 5–7 | Betong | ENAT-BØF1-BO96B1 | 50 |
+| 8–10 | Betong | ENAT-BØF1-BO97B1 | 46 |
+| 11–13 | Betong | ENAT-BØF1-BO98B1 | 50 |
+| 14 | Betong (DS 259) | ENAT-BØF1-MK01 | 9 |
+
+## Splitting is what made it fast, not just correct
+
+Sub-reports are detected from the already-converted block text — every one repeats a
+`Prøvenr.: <id>` header row, and pages sharing an id belong together — so detection costs nothing
+extra. Each is then extracted against the shared checkpoint with its own `page_range`, four at a
+time.
+
+The whole document as one extraction took **4.3 minutes** and produced one form with five samples
+blended into it. Six separate extractions of the same document take **89 seconds** and produce six
+correct forms, for 11 cents. Datalab's guidance — "use page ranges and document segmentation to
+improve speed and accuracy" — understates it: the split is what makes the output usable at all,
+because one BK-skjema describes one delivery.
+
+The UI switches between them as tabs. Each tab is an independent form with its own filled PDF,
+its own citations, and only its own pages in the document pane.
+
+## Loading on a real result
+
+`public/data-lab-seed.json` (572 KB) holds the analysed Alta bundle, so the tab opens on six
+finished forms instead of an empty dropzone. It is built by `bk/build-seed.test.ts` calling the
+same `analyseBundle` a live upload calls, so the demo cannot drift from real behaviour. Blocks are
+trimmed to only those some citation refers to — 27 of several hundred.
+
+## Filling in the rest
+
+Two things were conflated in "the form is mostly blank", and they needed different answers.
+
+**Some of it was in the document and we weren't asking.** The customer address block on a Eurofins
+report carries most of BK-skjema part 2 — Adresse, Postnummer, Poststed and the `Attn:` contact.
+The schema now asks for those, and they extract with citations like any other field.
+
+**The rest genuinely is not in a lab report,** and this is a regulatory declaration someone signs.
+Organisasjonsnummer, transporter, waste origin, physical form, pre-treatment, colour and odour are
+not in the document, and inventing them would be fabricating a compliance record. So instead of
+guessing, the fields are now **editable**: every "You fill in" field is a real input in the field
+list, typed values flow into the PDF, and a marker appears on the form as each is completed. The
+summary counts "Still blank" so it is obvious what remains.
+
+Telephone is deliberately left blank rather than filled from the report: the only numbers on a
+Eurofins report are Eurofins's own, and the schema tells the extractor not to use them.
