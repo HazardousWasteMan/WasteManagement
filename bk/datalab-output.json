@@ -25,12 +25,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod.",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            627.5,
+            935.5,
+            666
           ]
         }
       ]
@@ -46,12 +46,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            666,
+            935.5,
+            722.5
           ]
         }
       ]
@@ -67,12 +67,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            722.5,
+            935.5,
+            779
           ]
         }
       ]
@@ -88,12 +88,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            779,
+            935.5,
+            836.5
           ]
         }
       ]
@@ -109,12 +109,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            836.5,
+            935.5,
+            890
           ]
         }
       ]
@@ -130,12 +130,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            890,
+            935.5,
+            948
           ]
         }
       ]
@@ -151,12 +151,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            948,
+            935.5,
+            1006
           ]
         }
       ]
@@ -172,12 +172,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            1006,
+            935.5,
+            1058
           ]
         }
       ]
@@ -193,12 +193,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            1058,
+            935.5,
+            1115.5
           ]
         }
       ]
@@ -214,12 +214,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            1115.5,
+            935.5,
+            1139
           ]
         }
       ]
@@ -235,12 +235,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            1139,
+            935.5,
+            1161.5
           ]
         }
       ]
@@ -260,7 +260,7 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         }
@@ -281,7 +281,7 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         }
@@ -302,7 +302,7 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         }
@@ -323,7 +323,7 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         }
@@ -345,7 +345,7 @@
             21,
             127,
             1031,
-            1273
+            1274
           ]
         }
       ]
@@ -361,12 +361,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            181.5,
+            930.8,
+            237.5
           ]
         }
       ]
@@ -387,7 +387,7 @@
             21,
             127,
             1031,
-            1273
+            1274
           ]
         }
       ]
@@ -408,7 +408,7 @@
             21,
             127,
             1031,
-            1273
+            1274
           ]
         }
       ]
@@ -429,7 +429,7 @@
             21,
             127,
             1031,
-            1273
+            1274
           ]
         }
       ]
@@ -450,7 +450,7 @@
             21,
             127,
             1031,
-            1273
+            1274
           ]
         }
       ]
@@ -466,12 +466,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            364.5,
+            930.8,
+            390.5
           ]
         }
       ]
@@ -487,12 +487,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            390.5,
+            930.8,
+            415
           ]
         }
       ]
@@ -526,12 +526,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            510,
+            930.8,
+            548.5
           ]
         }
       ]
@@ -547,12 +547,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            548.5,
+            930.8,
+            586.5
           ]
         }
       ]
@@ -568,12 +568,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            586.5,
+            930.8,
+            623
           ]
         }
       ]
@@ -589,12 +589,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            623,
+            930.8,
+            660
           ]
         }
       ]
@@ -610,12 +610,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            660,
+            930.8,
+            697
           ]
         }
       ]
@@ -631,12 +631,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            697,
+            930.8,
+            734.5
           ]
         }
       ]
@@ -652,12 +652,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            734.5,
+            930.8,
+            773.5
           ]
         }
       ]
@@ -673,12 +673,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            773.5,
+            930.8,
+            808
           ]
         }
       ]
@@ -694,12 +694,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            808,
+            930.8,
+            845
           ]
         }
       ]
@@ -715,12 +715,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            845,
+            930.8,
+            884
           ]
         }
       ]
@@ -736,12 +736,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            884,
+            930.8,
+            921
           ]
         }
       ]
@@ -757,12 +757,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            921,
+            930.8,
+            959
           ]
         }
       ]
@@ -778,12 +778,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            959,
+            930.8,
+            994
           ]
         }
       ]
@@ -799,12 +799,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            994,
+            930.8,
+            1034
           ]
         }
       ]
@@ -820,12 +820,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1034,
+            930.8,
+            1069
           ]
         }
       ]
@@ -850,12 +850,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1150,
+            930.8,
+            1203.5
           ]
         }
       ]
@@ -871,12 +871,12 @@
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         }
       ]
@@ -892,12 +892,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            133.5,
+            930.5,
+            189
           ]
         }
       ]
@@ -913,12 +913,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            189,
+            930.5,
+            244
           ]
         }
       ]
@@ -934,12 +934,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            244,
+            930.5,
+            297.5
           ]
         }
       ]
@@ -955,12 +955,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            297.5,
+            930.5,
+            352
           ]
         }
       ]
@@ -976,12 +976,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            352,
+            930.5,
+            405.5
           ]
         }
       ]
@@ -997,12 +997,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            405.5,
+            930.5,
+            460.5
           ]
         }
       ]
@@ -1027,12 +1027,12 @@
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1169,12 +1169,12 @@
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            554.5,
+            935.5,
+            577
           ]
         }
       ],
@@ -1266,30 +1266,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1307,30 +1307,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1348,30 +1348,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1389,30 +1389,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1430,30 +1430,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1471,30 +1471,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1585,30 +1585,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1627,30 +1627,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1668,30 +1668,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1709,30 +1709,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1750,30 +1750,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1791,30 +1791,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1832,30 +1832,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1874,30 +1874,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1915,30 +1915,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -1957,30 +1957,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2015,30 +2015,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2057,30 +2057,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2104,30 +2104,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2286,30 +2286,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2328,30 +2328,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2370,30 +2370,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2412,30 +2412,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2454,30 +2454,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2496,30 +2496,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2549,30 +2549,30 @@
           "bbox": [
             24,
             500,
-            1037,
+            1036,
             1277
           ]
         },
         {
           "blockId": "/page/3/Table/3",
           "page": 3,
-          "text": "a) Alifater &gt;C16-C35 520 mg/kg TS 10 30% SPI 2011 a) Sum alifater C5-C35 og C12-C35 a) Alifater C5-C35 670 mg/kg TS 20 Internal Method Calculated from analyzed value a) Alifater &gt;C12-C35 670 mg/kg TS 8 Internal Method Calculated from analyzed value a)* Aromater &gt;C8-C10 &lt; 4.0 mg/kg TS 4 SPI 2011 a) Aromater &gt;C10-C16 4.7 mg/kg TS 0.9 35% SPI 2011 a) Aromater &gt;C16-C35 &lt; 0.50 mg/kg TS 1 TK 535 N 012 a) Methylchrysener/benzo(a)anthracener &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a) Methylpyrene/fluoranthene &lt; 0.50 mg/kg TS 0.5 TK 535 N 012 a)* Alifater Oljetype a)* Oljetype &lt; C10 Utgår Kalkulering a)* Oljetype &gt; C10 lett gasolj Kalkulering a) PAH(16) a) Benzo[a]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Krysen/Trifenylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo(b,k)fluoranten &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Benzo[a]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Indeno[1,2,3-cd]pyren &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Dibenzo[a,h]antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Naftalen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaftylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Acenaften &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoren 76 µg/kg TS 30 35% SS-ISO 18287:2008, mod a) Fenantren 320 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Antracen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a) Fluoranten 38 µg/kg TS 30 30% SS-ISO 18287:2008, mod a) Pyren 57 µg/kg TS 30 25% SS-ISO 18287:2008, mod a) Benzo[ghi]perylen &lt;30 µg/kg TS 30 SS-ISO 18287:2008, mod a)* Summeringer PAH a)* Sum karsinogene PAH nd Internal Method Calculated from analyzed value a)* Sum PAH(16) EPA 490 µg/kg TS Internal Method Calculated from analyzed value a) PCB(7) a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
+          "text": "a) PCB 28 &lt;1.5 µg/kg TS 1.5 SS-EN 16167:2018+AC:2019",
           "bbox": [
-            21,
-            127,
-            1031,
-            1273
+            33.2,
+            1225,
+            930.8,
+            1268.8
           ]
         },
         {
           "blockId": "/page/4/Table/3",
           "page": 4,
-          "text": "a) PCB 52 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 101 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 118 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 138 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 153 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) PCB 180 &lt;1.5 µg/kg TS 1.5 mod. SS-EN 16167:2018+AC:2019 a) Sum 7 PCB nd mod. SS-EN 16167:2018+AC:2019 b) Forbehandling knusing/kverning b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
+          "text": "b) Homogenisering, knusing 1.0 SS-EN 15002:2015",
           "bbox": [
-            21,
-            129,
-            1033,
-            580
+            34.5,
+            554.5,
+            930.5,
+            578.5
           ]
         }
       ]
@@ -2658,43 +2658,43 @@
     },
     {
       "field": "Checkbox19",
-      "label": "Avfallstype: Jord og sediment som er forurenset",
+      "label": "Avfallstype (materiale): Jord og sediment som er forurenset",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox20",
-      "label": "Avfallstype: Gravemasser som inneholder avfall",
+      "label": "Avfallstype (materiale): Gravemasser som inneholder avfall",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox21",
-      "label": "Avfallstype: Gateoppsop og strøsand",
+      "label": "Avfallstype (materiale): Gateoppsop og strøsand",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox22",
-      "label": "Avfallstype: Sandfangmasser",
+      "label": "Avfallstype (materiale): Sandfangmasser",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox23",
-      "label": "Avfallstype: Betong eller tegl",
+      "label": "Avfallstype (materiale): Betong eller tegl",
       "src": "extracted",
       "check": true,
       "citations": [
         {
           "blockId": "/page/2/Table/11",
           "page": 2,
-          "text": "Prøvenr.: 439-2025-10080994 Prøvetakingsdato: 07.10.2025 Prøvetype: Betong Prøvetaker: Oppdragsgiver Prøvermerking: ENAT-BØF1-BO9OB1 Analysestartdato: 08.10.2025 Analyse Resultat Enhhet LOQ MU Metode a) Tørrstoff i jord a) Tørrstoff 94.6 % 0.1 10% SS-EN 12880:2000 mod. a) Arsen (As) 1.8 mg/kg TS 0.95 30% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Bly (Pb) 3.3 mg/kg TS 0.95 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Kadmium (Cd) &lt; 0.20 mg/kg TS 0.2 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kobber (Cu) 13 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Krom (Cr) 15 mg/kg TS 0.48 35% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Kvikksølv (Hg) &lt; 0.0096 mg/kg TS 0.0096 SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Nikkel (Ni) 9.4 mg/kg TS 0.48 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a)* Sink (Zn) 41 mg/kg TS 2.1 25% SS 28311:2017mod/SS-EN ISO 17294-2:2023 a) Krom (VI) 1.6 mg/kg TS 0.21 40% ISO 15192:2010 a) Alifater C5-C6 &lt; 7.0 mg/kg TS 7 SPI 2011 a) Alifater &gt;C6-C8 &lt; 7.0 mg/kg TS 7 SPI 2011 a)* Alifater &gt;C8-C10 &lt; 3.0 mg/kg TS 3 SPI 2011 a) Alifater &gt;C10-C12 &lt; 5.0 mg/kg TS 5 SPI 2011 a) Alifater &gt;C12-C16 150 mg/kg TS 5 30% SPI 2011",
+          "text": "Prøvetype: Betong Prøvetaker: Oppdragsgiver",
           "bbox": [
-            24,
-            500,
-            1037,
-            1277
+            34.5,
+            532,
+            935.5,
+            554.5
           ]
         }
       ],
@@ -2703,31 +2703,31 @@
     },
     {
       "field": "Checkbox24",
-      "label": "Avfallstype: Aske eller slagg",
+      "label": "Avfallstype (materiale): Aske eller slagg",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox25",
-      "label": "Avfallstype: Avløpsslam",
+      "label": "Avfallstype (materiale): Avløpsslam",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox26",
-      "label": "Avfallstype: Ristegods, silgods",
+      "label": "Avfallstype (materiale): Ristegods, silgods",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox39",
-      "label": "Avfallstype: Blandet",
+      "label": "Avfallstype (materiale): Blandet",
       "src": "extracted",
       "check": false
     },
     {
       "field": "Checkbox40",
-      "label": "Avfallstype: Annet",
+      "label": "Avfallstype (materiale): Annet",
       "src": "extracted",
       "check": false
     }

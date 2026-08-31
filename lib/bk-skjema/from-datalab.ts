@@ -1,6 +1,6 @@
 // Turns a Datalab extraction into (a) resolved citations the UI can highlight, (b) the
 // classification engine's inputs, and (c) the 103 BK-skjema fields.
-import type { DatalabBlock } from "./datalab";
+import { narrowCitation, type DatalabBlock } from "./datalab";
 import type { BkCitation, BkField, BkResultRow, BkSource } from "./form-map";
 import { buildBkFields } from "./form-map";
 import { classifySample } from "../hp-classification/classify-sample";
@@ -10,11 +10,18 @@ import type { ElementCompoundForm } from "../hp-classification/speciate";
 import analyteReferenceRaw from "../data/analyte-reference.json";
 import compoundFormsRaw from "../data/element-compound-forms.json";
 
-/** Datalab writes citations as a "<field>_citations" sibling holding block ids. */
+/**
+ * Datalab writes citations as a "<field>_citations" sibling holding block ids.
+ *
+ * @param match The extracted value (or, for a result row, the analyte name). Used to narrow the
+ *              citation from the whole block to the cell or row that actually holds it — without
+ *              it a table citation highlights the entire table.
+ */
 export function resolveCitations(
   container: Record<string, unknown>,
   field: string,
-  blocks: Record<string, DatalabBlock>
+  blocks: Record<string, DatalabBlock>,
+  match: string | null = null
 ): BkCitation[] {
   const raw = container[`${field}_citations`];
   if (!Array.isArray(raw)) return [];
@@ -22,12 +29,9 @@ export function resolveCitations(
     .filter((id): id is string => typeof id === "string")
     .map(id => {
       const b = blocks[id];
-      return {
-        blockId: id,
-        page: b ? b.page : null,
-        text: b ? b.text : null,
-        bbox: b ? b.bbox : null,
-      };
+      if (!b) return { blockId: id, page: null, text: null, bbox: null };
+      const narrowed = narrowCitation(b, match);
+      return { blockId: id, page: b.page, text: narrowed.text, bbox: narrowed.bbox };
     });
 }
 
@@ -82,7 +86,9 @@ export function bkFromDatalab(
       isBelowLoq: belowLoq,
       loqValue: loq,
       unitRaw: unit,
-      citations: resolveCitations(row, "verdi", blocks),
+      // Narrow on the analyte name, not the value: a bare "1.8" occurs in many cells, while the
+      // parameter name identifies exactly one row.
+      citations: resolveCitations(row, "verdi", blocks, name),
     };
   });
 
@@ -130,7 +136,7 @@ export function bkFromDatalab(
     Object.fromEntries(ORIGIN_OPTIONS.map(o => [o.value, o.chapter]))
   );
 
-  const citationsFor = (field: string) => resolveCitations(data, field, blocks);
+  const citationsFor = (field: string, match: string | null = null) => resolveCitations(data, field, blocks, match);
   const source: BkSource = {
     metadata: {
       externalReportNo: metadata.externalReportNo,
@@ -150,17 +156,17 @@ export function bkFromDatalab(
     isHazardous: classification.hazard.isHazardous,
     eal: classification.eal,
     citations: {
-      externalReportNo: citationsFor("rapportnummer"),
-      labName: citationsFor("laboratorium"),
-      customerName: citationsFor("oppdragsgiver"),
-      producerName: citationsFor("avfallsprodusent"),
-      sampleMarking: citationsFor("provemerking"),
-      matrixType: citationsFor("matrise"),
-      samplingDate: citationsFor("provetakingsdato"),
-      receiptDate: citationsFor("mottaksdato"),
-      pickupLocation: citationsFor("hentested"),
-      tocPct: citationsFor("toc_prosent"),
-      glodetapPct: citationsFor("glodetap_prosent"),
+      externalReportNo: citationsFor("rapportnummer", metadata.externalReportNo),
+      labName: citationsFor("laboratorium", metadata.labName),
+      customerName: citationsFor("oppdragsgiver", metadata.customerName),
+      producerName: citationsFor("avfallsprodusent", metadata.producerName),
+      sampleMarking: citationsFor("provemerking", metadata.sampleMarking),
+      matrixType: citationsFor("matrise", metadata.matrixType),
+      samplingDate: citationsFor("provetakingsdato", metadata.samplingDate),
+      receiptDate: citationsFor("mottaksdato", metadata.receiptDate),
+      pickupLocation: citationsFor("hentested", str(data.hentested)),
+      tocPct: citationsFor("toc_prosent", num(data.toc_prosent)?.toString() ?? null),
+      glodetapPct: citationsFor("glodetap_prosent", num(data.glodetap_prosent)?.toString() ?? null),
     },
   };
 

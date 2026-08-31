@@ -21,6 +21,16 @@ const POLL_INTERVAL_MS = 2_000;
 // ceiling; that is a reason to extract per sub-report, not to raise the limit.
 const POLL_TIMEOUT_MS = 270_000;
 
+/** A cell or row inside a block, with its own box — see NARROWING below. */
+export interface BlockRegion {
+  /** The whole row's text. */
+  text: string;
+  /** Each cell's text, used to decide whether this row is the one that holds a value. */
+  cells: string[];
+  bbox: [number, number, number, number];
+  kind: "row";
+}
+
 export interface DatalabBlock {
   id: string;
   /** 0-indexed page the block sits on, parsed out of the id. */
@@ -30,6 +40,8 @@ export interface DatalabBlock {
   bbox: [number, number, number, number];
   /** Plain text of the block, tags stripped. */
   text: string;
+  /** Row sub-regions, when the block is a table. Empty otherwise. */
+  regions: BlockRegion[];
 }
 
 export interface DatalabPage {
@@ -79,6 +91,86 @@ async function start(path: string, form: FormData, key: string): Promise<Record<
 
 const stripTags = (html: string) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
+// NARROWING
+// Datalab cites a whole block, and its table blocks are huge — on a Eurofins report one Table
+// block covers the sample header *and* every analyte row, so highlighting the block lights up the
+// whole page. extras=table_cell_bboxes makes convert emit per-row and per-cell geometry as
+// data-bbox attributes inside the block html, which has to be parsed back out.
+//
+// Only the ROW geometry is used. Per-cell x-boundaries proved unreliable on real reports: on the
+// Eurofins sample Datalab returns data-bbox="799.55 511.5 810.1 532.0" — ten pixels wide — for the
+// cell containing "Prøvetakingsdato:", so a cell-level box lands on the wrong column while
+// claiming to show the matched value. Row boxes are correct vertically and span the table, so they
+// point at the right line without ever pointing at the wrong content. Cell *text* is still used to
+// decide which row matched.
+const ROW_RE = /<tr\b([^>]*)>([\s\S]*?)<\/tr>/gi;
+const CELL_RE = /<(td|th)\b[^>]*>([\s\S]*?)<\/\1>/gi;
+const BBOX_RE = /data-bbox="([\d.\s-]+)"/;
+
+function parseBbox(attrs: string): [number, number, number, number] | null {
+  const m = BBOX_RE.exec(attrs);
+  if (!m) return null;
+  const parts = m[1].trim().split(/\s+/).map(Number);
+  if (parts.length !== 4 || parts.some(n => !Number.isFinite(n))) return null;
+  return parts as [number, number, number, number];
+}
+
+/** One table row: its box, plus the text of each cell in it for matching. */
+export function parseRegions(html: string): BlockRegion[] {
+  const regions: BlockRegion[] = [];
+  ROW_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = ROW_RE.exec(html)) !== null) {
+    const bbox = parseBbox(m[1]);
+    if (!bbox) continue;
+    const cells: string[] = [];
+    CELL_RE.lastIndex = 0;
+    let c: RegExpExecArray | null;
+    while ((c = CELL_RE.exec(m[2])) !== null) {
+      const t = stripTags(c[2]);
+      if (t) cells.push(t);
+    }
+    const text = stripTags(m[2]);
+    if (text) regions.push({ text, cells, bbox, kind: "row" });
+  }
+  return regions;
+}
+
+const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+
+/**
+ * Picks the table row that holds `match`, so a citation points at one line rather than the whole
+ * analysis table. Falls back to the block's own box when nothing matches — better a box that is
+ * too big than one that is confidently wrong.
+ */
+export function narrowCitation(block: DatalabBlock, match: string | null): { bbox: [number, number, number, number]; text: string } {
+  const whole = { bbox: block.bbox, text: block.text };
+  if (!match || block.regions.length === 0) return whole;
+  const want = normalize(match);
+  if (!want) return whole;
+
+  const pick = (r: BlockRegion) => ({ bbox: r.bbox, text: r.text });
+
+  // A cell equal to the value is the strongest signal: it means this row states exactly it.
+  const exact = block.regions.find(r => r.cells.some(c => normalize(c) === want));
+  if (exact) return pick(exact);
+
+  // Otherwise a cell that is mostly the value — guards against a bare "1.8" matching a row that
+  // merely mentions it in passing.
+  const partial = block.regions.find(r =>
+    r.cells.some(c => {
+      const t = normalize(c);
+      return t.includes(want) && want.length >= t.length * 0.5;
+    })
+  );
+  if (partial) return pick(partial);
+
+  const inRow = block.regions.find(r => normalize(r.text).includes(want));
+  if (inRow) return pick(inRow);
+
+  return whole;
+}
+
 /** Page index is only available on the block id ("/page/2/Table/11"), not as a field. */
 const pageOf = (id: string): number => {
   const m = /^\/page\/(\d+)\//.exec(id);
@@ -99,11 +191,12 @@ export function flattenBlocks(root: unknown): { blocks: Record<string, DatalabBl
     if (id && bbox) {
       const page = pageOf(id);
       const blockType = String(n.block_type ?? "");
-      const text = stripTags(String(n.html ?? n.text ?? ""));
+      const html = String(n.html ?? "");
+      const text = stripTags(html || String(n.text ?? ""));
       if (blockType === "Page") {
         pages.push({ page, width: bbox[2] - bbox[0], height: bbox[3] - bbox[1] });
       }
-      blocks[id] = { id, page, blockType, bbox, text };
+      blocks[id] = { id, page, blockType, bbox, text, regions: parseRegions(html) };
     }
     for (const child of (Array.isArray(n.children) ? n.children : [])) walk(child);
   };
@@ -127,6 +220,9 @@ export async function convertDocument(pdf: Buffer, filename: string, opts: Conve
   form.append("add_block_ids", "true");
   form.append("save_checkpoint", "true");
   form.append("mode", opts.mode ?? "fast");
+  // Per-cell and per-list-item boxes, so a citation can be narrowed to the cell that holds the
+  // value instead of highlighting an entire table. Emitted as data-bbox attributes in the html.
+  form.append("extras", "table_cell_bboxes,list_item_bboxes");
   if (opts.pageRange) form.append("page_range", opts.pageRange);
 
   const body = await start("convert", form, key);

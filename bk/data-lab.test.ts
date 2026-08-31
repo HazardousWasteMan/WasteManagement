@@ -51,6 +51,18 @@ test("Datalab -> BK-skjema, with resolvable citations", async () => {
   expect(summarizeCoverage(outcomes).fieldsMapped).toBe(103);
   expect(outcomes.filter(o => o.note?.startsWith("could not be set"))).toEqual([]);
 
+  // Citations must be narrowed to the cell/row holding the value. Datalab cites whole blocks, and
+  // its table blocks span the sample header plus every analyte row — a citation covering most of
+  // the page is useless as a "here is where this came from" pointer.
+  const page = converted.pages[0];
+  for (const label of ["ID nr. fra avfallsprodusent", "Avfallstype (materiale): Betong eller tegl"]) {
+    const f = result.fields.find(x => x.label === label)!;
+    const c = f.citations![0];
+    const height = c.bbox![3] - c.bbox![1];
+    expect(height, `${label} citation is ${height}px tall of ${page.height} — not narrowed`)
+      .toBeLessThan(page.height * 0.1);
+  }
+
   // The point of the tab: every extracted field must carry a citation that resolves to a real
   // page and bbox, otherwise the side-by-side view has nothing to point at.
   const extractedFields = result.fields.filter(f => f.src === "extracted" && (f.value || f.check));

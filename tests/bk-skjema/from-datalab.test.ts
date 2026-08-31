@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { bkFromDatalab, resolveCitations } from "@/lib/bk-skjema/from-datalab";
-import { flattenBlocks } from "@/lib/bk-skjema/datalab";
+import { flattenBlocks, narrowCitation, parseRegions } from "@/lib/bk-skjema/datalab";
 import { bkSection } from "@/lib/bk-skjema/form-map";
 
 // Shaped exactly like a real /convert json tree: nested children, ids that encode the page.
@@ -10,7 +10,15 @@ const CONVERT_JSON = {
   bbox: [0, 0, 1000, 1400],
   children: [
     { id: "/page/2/Text/3", block_type: "Text", bbox: [10, 20, 200, 40], html: "<p>Avinor <b>AS</b></p>", children: [] },
-    { id: "/page/2/Table/11", block_type: "Table", bbox: [24, 500, 900, 1200], html: "<table><tr><td>Arsen (As)</td><td>1.8</td></tr></table>", children: [] },
+    // Shaped like a real extras=table_cell_bboxes response: geometry rides in data-bbox
+    // attributes on the html, not as JSON fields.
+    { id: "/page/2/Table/11", block_type: "Table", bbox: [24, 500, 900, 1200], children: [], html:
+      '<table>' +
+      '<tr data-bbox="24 500 900 522"><td data-bbox="24 500 437 522">Prøvetype:</td><td data-bbox="437 500 666 522">Aske Asfalt</td></tr>' +
+      '<tr data-bbox="24 522 900 544"><td data-bbox="24 522 437 544">Prøvemerking:</td><td data-bbox="437 522 666 544">ENAT-BØF1-MK11</td></tr>' +
+      '<tr data-bbox="24 560 900 582"><td data-bbox="24 560 437 582">Arsen (As)</td><td data-bbox="437 560 666 582">1.8</td></tr>' +
+      '<tr data-bbox="24 582 900 604"><td data-bbox="24 582 437 604">Bly (Pb)</td><td data-bbox="437 582 666 604">1.8</td></tr>' +
+      '</table>' },
   ],
 };
 
@@ -110,6 +118,44 @@ describe("bkFromDatalab", () => {
     for (const f of fields.filter(f => f.src === "derived" && (f.value || f.check || f.select))) {
       expect(f.citations, `${f.field} has nothing to cite`).not.toHaveLength(0);
     }
+  });
+});
+
+describe("narrowCitation", () => {
+  const { blocks } = flattenBlocks(CONVERT_JSON);
+  const table = blocks["/page/2/Table/11"];
+
+  it("parses one region per table row, with its cell texts", () => {
+    const rawHtml = (CONVERT_JSON.children.find(c => c.id === "/page/2/Table/11")?.html) ?? "";
+    expect(parseRegions(rawHtml)).toHaveLength(4);
+    expect(table.regions).toHaveLength(4);
+    expect(table.regions[0].cells).toEqual(["Prøvetype:", "Aske Asfalt"]);
+  });
+
+  it("narrows a table citation to the row holding the value", () => {
+    // Without this the box covers the entire 700px-tall table. Row geometry, not cell geometry:
+    // Datalab's per-cell x-boundaries are unreliable (see narrowCitation).
+    const { bbox } = narrowCitation(table, "Aske Asfalt");
+    expect(bbox).toEqual([24, 500, 900, 522]);
+  });
+
+  it("narrows the sample marking to its own row", () => {
+    expect(narrowCitation(table, "ENAT-BØF1-MK11").bbox).toEqual([24, 522, 900, 544]);
+  });
+
+  it("uses the analyte name to disambiguate rows sharing a value", () => {
+    // "1.8" is the value in two different rows, so the parameter name is what identifies one.
+    expect(narrowCitation(table, "Arsen (As)").bbox).toEqual([24, 560, 900, 582]);
+    expect(narrowCitation(table, "Bly (Pb)").bbox).toEqual([24, 582, 900, 604]);
+  });
+
+  it("keeps the whole block when nothing matches, rather than guessing", () => {
+    expect(narrowCitation(table, "Kryptonitt").bbox).toEqual(table.bbox);
+    expect(narrowCitation(table, null).bbox).toEqual(table.bbox);
+  });
+
+  it("leaves blocks with no table geometry alone", () => {
+    expect(narrowCitation(blocks["/page/2/Text/3"], "Avinor AS").bbox).toEqual([10, 20, 200, 40]);
   });
 });
 
