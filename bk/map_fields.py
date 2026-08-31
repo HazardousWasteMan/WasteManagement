@@ -3,7 +3,7 @@ groupN) to the human label printed next to them, by geometry."""
 import json, re, subprocess, sys, xml.etree.ElementTree as ET
 from pypdf import PdfReader
 
-PDF = "bk-skjema-blank.pdf"
+PDF = "../public/forms/bk-skjema-blank.pdf"
 
 # --- words with bboxes (pdftotext -bbox uses top-left origin, y down) ---
 xml = subprocess.run(["pdftotext", "-bbox", PDF, "-"], capture_output=True, text=True).stdout
@@ -55,3 +55,42 @@ json.dump(rows, open("field-map-raw.json", "w"), ensure_ascii=False, indent=1)
 for r in rows:
     print(f'{r["page"]} y{r["y"]:>4} x{r["x"]:>4} {r["field"]:<12} {str(r["export"] or ""):<10} '
           f'L[{r["left"]}] A[{r["above"]}] R[{r["right"]}]')
+
+# --- also emit the widget geometry the UI needs to draw a box on each field ---
+# Radio groups have one widget per option sharing a single field name, so rows are keyed by
+# (field, export) and the UI matches the export value it selected.
+import pypdf
+reader2 = PdfReader(PDF)
+geom = {"pages": [], "widgets": []}
+for pi, page in enumerate(reader2.pages):
+    box = page.mediabox
+    pw, ph = float(box.width), float(box.height)
+    geom["pages"].append({"page": pi, "width": round(pw, 2), "height": round(ph, 2)})
+    for annot in page.get("/Annots") or []:
+        a = annot.get_object()
+        if a.get("/Subtype") != "/Widget":
+            continue
+        name, node = None, a
+        while node is not None and name is None:
+            name = node.get("/T")
+            node = node.get("/Parent")
+        x0, y0, x1, y1 = (float(v) for v in a["/Rect"])
+        ap = a.get("/AP", {}).get("/N")
+        exports = [k[1:] for k in ap.keys() if k != "/Off"] if hasattr(ap, "keys") else []
+        # /AP/N on a text field is a stream, not a dict of states — only radios/checkboxes have real exports
+        export = exports[0] if len(exports) == 1 and exports[0].startswith(("Radio", "YES")) else None
+        geom["widgets"].append({
+            "field": str(name),
+            "export": export,
+            "page": pi,
+            # top-left origin, PDF points, to match how the browser lays the overlay out
+            "x": round(min(x0, x1), 2),
+            "y": round(ph - max(y0, y1), 2),
+            "w": round(abs(x1 - x0), 2),
+            "h": round(abs(y1 - y0), 2),
+        })
+
+geom["widgets"].sort(key=lambda w: (w["page"], round(w["y"] / 6), w["x"]))
+with open("../lib/data/bk-skjema-field-geometry.json", "w") as f:
+    json.dump(geom, f, ensure_ascii=False, indent=1)
+print(f"\nwrote geometry: {len(geom['widgets'])} widgets on {len(geom['pages'])} pages")

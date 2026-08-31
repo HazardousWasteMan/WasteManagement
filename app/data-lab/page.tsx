@@ -1,10 +1,11 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DocumentPane, type Highlight } from "@/components/data-lab/DocumentPane";
 import { FieldsPane } from "@/components/data-lab/FieldsPane";
+import { FormPane, isFilled } from "@/components/data-lab/FormPane";
 import { ExtractionProgress, type Phase } from "@/components/data-lab/ExtractionProgress";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
-import type { BkField } from "@/lib/bk-skjema/form-map";
+import type { BkField, BkSrc } from "@/lib/bk-skjema/form-map";
 import type { DatalabBlock, DatalabPage } from "@/lib/bk-skjema/datalab";
 
 interface Extraction {
@@ -19,6 +20,14 @@ interface Extraction {
   costCents: number;
 }
 
+const SRC_LABEL: Record<BkSrc, string> = {
+  extracted: "From the document",
+  derived: "Classified",
+  human: "You fill in",
+  receiver: "Landfill fills in",
+  "n/a": "Not applicable",
+};
+
 export default function DataLabPage() {
   const [file, setFile] = useState<File | null>(null);
   const [origin, setOrigin] = useState("");
@@ -28,14 +37,38 @@ export default function DataLabPage() {
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Extraction | null>(null);
+  const [filledPdf, setFilledPdf] = useState<Blob | null>(null);
   const [selected, setSelected] = useState<BkField | null>(null);
   const [onlyFilled, setOnlyFilled] = useState(false);
 
+  // The filled form is the left-hand pane, so it is fetched as soon as there are fields to fill it
+  // with — and again whenever they change, e.g. after picking a different origin/process.
+  useEffect(() => {
+    if (!result) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/data-lab/fill", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fields: result.fields }),
+        });
+        if (!res.ok) { if (!cancelled) setError("Could not fill the form"); return; }
+        const blob = await res.blob();
+        if (!cancelled) setFilledPdf(blob);
+      } catch {
+        if (!cancelled) setError("Could not fill the form");
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [result]);
+
   const coverage = useMemo(() => {
     if (!result) return null;
-    const filled = result.fields.filter(f => f.value || f.check || f.select);
+    const filled = result.fields.filter(isFilled);
     return {
       total: result.fields.length,
+      filled: filled.length,
       fromDocument: filled.filter(f => f.src === "extracted").length,
       classified: filled.filter(f => f.src === "derived").length,
       youFill: result.fields.filter(f => f.src === "human").length,
@@ -52,6 +85,7 @@ export default function DataLabPage() {
   async function runExtraction(chosen: File) {
     setError(null);
     setResult(null);
+    setFilledPdf(null);
     setSelected(null);
     setPageCount(null);
     setPhase("converting");
@@ -129,6 +163,8 @@ export default function DataLabPage() {
       });
       const json = await res.json();
       if (!res.ok) { setError(json.error ?? "Could not re-derive the form"); return; }
+      // The fields changed, so the rendered form is stale until the refetch lands.
+      setFilledPdf(null);
       setResult({ ...result, ...json });
       setSelected(null);
     } finally {
@@ -136,26 +172,14 @@ export default function DataLabPage() {
     }
   }
 
-  async function downloadFilledForm() {
-    if (!result) return;
-    setBusy("Filling the BK-skjema.");
-    try {
-      const res = await fetch("/api/data-lab/fill", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fields: result.fields }),
-      });
-      if (!res.ok) { setError("Could not fill the form"); return; }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "bk-skjema-utfylt.pdf";
-      a.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setBusy(null);
-    }
+  function downloadFilledForm() {
+    if (!filledPdf) return;
+    const url = URL.createObjectURL(filledPdf);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bk-skjema-utfylt.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -165,11 +189,11 @@ export default function DataLabPage() {
           <div>
             <h1 className="text-2xl font-semibold text-forest">Data Lab</h1>
             <p className="mt-1 max-w-2xl text-sm text-forest/60">
-              Put in a chemical analysis and get back the fields of the landfill basiskarakterisering form.
-              Every value the document supplied is clickable — press it to see the exact text it came from.
+              Put in a chemical analysis and get back the filled basiskarakterisering form. Every
+              field the document supplied is marked — press it to jump to the text it came from.
             </p>
           </div>
-          {result && (
+          {filledPdf && (
             <button
               type="button"
               onClick={downloadFilledForm}
@@ -260,57 +284,81 @@ export default function DataLabPage() {
       {result && coverage && (
         <>
           <dl className="flex flex-wrap gap-x-8 gap-y-2 border-b border-forest/10 px-6 py-3 text-sm">
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">From the document</dt>
-              <dd className="font-mono text-forest">{coverage.fromDocument}</dd>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">Classified</dt>
-              <dd className="font-mono text-forest">{coverage.classified}</dd>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">You fill in</dt>
-              <dd className="font-mono text-forest">{coverage.youFill}</dd>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">EAL</dt>
-              <dd className="font-mono text-forest">{result.classification.eal.code ?? "not assigned"}</dd>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">Hazardous</dt>
-              <dd className="font-mono text-forest">{result.classification.hazard.isHazardous ? "yes" : "no"}</dd>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <dt className="text-forest/50">Datalab cost</dt>
-              <dd className="font-mono text-forest">{(result.costCents / 100).toFixed(2)} USD</dd>
-            </div>
+            {[
+              ["Marked on the form", `${coverage.filled} of ${coverage.total}`],
+              ["From the document", String(coverage.fromDocument)],
+              ["Classified", String(coverage.classified)],
+              ["You fill in", String(coverage.youFill)],
+              ["EAL", result.classification.eal.code ?? "not assigned"],
+              ["Hazardous", result.classification.hazard.isHazardous ? "yes" : "no"],
+              ["Datalab cost", `${(result.costCents / 100).toFixed(2)} USD`],
+            ].map(([label, value]) => (
+              <div key={label} className="flex items-baseline gap-2">
+                <dt className="text-forest/50">{label}</dt>
+                <dd className="font-mono text-forest">{value}</dd>
+              </div>
+            ))}
           </dl>
 
+          <div className="min-h-[4.5rem] border-b border-forest/10 bg-white/50 px-6 py-3">
+            {selected ? (
+              <div className="flex flex-wrap items-start gap-x-6 gap-y-1">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-forest">{selected.label}</p>
+                  <p className="font-mono text-xs text-forest/70">
+                    {selected.value || (selected.check ? "Avkrysset" : selected.select) || "blank"}
+                  </p>
+                </div>
+                <span className="rounded-full bg-forest px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-lime">
+                  {SRC_LABEL[selected.src]}
+                </span>
+                <div className="min-w-0 flex-1">
+                  {(selected.citations ?? []).length > 0 ? (
+                    (selected.citations ?? []).slice(0, 2).map(c => (
+                      <p key={c.blockId} className="truncate text-xs text-forest/60">
+                        <span className="font-mono text-forest/40">p{(c.page ?? 0) + 1}</span>{" "}
+                        {c.text ? `“${c.text.slice(0, 160)}${c.text.length > 160 ? "…" : ""}”` : "source block had no text"}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-xs text-forest/45">
+                      {selected.note ?? "No source in the document — this value was not read from it."}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-forest/45">
+                Press a green marker on the form, or use the arrow keys, to see where its value came from.
+              </p>
+            )}
+          </div>
+
           <div className="grid flex-1 grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-2">
-            <div className="order-2 lg:order-1 lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto lg:pr-2">
+            <div className="lg:max-h-[calc(100vh-18rem)] lg:overflow-y-auto lg:pr-2">
+              <h2 className="mb-2 text-sm font-semibold text-forest">Filled form</h2>
+              {filledPdf
+                ? <FormPane pdf={filledPdf} fields={result.fields} selected={selected?.field ?? null} onSelect={setSelected} />
+                : <p className="text-sm text-forest/50">Filling the form…</p>}
+            </div>
+
+            <div className="lg:max-h-[calc(100vh-18rem)] lg:overflow-y-auto lg:pl-2">
+              <h2 className="mb-2 text-sm font-semibold text-forest">Original report</h2>
               {file && (
                 <DocumentPane file={file} pages={result.pages} highlights={highlights} blocks={result.blocks} />
               )}
             </div>
+          </div>
 
-            <div className="order-1 lg:order-2 lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto lg:pl-2">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-sm text-forest/60">
-                  {coverage.total} fields
-                  {result.unmatchedAnalytes.length > 0 && (
-                    <span className="text-forest/40"> · {result.unmatchedAnalytes.length} analytes without a hazard reference</span>
-                  )}
-                </p>
-                <label className="flex items-center gap-2 text-xs text-forest/60">
-                  <input
-                    type="checkbox"
-                    checked={onlyFilled}
-                    onChange={e => setOnlyFilled(e.target.checked)}
-                    className="accent-forest"
-                  />
-                  Only filled
-                </label>
-              </div>
+          <details className="border-t border-forest/10 px-6 py-4">
+            <summary className="cursor-pointer text-sm font-medium text-forest">
+              All {coverage.total} fields, including the {coverage.youFill} you must fill in yourself
+            </summary>
+            <div className="mt-4">
+              <label className="mb-3 flex items-center gap-2 text-xs text-forest/60">
+                <input type="checkbox" checked={onlyFilled} onChange={e => setOnlyFilled(e.target.checked)} className="accent-forest" />
+                Only filled
+              </label>
               <FieldsPane
                 fields={result.fields}
                 selected={selected?.field ?? null}
@@ -318,7 +366,7 @@ export default function DataLabPage() {
                 onlyFilled={onlyFilled}
               />
             </div>
-          </div>
+          </details>
         </>
       )}
     </div>

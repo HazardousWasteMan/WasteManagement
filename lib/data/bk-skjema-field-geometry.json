@@ -1,0 +1,997 @@
+{
+ "pages": [
+  {
+   "page": 0,
+   "width": 595.32,
+   "height": 841.92
+  },
+  {
+   "page": 1,
+   "width": 595.32,
+   "height": 841.92
+  }
+ ],
+ "widgets": [
+  {
+   "field": "group1",
+   "export": "Radio1",
+   "page": 0,
+   "x": 411.67,
+   "y": 105.29,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group1",
+   "export": "Radio3",
+   "page": 0,
+   "x": 412.18,
+   "y": 138.39,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group1",
+   "export": "Radio4",
+   "page": 0,
+   "x": 411.67,
+   "y": 158.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group1",
+   "export": "Radio5",
+   "page": 0,
+   "x": 411.67,
+   "y": 178.89,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "TextField1",
+   "export": null,
+   "page": 0,
+   "x": 22.57,
+   "y": 235.03,
+   "w": 180.13,
+   "h": 77.8
+  },
+  {
+   "field": "TextField2",
+   "export": null,
+   "page": 0,
+   "x": 207.9,
+   "y": 235.03,
+   "w": 180.13,
+   "h": 77.8
+  },
+  {
+   "field": "TextField3",
+   "export": null,
+   "page": 0,
+   "x": 394.74,
+   "y": 235.03,
+   "w": 180.13,
+   "h": 77.8
+  },
+  {
+   "field": "TextField4",
+   "export": null,
+   "page": 0,
+   "x": 103.92,
+   "y": 340.0,
+   "w": 232.41,
+   "h": 17.22
+  },
+  {
+   "field": "TextField5",
+   "export": null,
+   "page": 0,
+   "x": 440.71,
+   "y": 340.0,
+   "w": 135.63,
+   "h": 18.23
+  },
+  {
+   "field": "TextField6",
+   "export": null,
+   "page": 0,
+   "x": 201.34,
+   "y": 360.98,
+   "w": 134.02,
+   "h": 18.23
+  },
+  {
+   "field": "TextField7",
+   "export": null,
+   "page": 0,
+   "x": 440.14,
+   "y": 361.09,
+   "w": 135.63,
+   "h": 18.23
+  },
+  {
+   "field": "TextField8",
+   "export": null,
+   "page": 0,
+   "x": 81.66,
+   "y": 382.35,
+   "w": 159.38,
+   "h": 18.23
+  },
+  {
+   "field": "TextField11",
+   "export": null,
+   "page": 0,
+   "x": 294.98,
+   "y": 382.73,
+   "w": 42.38,
+   "h": 18.23
+  },
+  {
+   "field": "TextField14",
+   "export": null,
+   "page": 0,
+   "x": 379.29,
+   "y": 381.89,
+   "w": 196.48,
+   "h": 18.23
+  },
+  {
+   "field": "TextField9",
+   "export": null,
+   "page": 0,
+   "x": 81.66,
+   "y": 403.72,
+   "w": 159.38,
+   "h": 18.23
+  },
+  {
+   "field": "TextField12",
+   "export": null,
+   "page": 0,
+   "x": 279.34,
+   "y": 403.53,
+   "w": 57.44,
+   "h": 18.23
+  },
+  {
+   "field": "TextField15",
+   "export": null,
+   "page": 0,
+   "x": 379.58,
+   "y": 403.83,
+   "w": 196.48,
+   "h": 18.23
+  },
+  {
+   "field": "TextField10",
+   "export": null,
+   "page": 0,
+   "x": 112.96,
+   "y": 425.1,
+   "w": 128.08,
+   "h": 18.23
+  },
+  {
+   "field": "TextField13",
+   "export": null,
+   "page": 0,
+   "x": 278.77,
+   "y": 424.9,
+   "w": 57.44,
+   "h": 18.23
+  },
+  {
+   "field": "TextField16",
+   "export": null,
+   "page": 0,
+   "x": 379.01,
+   "y": 425.27,
+   "w": 196.48,
+   "h": 18.23
+  },
+  {
+   "field": "TextField17",
+   "export": null,
+   "page": 0,
+   "x": 21.77,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField18",
+   "export": null,
+   "page": 0,
+   "x": 48.35,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField19",
+   "export": null,
+   "page": 0,
+   "x": 73.22,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField20",
+   "export": null,
+   "page": 0,
+   "x": 99.8,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField21",
+   "export": null,
+   "page": 0,
+   "x": 125.24,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField22",
+   "export": null,
+   "page": 0,
+   "x": 151.53,
+   "y": 483.99,
+   "w": 21.15,
+   "h": 15.45
+  },
+  {
+   "field": "TextField23",
+   "export": null,
+   "page": 0,
+   "x": 297.59,
+   "y": 484.87,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField24",
+   "export": null,
+   "page": 0,
+   "x": 314.59,
+   "y": 484.85,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField25",
+   "export": null,
+   "page": 0,
+   "x": 331.59,
+   "y": 484.85,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField26",
+   "export": null,
+   "page": 0,
+   "x": 347.59,
+   "y": 484.85,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField27",
+   "export": null,
+   "page": 0,
+   "x": 443.59,
+   "y": 484.84,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField28",
+   "export": null,
+   "page": 0,
+   "x": 460.59,
+   "y": 484.82,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField29",
+   "export": null,
+   "page": 0,
+   "x": 477.59,
+   "y": 484.81,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField30",
+   "export": null,
+   "page": 0,
+   "x": 494.59,
+   "y": 484.79,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField31",
+   "export": null,
+   "page": 0,
+   "x": 510.59,
+   "y": 484.78,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField32",
+   "export": null,
+   "page": 0,
+   "x": 527.59,
+   "y": 484.76,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField33",
+   "export": null,
+   "page": 0,
+   "x": 544.59,
+   "y": 484.75,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "TextField34",
+   "export": null,
+   "page": 0,
+   "x": 561.59,
+   "y": 484.73,
+   "w": 16.22,
+   "h": 15.98
+  },
+  {
+   "field": "Checkbox1",
+   "export": "YES",
+   "page": 0,
+   "x": 228.97,
+   "y": 507.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox2",
+   "export": "YES",
+   "page": 0,
+   "x": 360.97,
+   "y": 507.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox3",
+   "export": "YES",
+   "page": 0,
+   "x": 470.97,
+   "y": 507.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox4",
+   "export": "YES",
+   "page": 0,
+   "x": 228.97,
+   "y": 536.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox5",
+   "export": "YES",
+   "page": 0,
+   "x": 360.97,
+   "y": 536.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox6",
+   "export": "YES",
+   "page": 0,
+   "x": 470.97,
+   "y": 536.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox7",
+   "export": "YES",
+   "page": 0,
+   "x": 171.97,
+   "y": 563.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox8",
+   "export": "YES",
+   "page": 0,
+   "x": 216.97,
+   "y": 563.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group2",
+   "export": "Radio1",
+   "page": 0,
+   "x": 377.96,
+   "y": 598.74,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group2",
+   "export": "Radio2",
+   "page": 0,
+   "x": 418.54,
+   "y": 598.74,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox9",
+   "export": "YES",
+   "page": 0,
+   "x": 39.97,
+   "y": 613.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox10",
+   "export": "YES",
+   "page": 0,
+   "x": 79.97,
+   "y": 613.64,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "TextField35",
+   "export": null,
+   "page": 0,
+   "x": 139.29,
+   "y": 612.74,
+   "w": 24.92,
+   "h": 18.23
+  },
+  {
+   "field": "TextField36",
+   "export": null,
+   "page": 0,
+   "x": 230.29,
+   "y": 612.74,
+   "w": 24.92,
+   "h": 18.23
+  },
+  {
+   "field": "group3",
+   "export": "Radio1",
+   "page": 0,
+   "x": 377.96,
+   "y": 619.02,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group3",
+   "export": "Radio2",
+   "page": 0,
+   "x": 418.82,
+   "y": 619.02,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "TextField37",
+   "export": null,
+   "page": 0,
+   "x": 443.12,
+   "y": 618.34,
+   "w": 130.51,
+   "h": 18.23
+  },
+  {
+   "field": "TextField38",
+   "export": null,
+   "page": 0,
+   "x": 22.78,
+   "y": 667.82,
+   "w": 551.45,
+   "h": 129.39
+  },
+  {
+   "field": "Checkbox11",
+   "export": "YES",
+   "page": 1,
+   "x": 132.89,
+   "y": 97.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox19",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 97.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox27",
+   "export": "YES",
+   "page": 1,
+   "x": 406.7,
+   "y": 97.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox33",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 97.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox12",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 129.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox20",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 129.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox28",
+   "export": "YES",
+   "page": 1,
+   "x": 406.41,
+   "y": 129.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox34",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 129.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox13",
+   "export": "YES",
+   "page": 1,
+   "x": 132.03,
+   "y": 160.83,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox21",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 160.83,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox29",
+   "export": "YES",
+   "page": 1,
+   "x": 406.41,
+   "y": 160.83,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox35",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 160.83,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox14",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 192.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox22",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 192.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox30",
+   "export": "YES",
+   "page": 1,
+   "x": 406.41,
+   "y": 192.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox36",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 192.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox15",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 213.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox23",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 213.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox31",
+   "export": "YES",
+   "page": 1,
+   "x": 406.41,
+   "y": 213.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox37",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 213.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox16",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 236.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox24",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 236.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox32",
+   "export": "YES",
+   "page": 1,
+   "x": 406.41,
+   "y": 236.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox38",
+   "export": "YES",
+   "page": 1,
+   "x": 545.89,
+   "y": 236.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox17",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 258.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox25",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 258.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox18",
+   "export": "YES",
+   "page": 1,
+   "x": 132.6,
+   "y": 280.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox26",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 280.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox39",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 302.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox41",
+   "export": "YES",
+   "page": 1,
+   "x": 412.93,
+   "y": 307.85,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox44",
+   "export": "YES",
+   "page": 1,
+   "x": 553.93,
+   "y": 306.85,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox40",
+   "export": "YES",
+   "page": 1,
+   "x": 234.64,
+   "y": 324.97,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox42",
+   "export": "YES",
+   "page": 1,
+   "x": 412.93,
+   "y": 328.04,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox45",
+   "export": "YES",
+   "page": 1,
+   "x": 553.93,
+   "y": 328.57,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox43",
+   "export": "YES",
+   "page": 1,
+   "x": 412.93,
+   "y": 348.9,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "Checkbox46",
+   "export": "YES",
+   "page": 1,
+   "x": 553.93,
+   "y": 351.15,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "TextField39",
+   "export": null,
+   "page": 1,
+   "x": 25.2,
+   "y": 357.36,
+   "w": 263.24,
+   "h": 32.3
+  },
+  {
+   "field": "TextField40",
+   "export": null,
+   "page": 1,
+   "x": 85.0,
+   "y": 395.09,
+   "w": 204.59,
+   "h": 21.06
+  },
+  {
+   "field": "TextField41",
+   "export": null,
+   "page": 1,
+   "x": 297.36,
+   "y": 402.15,
+   "w": 273.09,
+   "h": 14.19
+  },
+  {
+   "field": "group6",
+   "export": "Radio1",
+   "page": 1,
+   "x": 220.32,
+   "y": 542.68,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "group6",
+   "export": "Radio2",
+   "page": 1,
+   "x": 269.48,
+   "y": 542.39,
+   "w": 16.0,
+   "h": 16.0
+  },
+  {
+   "field": "TextField42",
+   "export": null,
+   "page": 1,
+   "x": 402.37,
+   "y": 601.76,
+   "w": 72.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField46",
+   "export": null,
+   "page": 1,
+   "x": 492.36,
+   "y": 601.49,
+   "w": 68.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField43",
+   "export": null,
+   "page": 1,
+   "x": 402.37,
+   "y": 618.19,
+   "w": 72.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField47",
+   "export": null,
+   "page": 1,
+   "x": 492.36,
+   "y": 617.92,
+   "w": 68.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField44",
+   "export": null,
+   "page": 1,
+   "x": 402.37,
+   "y": 635.62,
+   "w": 72.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField48",
+   "export": null,
+   "page": 1,
+   "x": 492.36,
+   "y": 635.35,
+   "w": 68.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField45",
+   "export": null,
+   "page": 1,
+   "x": 402.37,
+   "y": 652.06,
+   "w": 72.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField49",
+   "export": null,
+   "page": 1,
+   "x": 492.36,
+   "y": 651.79,
+   "w": 68.03,
+   "h": 13.43
+  },
+  {
+   "field": "TextField50",
+   "export": null,
+   "page": 1,
+   "x": 26.54,
+   "y": 675.98,
+   "w": 104.9,
+   "h": 12.58
+  },
+  {
+   "field": "TextField51",
+   "export": null,
+   "page": 1,
+   "x": 139.54,
+   "y": 675.98,
+   "w": 104.9,
+   "h": 12.58
+  },
+  {
+   "field": "TextField52",
+   "export": null,
+   "page": 1,
+   "x": 259.54,
+   "y": 675.98,
+   "w": 309.65,
+   "h": 12.58
+  },
+  {
+   "field": "TextField53",
+   "export": null,
+   "page": 1,
+   "x": 26.83,
+   "y": 708.51,
+   "w": 543.92,
+   "h": 30.01
+  }
+ ]
+}
