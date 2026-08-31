@@ -213,6 +213,7 @@ export default function DataLabPage() {
             value={pageRange}
             onChange={e => setPageRange(e.target.value)}
             placeholder="e.g. 2-4"
+            title="Leave blank to read the whole document. On reports that bundle several samples a range is both faster and more accurate."
             className="w-32 rounded-xl border border-forest/20 bg-white/70 px-3 py-2 text-sm font-normal normal-case tracking-normal text-forest placeholder:text-forest/30"
           />
         </label>
@@ -246,8 +247,12 @@ export default function DataLabPage() {
       {!result && !busy && !phase && !error && (
         <div className="flex flex-1 items-center justify-center px-6 py-20">
           <p className="max-w-md text-center text-sm text-forest/50">
-            Choose a lab report to begin. Pick the origin/process too — it is the one thing a lab report
-            never states, and the EAL code cannot be assigned without it.
+            Choose a lab report to begin. Pick the origin/process too — it is the one thing a lab
+            report never states, and the EAL code cannot be assigned without it.
+            <br /><br />
+            If the report bundles several samples, set a page range for the one you want. One form
+            describes one delivery, and reading every page at once both takes minutes and mixes the
+            samples together.
           </p>
         </div>
       )}

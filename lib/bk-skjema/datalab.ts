@@ -15,7 +15,11 @@ import analyteReferenceRaw from "../data/analyte-reference.json";
 
 const API = "https://www.datalab.to/api/v1";
 const POLL_INTERVAL_MS = 2_000;
-const POLL_TIMEOUT_MS = 300_000;
+// Deliberately under the route's maxDuration (300s) so a slow job produces an honest error
+// instead of the platform killing the function silently — same margin the Anthropic extraction
+// path uses. A full 15-page bundled report has been measured at 4.3 min, i.e. right at this
+// ceiling; that is a reason to extract per sub-report, not to raise the limit.
+const POLL_TIMEOUT_MS = 270_000;
 
 export interface DatalabBlock {
   id: string;

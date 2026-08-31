@@ -21,6 +21,11 @@ export function ExtractionProgress({ phase, pageCount }: { phase: Phase; pageCou
 
   const activeIndex = STEPS.findIndex(s => s.phase === phase);
 
+  // Latency tracks pages processed, and varies ~3x run to run, so any per-page figure would be
+  // misleading. Measured: 3 pages 29-65s, 15 pages 74s-4.3min.
+  const expectation =
+    pageCount === null ? "" : pageCount <= 5 ? "usually under a minute" : "long documents can take several minutes";
+
   return (
     <div className="border-b border-forest/10 bg-lime/20 px-6 py-4" role="status" aria-live="polite">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -30,9 +35,16 @@ export function ExtractionProgress({ phase, pageCount }: { phase: Phase; pageCou
         </p>
         <p className="font-mono text-xs text-forest/50" aria-label={`${elapsed} seconds elapsed`}>
           {elapsed}s
-          <span className="ml-2 text-forest/35">usually 30–90s</span>
+          {expectation && <span className="ml-2 text-forest/35">{expectation}</span>}
         </p>
       </div>
+
+      {elapsed > 150 && (
+        <p className="mt-2 text-xs text-forest/55">
+          Still working. Extraction gives up after 4½ minutes — a page range covering just the
+          sample you need is far quicker, and more accurate on reports that bundle several samples.
+        </p>
+      )}
 
       <ol className="mt-3 flex flex-col gap-2">
         {STEPS.map((step, i) => {
