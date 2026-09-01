@@ -1,0 +1,71 @@
+{
+  "_note": "Per test, which gold fields are actually obtainable from the chemical PDFs. Verified by grepping the source text for the gold value. 'derived' = not literal in the document but computable by the classification engine from analyte data.",
+  "test_2": {
+    "insource": [
+      "hentested",
+      "avfallsprodusent",
+      "adresse",
+      "postnummer",
+      "poststed",
+      "kontaktperson",
+      "provemerking",
+      "labnavn"
+    ],
+    "derived": [
+      "ealKode",
+      "deponikategori",
+      "avfallstypeKlasse",
+      "ristetest",
+      "kolonnetest",
+      "matrise"
+    ]
+  },
+  "test_3": {
+    "insource": [
+      "tocPct",
+      "provemerking",
+      "labnavn"
+    ],
+    "derived": [
+      "ealKode",
+      "deponikategori",
+      "avfallstypeKlasse",
+      "testpliktig",
+      "innholdFarligeStoffer",
+      "ristetest",
+      "kolonnetest",
+      "materialeType",
+      "matrise"
+    ]
+  },
+  "test_4": {
+    "insource": [
+      "provemerking",
+      "labnavn"
+    ],
+    "derived": [
+      "ealKode",
+      "deponikategori",
+      "avfallstypeKlasse",
+      "testpliktig",
+      "innholdFarligeStoffer",
+      "materialeType",
+      "matrise"
+    ]
+  },
+  "test_1": {
+    "insource": [
+      "tocPct",
+      "provemerking",
+      "labnavn"
+    ],
+    "derived": [
+      "ealKode",
+      "deponikategori",
+      "avfallstypeKlasse",
+      "ristetest",
+      "kolonnetest",
+      "matrise"
+    ]
+  }
+}

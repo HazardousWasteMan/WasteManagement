@@ -10,9 +10,11 @@ export function classifySample(
   testResults: TestResult[],
   analyteRef: AnalyteReference[],
   compoundForms: ElementCompoundForm[],
-  originToChapterLookup: Record<string, string>
+  originToChapterLookup: Record<string, string>,
+  /** What the waste is, in the document's own words — ranks candidates inside the chosen chapter. */
+  descriptionHint: string | null = null
 ): { hazard: HazardClassification; eal: EalAssignment; noDataWarning: boolean } {
-  const normalized = normalizeSample(metadata, results, analyteRef);
+  const { results: normalized, flags: normalizeFlags } = normalizeSample(metadata, results, analyteRef);
   const noDataWarning = normalized.length === 0;
 
   const withClp: NormalizedResultWithClp[] = [];
@@ -61,7 +63,23 @@ export function classifySample(
   }
 
   const hazard = classifyHazard(withClp, metadata, testResults);
-  const eal = assignEalCode(hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
+  // Rows normalizeSample refused to interpret (leaching results, unknown units) are the single
+  // biggest source of a wrong verdict, so they travel with it instead of dying in normalize.
+  hazard.confidenceFlags.push(...new Set(normalizeFlags));
+  // With no usable total-content row there is no hazard verdict, and without one the mirror-code
+  // pair cannot be chosen between. Asserting the non-hazardous half would be a guess dressed as a
+  // classification — and on big_test/test_1, whose documents are leaching data end to end, that
+  // guess called hazardous waste clean. See bk/BIG-TEST-FINDINGS.md finding 9.
+  const eal = noDataWarning
+    ? {
+        code: null,
+        description: null,
+        confidence: "HALT — no usable total-content analysis in the document, so hazard status is unknown and no EAL code can be selected",
+      }
+    : assignEalCode(
+        hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup,
+        descriptionHint ?? metadata.matrixType
+      );
 
   return { hazard, eal, noDataWarning };
 }

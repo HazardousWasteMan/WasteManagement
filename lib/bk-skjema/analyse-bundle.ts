@@ -78,8 +78,10 @@ export async function analyseBundle(
     // returning nothing, so an unfamiliar layout still produces one form.
     subReports = [{
       sampleNo: "hele dokumentet",
+      sampleNos: ["hele dokumentet"],
       marking: null,
       matrix: null,
+      samplingDate: null,
       firstPage: pages[0] ?? 0,
       lastPage: pages[pages.length - 1] ?? 0,
       pageRange: opts.pageRange ?? `${pages[0] ?? 0}-${pages[pages.length - 1] ?? 0}`,

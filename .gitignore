@@ -45,3 +45,6 @@ next-env.d.ts
 
 # copied from node_modules at dev/build time by scripts/copy-pdf-worker.mjs
 public/pdf.worker.min.mjs
+
+# big-test raw extraction output (1MB+, regenerable)
+bk/big-test-out/

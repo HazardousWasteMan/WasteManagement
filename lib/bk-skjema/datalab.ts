@@ -283,7 +283,11 @@ export function buildBkPageSchema(): object {
     type: "object",
     properties: {
       rapportnummer: { type: "string", description: "Laboratoriets rapportnummer for denne prøven, f.eks. AR-25-MM-118438-01" },
-      laboratorium: { type: "string", description: "Navnet på laboratoriet som utførte analysen, slik det står i rapporthodet" },
+      // Eurofins reports end with an "Utførende laboratorium/Underleverandør" list naming Swedish
+      // sub-labs, and extraction reached for that instead of the header on 5 of 6 real reports
+      // (bk/BIG-TEST-FINDINGS.md finding 4). The description names the trap; from-datalab.ts
+      // enforces it, because on this codebase's own evidence a description is not a control.
+      laboratorium: { type: "string", description: "Navnet på laboratoriet som HAR UTSTEDT rapporten, slik det står i topptekstblokken øverst til høyre på rapportens første side, f.eks. 'Eurofins Environment Testing Norway (Moss)'. IKKE bruk listen 'Utførende laboratorium/Underleverandør' nederst i rapporten — den navngir underleverandører som har utført enkeltanalyser, ikke laboratoriet som utstedte rapporten." },
       oppdragsgiver: { type: "string", description: "Kunden/oppdragsgiver som bestilte analysen" },
       avfallsprodusent: { type: "string", description: "Avfallsprodusent hvis oppgitt særskilt, ellers samme som oppdragsgiver" },
       // The customer address block on a Eurofins report carries most of BK-skjema part 2.
@@ -295,7 +299,7 @@ export function buildBkPageSchema(): object {
       kontaktperson_telefon: { type: "string", description: "Telefonnummer til oppdragsgiver eller kontaktpersonen. Utelat feltet hvis bare laboratoriets eget telefonnummer står i rapporten" },
       provemerking: { type: "string", description: "Kundens egen prøvemerking/prøveidentifikasjon, IKKE laboratoriets interne prøvenummer" },
       provenummer: { type: "string", description: "Laboratoriets eget prøvenummer, f.eks. 439-2025-10080994" },
-      hentested: { type: "string", description: "Sted/lokalitet prøven er tatt fra, f.eks. prosjektnavn eller adresse" },
+      hentested: { type: "string", description: "Sted/lokalitet prøven er tatt fra — en adresse eller et stedsnavn. Feltet 'Referanse' i rapporthodet er en oppdrags-/prosjektreferanse, ikke et hentested; ikke bruk det. Utelat feltet helt hvis rapporten ikke oppgir et sted." },
       matrise: { type: "string", description: "Matrise/materialtype, f.eks. Betong, Jord, Asfalt, Aske" },
       provetakingsdato: { type: "string", description: "Prøvetakingsdato som den står i rapporten" },
       mottaksdato: { type: "string", description: "Dato prøven ble mottatt av laboratoriet" },
@@ -324,6 +328,13 @@ export function buildBkPageSchema(): object {
       fysisk_tilstand: { type: "string", description: "Er prøven fast, flytende eller pulver? Brukes til fareklassifisering. Svar 'fast' hvis rapporten ikke sier noe annet" },
       ristetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en ristetest (utlekkingstest)" },
       kolonnetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en kolonnetest" },
+      // The ALS Excel support sheet has no "Prøvemerking:" field at all — its two column headings
+      // are the sample labels ("G5 Utlekkingstest 1-2 m ristetest"), so label-based detection
+      // misses it and 19 leaching rows in mg/kg TS were classified as total content.
+      har_totalanalyse: {
+        type: "boolean",
+        description: "True hvis rapporten inneholder en TOTALANALYSE av selve prøven — altså innhold i massen. False hvis rapporten kun inneholder utlekkingsresultater (ristetest, kolonnetest, eluat, L/S). Merk: en utlekkingstabell kan ha overskriften 'Totale elementer/metaller' og enheten mg/kg TS og likevel bare vise hvor mye som lekker UT; se på prøvenavnet og seksjonsoverskriften.",
+      },
       analyseresultater: {
         type: "array",
         description: "Hver enkelt analyseparameter i rapporten, med resultat. Ta med alle rader, også de under deteksjonsgrensen.",
@@ -340,6 +351,15 @@ export function buildBkPageSchema(): object {
             under_loq: { type: "boolean", description: "True hvis resultatet er oppgitt som mindre enn deteksjonsgrensen" },
             loq: { type: "number", description: "Deteksjonsgrensen (LOQ/LOD) for parameteren" },
             enhet: { type: "string", description: "Enheten slik den står i rapporten, f.eks. 'mg/kg TS' eller 'µg/kg TS'" },
+            // ALS oppgir den UTLEKKEDE mengden i mg/kg TS under en overskrift som sier "Totale
+            // elementer/metaller", inne i en tabell merket "Utlekkingstest ... ristetest". Raden
+            // er ikke til å skille fra en totalanalyse på enhet og navn alene, men dokumentet
+            // sier det selv i overskriften og prøvenavnet. Deterministisk overstyring i
+            // from-datalab.ts fanger de åpenbare tilfellene uansett hva som svares her.
+            er_utlekkingsresultat: {
+              type: "boolean",
+              description: "True hvis raden er et resultat fra en utlekkingstest (ristetest, kolonnetest, eluat, L/S=10, L/S=0,1) — altså hvor mye som lekker UT av massen. False hvis raden er totalinnhold i selve prøven. Se på overskriften over raden og på prøvenavnet: står det 'Utlekkingstest', 'ristetest', 'kolonnetest' eller 'L/S', er raden et utlekkingsresultat selv om enheten er mg/kg TS og overskriften sier 'Totale elementer/metaller'.",
+            },
           },
           required: ["parameter", "enhet"],
         },

@@ -1,3 +1,5 @@
+import ealKoder from "../data/eal-koder-full.json";
+
 export interface OriginOption {
   value: string;
   label: string;
@@ -18,7 +20,12 @@ export interface OriginOption {
 // a non-hazardous sample
 // correctly yields "no matching EAL code found" rather than a guess. Chapter 2003 is the
 // inverse — entirely non-hazardous.
-export const ORIGIN_OPTIONS: OriginOption[] = [
+/**
+ * The 25 hand-written entries. Their `value` strings are load-bearing — "escavo terre e rocce" is
+ * what the Italian fixture and its regression test key on, and stored submissions carry these
+ * exact strings — so they are kept verbatim rather than regenerated.
+ */
+const CURATED_ORIGIN_OPTIONS: OriginOption[] = [
   { value: "escavo terre e rocce", label: "Excavated soil or rock", chapter: "1705" },
   { value: "concrete, brick, tile, or ceramic waste", label: "Concrete, brick, tile, or ceramic waste", chapter: "1701" },
   { value: "wood, glass, or plastic waste", label: "Wood, glass, or plastic waste", chapter: "1702" },
@@ -45,6 +52,26 @@ export const ORIGIN_OPTIONS: OriginOption[] = [
   { value: "separately collected municipal waste fraction (excl. packaging)", label: "Separately collected municipal waste fraction (excl. packaging, see chapter 15 01)", chapter: "2001" },
   { value: "other municipal waste", label: "Other municipal waste", chapter: "2003" },
 ];
+
+/**
+ * Every remaining nivaa-2 chapter in the real catalogue, generated rather than curated.
+ *
+ * The curated list covers 7 of 20 top-level chapters, which meant a real delivery could have no
+ * expressible origin at all: the Veidekke concrete-sludge form is EAL 10 13 14, and chapter 10
+ * was not offered, so no user choice could produce that code (bk/BIG-TEST-FINDINGS.md finding 7).
+ * Generated values are prefixed `eal-` and keyed on the chapter code, so they are stable and can
+ * never collide with a curated string.
+ */
+const GENERATED_ORIGIN_OPTIONS: OriginOption[] = (ealKoder as { nivaa: number; kode: string; beskrivelse: string; beskrivelseEn?: string | null }[])
+  .filter(e => e.nivaa === 2 && !CURATED_ORIGIN_OPTIONS.some(o => o.chapter === e.kode))
+  .map(e => ({
+    value: `eal-${e.kode}`,
+    label: `${e.kode.slice(0, 2)} ${e.kode.slice(2, 4)} — ${e.beskrivelseEn ?? e.beskrivelse}`,
+    chapter: e.kode,
+  }));
+
+/** Curated first (they are the common cases), then the rest of the catalogue by chapter code. */
+export const ORIGIN_OPTIONS: OriginOption[] = [...CURATED_ORIGIN_OPTIONS, ...GENERATED_ORIGIN_OPTIONS];
 
 // All 20 real EAL top-level chapters, with their real English titles — transcribed from
 // lib/data/eal-koder-full.json's nivaa:1 entries (all 20 have a real, non-gap beskrivelseEn;

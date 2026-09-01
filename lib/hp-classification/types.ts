@@ -27,6 +27,8 @@ export interface SampleResult {
   unitRaw: string;
   expressedOnDryBasis: boolean;
   method: string | null;
+  /** True when the row is a leaching-test result (release), not a total content in the sample. */
+  isLeachateResult?: boolean;
 }
 
 export interface AnalyteReference {

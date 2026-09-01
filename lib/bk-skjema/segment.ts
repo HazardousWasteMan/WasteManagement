@@ -17,6 +17,11 @@ export interface SubReport {
   marking: string | null;
   /** Matrix/material, e.g. "Betong". */
   matrix: string | null;
+  /** Prøvetakingsdato as printed, used to tell one delivery's tests apart from another's. */
+  samplingDate: string | null;
+  /** Every lab Prøvenr. folded into this sub-report — more than one when a delivery was tested
+   *  several ways (total analysis + ristetest + kolonnetest all carry their own Prøvenr.). */
+  sampleNos: string[];
   /** 0-based, inclusive. */
   firstPage: number;
   lastPage: number;
@@ -30,6 +35,7 @@ const LABEL = {
   sampleNo: /^pr[øo]ve\s*nr/i,
   marking: /^pr[øo]ve.{0,3}merking/i,
   matrix: /^pr[øo]ve\s*type/i,
+  samplingDate: /^pr[øo]ve\s*takings?dato/i,
 };
 
 /** Reads "label: value" pairs out of a table row's cells. */
@@ -41,7 +47,7 @@ function pairsFromRow(cells: string[]): [string, string][] {
   return pairs;
 }
 
-interface PageHeader { sampleNo?: string; marking?: string; matrix?: string }
+interface PageHeader { sampleNo?: string; marking?: string; matrix?: string; samplingDate?: string }
 
 function headerForPage(blocks: DatalabBlock[]): PageHeader {
   const header: PageHeader = {};
@@ -53,6 +59,7 @@ function headerForPage(blocks: DatalabBlock[]): PageHeader {
         if (!header.sampleNo && LABEL.sampleNo.test(label)) header.sampleNo = v;
         else if (!header.marking && LABEL.marking.test(label)) header.marking = v;
         else if (!header.matrix && LABEL.matrix.test(label)) header.matrix = v;
+        else if (!header.samplingDate && LABEL.samplingDate.test(label)) header.samplingDate = v;
       }
     }
   }
@@ -79,8 +86,10 @@ export function detectSubReports(blocks: Record<string, DatalabBlock>, pages: nu
     if (header.sampleNo && header.sampleNo !== current?.sampleNo) {
       reports.push({
         sampleNo: header.sampleNo,
+        sampleNos: [header.sampleNo],
         marking: header.marking ?? null,
         matrix: header.matrix ?? null,
+        samplingDate: header.samplingDate ?? null,
         firstPage: page,
         lastPage: page,
         pageRange: String(page),
@@ -93,14 +102,46 @@ export function detectSubReports(blocks: Record<string, DatalabBlock>, pages: nu
       // A continuation page can still be where the marking or matrix first became legible.
       current.marking ??= header.marking ?? null;
       current.matrix ??= header.matrix ?? null;
+      current.samplingDate ??= header.samplingDate ?? null;
     }
     // No sub-report open yet and no header on this page: a cover page, skip it.
   }
 
-  for (const r of reports) {
+  const merged = mergeSameDelivery(reports);
+  for (const r of merged) {
     r.pageRange = r.firstPage === r.lastPage ? String(r.firstPage) : `${r.firstPage}-${r.lastPage}`;
   }
-  return reports;
+  return merged;
+}
+
+/**
+ * One BK-skjema describes one delivery, and a delivery is often analysed several ways: the
+ * Veidekke betongslam report is a total analysis, a ristetest and a kolonnetest, each booked in
+ * under its own Prøvenr. but all three carrying the same Prøvemerking and Prøvetakingsdato.
+ * Splitting on Prøvenr. alone produced three forms, none of them the one a human wrote: the
+ * total-analysis form said "ristetest: nei", and the TOC sat on a different form again.
+ *
+ * So adjacent sub-reports that agree on a non-empty marking AND sampling date are folded into
+ * one. Both must match and both must be stated — a bundle of unrelated samples (Alta's six, the
+ * four asphalt cores) has distinct markings and is left alone.
+ */
+function mergeSameDelivery(reports: SubReport[]): SubReport[] {
+  const out: SubReport[] = [];
+  for (const r of reports) {
+    const prev = out[out.length - 1];
+    const sameDelivery =
+      prev &&
+      prev.marking && r.marking && prev.marking === r.marking &&
+      prev.samplingDate && r.samplingDate && prev.samplingDate === r.samplingDate;
+    if (sameDelivery) {
+      prev.lastPage = r.lastPage;
+      prev.sampleNos.push(...r.sampleNos);
+      prev.matrix ??= r.matrix;
+      continue;
+    }
+    out.push(r);
+  }
+  return out;
 }
 
 /** Short human label for the switcher, e.g. "Betong · ENAT-BØF1-BO9OB1". */

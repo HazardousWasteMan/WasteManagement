@@ -42,7 +42,29 @@ describe("classifySample", () => {
     ];
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBe(false);
-    expect(result.eal.code).toBe("17 05 04");
+    // Nothing usable survived, so there is no verdict — and without one the mirror pair
+    // (17 05 03* / 17 05 04) cannot be chosen between. This used to assert the non-hazardous
+    // half, which on big_test/test_1 called hazardous waste clean.
+    expect(result.noDataWarning).toBe(true);
+    expect(result.eal.code).toBeNull();
+    expect(result.eal.confidence).toMatch(/HALT — no usable total-content analysis/);
+  });
+
+  it("halts the EAL code when every row was a leaching result, rather than defaulting to the non-hazardous mirror code", () => {
+    // big_test/test_1: both documents are ristetest/kolonnetest end to end. ALS prints the
+    // released amount in mg/kg TS under a heading reading "Totale elementer/metaller", so the
+    // rows look exactly like a total analysis and were classified as one.
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Pb (Bly)",
+        resultValue: 3.64, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS",
+        expressedOnDryBasis: true, method: null, isLeachateResult: true,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.noDataWarning).toBe(true);
+    expect(result.eal.code).toBeNull();
+    expect(result.hazard.confidenceFlags.join(" ")).toMatch(/leaching result/);
   });
 
   it("sets noDataWarning true when no results are provided, false otherwise", () => {

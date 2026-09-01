@@ -19,6 +19,12 @@ const CONVERT_JSON = {
       '<tr data-bbox="24 560 900 582"><td data-bbox="24 560 437 582">Arsen (As)</td><td data-bbox="437 560 666 582">1.8</td></tr>' +
       '<tr data-bbox="24 582 900 604"><td data-bbox="24 582 437 604">Bly (Pb)</td><td data-bbox="437 582 666 604">1.8</td></tr>' +
       '</table>' },
+    // The "Utførende laboratorium/Underleverandør" table every Eurofins report ends with.
+    { id: "/page/2/Table/44", block_type: "Table", bbox: [24, 1250, 900, 1330], children: [], html:
+      '<table>' +
+      '<tr data-bbox="24 1250 900 1272"><td data-bbox="24 1250 900 1272">Utførende laboratorium/ Underleverandør:</td></tr>' +
+      '<tr data-bbox="24 1272 900 1294"><td data-bbox="24 1272 900 1294">a) Eurofins Food &amp; Feed Testing Sweden (Lidköping), Sockerbruksg 3</td></tr>' +
+      '</table>' },
   ],
 };
 
@@ -50,7 +56,7 @@ function datalabPayload(overrides: Record<string, unknown> = {}) {
 describe("flattenBlocks", () => {
   it("flattens the tree, parses the page out of each id, and strips html to text", () => {
     const { blocks, pages } = flattenBlocks(CONVERT_JSON);
-    expect(Object.keys(blocks)).toHaveLength(3);
+    expect(Object.keys(blocks)).toHaveLength(4);
     expect(pages).toEqual([{ page: 2, width: 1000, height: 1400 }]);
     expect(blocks["/page/2/Text/3"].page).toBe(2);
     expect(blocks["/page/2/Text/3"].text).toBe("Avinor AS");
@@ -105,13 +111,31 @@ describe("bkFromDatalab", () => {
       .toEqual(["Avfallstype (materiale): Betong eller tegl"]);
   });
 
-  it("puts a matrix the form does not list under \"Annet\" rather than leaving the column blank", () => {
-    // Real case: the form's waste-type list has no row for asphalt, and "Asfalt" is exactly what
-    // the Eurofins asphalt report states. "Annet" is the right answer, not an empty column.
+  it("leaves the column blank for a matrix the form does not list, rather than ticking \"Annet\"", () => {
+    // The form's waste-type list has no row for asphalt. This used to tick "Annet"; the human
+    // form for the Alta asphalt delivery (big_test/test_4) ticks nothing in this column at all,
+    // so an unlistable matrix is the column's problem, not "Annet"'s.
     const { fields } = bkFromDatalab(datalabPayload({ matrise: "Asfalt" }), blocks, ORIGIN);
-    const ticked = fields.filter(f => f.label.startsWith("Avfallstype (materiale):") && f.check);
-    expect(ticked.map(f => f.label)).toEqual(["Avfallstype (materiale): Annet"]);
-    expect(ticked[0].note).toMatch(/not one of the form's listed waste types/);
+    const column = fields.filter(f => f.label.startsWith("Avfallstype (materiale):"));
+    expect(column.filter(f => f.check)).toEqual([]);
+    expect(column[0].note).toMatch(/not one of the form's listed waste types/);
+  });
+
+  it("ticks nothing when Prøvetype is the lab's non-answer (\"Uspesifisert jord\")", () => {
+    // big_test/test_3: Eurofins booked a betongslam delivery in as "Uspesifisert jord", which
+    // ticked "Jord og sediment som er forurenset" where the human ticked "Avløpsslam".
+    const { fields } = bkFromDatalab(datalabPayload({ matrise: "Uspesifisert jord" }), blocks, ORIGIN);
+    const column = fields.filter(f => f.label.startsWith("Avfallstype (materiale):"));
+    expect(column.filter(f => f.check)).toEqual([]);
+    expect(column[0].note).toMatch(/states no material/);
+  });
+
+  it("marks a matched material row as a suggestion to confirm, not as extracted", () => {
+    const { fields } = bkFromDatalab(datalabPayload({ matrise: "Betong" }), blocks, ORIGIN);
+    const betong = fields.find(f => f.label === "Avfallstype (materiale): Betong eller tegl")!;
+    expect(betong.check).toBe(true);
+    expect(betong.src).toBe("human");
+    expect(betong.note).toMatch(/Confirm/);
   });
 
   it("ticks nothing in that column when no matrix was read at all", () => {
@@ -220,5 +244,172 @@ describe("bkSection", () => {
     expect(bkSection("TextField41")).toBe(4);
     expect(bkSection("group6")).toBe(5);       // 5. Avfall som oppstår jevnlig
     expect(bkSection("TextField53")).toBe(5);
+  });
+});
+
+describe("values the document states but does not mean", () => {
+  const blocks = flattenBlocks(CONVERT_JSON).blocks;
+
+  it("drops a lab name read from the subcontractor list rather than reporting the wrong lab", () => {
+    // 5 of 6 real reports came back with a Swedish sub-lab because extraction cited the
+    // "Utførende laboratorium/Underleverandør" table instead of the page-1 header
+    // (bk/BIG-TEST-FINDINGS.md finding 4). A blank lab is visibly missing; a wrong one is not.
+    const { source } = bkFromDatalab(datalabPayload({
+      laboratorium: "Eurofins Food & Feed Testing Sweden (Lidköping)",
+      laboratorium_citations: ["/page/2/Table/44"],
+    }), blocks, ORIGIN);
+
+    expect(source.metadata.labName).toBeFalsy();
+    expect(source.metadata.labNameNote).toMatch(/subcontractor/);
+    expect(source.citations?.labName).toEqual([]);
+  });
+
+  it("drops a lab name cited to the footnote-prefixed list Datalab splits off from its heading", () => {
+    // Real shape: convert returns the heading as its own SectionHeader and the lab lines as a
+    // ListGroup whose text is just "a)* Eurofins … a) Eurofins …". Matching the heading alone
+    // missed the block the citation points at, so the footnote marker is the tell.
+    const listOnly = {
+      ...blocks,
+      "/page/1/ListGroup/5": {
+        id: "/page/1/ListGroup/5", page: 1, blockType: "ListGroup",
+        bbox: [0, 0, 10, 10] as [number, number, number, number], regions: [],
+        text: "a)* Eurofins Food & Feed Testing Sweden (Lidköping), Sockerbruksg 3 a) Eurofins Food & Feed Testing Sweden (Lidköping)",
+      },
+    };
+    const { source } = bkFromDatalab(datalabPayload({
+      laboratorium: "Eurofins Food & Feed Testing Sweden (Lidköping)",
+      laboratorium_citations: ["/page/1/ListGroup/5"],
+    }), listOnly, ORIGIN);
+
+    expect(source.metadata.labName).toBeFalsy();
+    expect(source.metadata.labNameNote).toMatch(/subcontractor/);
+  });
+
+  it("keeps a lab name cited anywhere else", () => {
+    const { source } = bkFromDatalab(datalabPayload({
+      laboratorium: "Eurofins Environment Testing Norway (Moss)",
+      laboratorium_citations: ["/page/2/Text/3"],
+    }), blocks, ORIGIN);
+
+    expect(source.metadata.labName).toBe("Eurofins Environment Testing Norway (Moss)");
+    expect(source.metadata.labNameNote).toBeNull();
+  });
+
+  it("drops a hentested that is really the report's Referanse field", () => {
+    const { source, fields } = bkFromDatalab(
+      datalabPayload({ hentested: "Referanse: PFAS-prosjektet Alta" }), blocks, ORIGIN);
+
+    expect(source.metadata.pickupLocation).toBeNull();
+    const hentested = fields.find(f => f.label === "Hentested for avfallet")!;
+    expect(hentested.value).toBeUndefined();
+    expect(hentested.src).toBe("human");
+  });
+
+  it("keeps a hentested that names a real place", () => {
+    const { source } = bkFromDatalab(datalabPayload({ hentested: "Alta lufthavn" }), blocks, ORIGIN);
+    expect(source.metadata.pickupLocation).toBe("Alta lufthavn");
+  });
+
+  it("offers part 2 as a suggestion to confirm, not as a fact from the document", () => {
+    // The report names its customer; the form asks for the waste producer. On two of three real
+    // forms those were different companies (bk/BIG-TEST-FINDINGS.md finding 3), so the value is
+    // prefilled but the field belongs to a person.
+    const { fields } = bkFromDatalab(datalabPayload({
+      oppdragsgiver: "Prosjektil AS",
+      oppdragsgiver_adresse: "Gamle Forusveien 1",
+    }), blocks, ORIGIN);
+
+    for (const label of ["Avfallsprodusent", "Adresse", "Postnummer", "Poststed", "Kontaktperson"]) {
+      const f = fields.find(x => x.label === label)!;
+      expect(f.src, `${label} must not claim to be extracted`).toBe("human");
+    }
+    const produsent = fields.find(f => f.label === "Avfallsprodusent")!;
+    expect(produsent.value).toBe("Prosjektil AS");
+    expect(produsent.note).toMatch(/Confirm before use/);
+  });
+});
+
+describe("leaching results must not become a hazard verdict", () => {
+  const blocks = flattenBlocks(CONVERT_JSON).blocks;
+
+  /** An ALS ristetest page: bare element names, mg/kg TS, but the release, not the content. */
+  const alsRistetest = () => datalabPayload({
+    provemerking: "G5 Utlekkingstest 1-2 m ristetest",
+    matrise: "JORD",
+    analyseresultater: [
+      { parameter: "Pb (Bly)", analyte_id: "lead-compounds", verdi: 3.64, under_loq: false, enhet: "mg/kg TS" },
+      { parameter: "Zn (Sink)", analyte_id: "zinc-oxide", verdi: 13.4, under_loq: false, enhet: "mg/kg TS" },
+    ],
+  });
+
+  it("treats every row of a sub-report labelled as a leaching test as a release, whatever the unit says", () => {
+    const { source } = bkFromDatalab(alsRistetest(), blocks, ORIGIN);
+    expect(source.results.every(r => r.isLeachateResult)).toBe(true);
+    expect(source.hazardAssessable).toBe(false);
+  });
+
+  it("halts instead of ticking \"ordinært avfall\" when no total content survived", () => {
+    // The failure this replaces: big_test/test_1's two documents are leaching data end to end,
+    // and the form asserted "ikke farlig avfall, EAL 17 05 04, deponi for ordinært avfall" on
+    // waste the producer had classified as farlig avfall.
+    const { fields, source } = bkFromDatalab(alsRistetest(), blocks, ORIGIN);
+    expect(source.eal.code).toBeNull();
+
+    for (const label of ["Deponi for ordinært avfall", "Avfallstype: Ordinært avfall",
+                         "Deponi for farlig avfall", "Avfallstype: Farlig avfall"]) {
+      const f = fields.find(x => x.label === label)!;
+      expect(f.check, `${label} must not be ticked without a verdict`).toBe(false);
+      expect(f.src, `${label} must be a person's call`).toBe("human");
+      expect(f.note).toMatch(/no usable total-content analysis/);
+    }
+  });
+
+  it("still classifies normally when the same sub-report carries real total content alongside leaching rows", () => {
+    // big_test/test_3 after the delivery merge: 50 total-analysis rows plus the ristetest and
+    // kolonnetest panels in one form. The leaching rows drop out; the verdict survives.
+    const { source, fields } = bkFromDatalab(datalabPayload({
+      provemerking: "1 prøve - 2 bokser",
+      analyseresultater: [
+        { parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.8, under_loq: false, enhet: "mg/kg TS" },
+        { parameter: "Barium (Ba) L/S=10", analyte_id: "barium-compounds", verdi: 3.3, under_loq: false, enhet: "mg/kg TS" },
+        { parameter: "DOC L/S=10", verdi: 89, under_loq: false, enhet: "mg/l" },
+      ],
+    }), blocks, ORIGIN);
+
+    expect(source.hazardAssessable).toBe(true);
+    expect(source.eal.code).toBeTruthy();
+    expect(fields.find(f => f.label === "Avfallstype: Ordinært avfall")!.src).toBe("derived");
+  });
+
+  it("halts on a layout with no sample-label field when the document says it holds no total analysis", () => {
+    // ALS's Excel support sheet: no "Prøvemerking:" anywhere, its two column headings are the
+    // sample labels. Label matching alone missed it and 19 mg/kg TS leaching rows were classified.
+    const { source } = bkFromDatalab(datalabPayload({
+      provemerking: "",
+      har_totalanalyse: false,
+      analyseresultater: [
+        { parameter: "Pb (Bly)", analyte_id: "lead-compounds", verdi: 3.64, under_loq: false, enhet: "mg/kg TS" },
+      ],
+    }), blocks, ORIGIN);
+    expect(source.results.every(r => r.isLeachateResult)).toBe(true);
+    expect(source.hazardAssessable).toBe(false);
+    expect(source.eal.code).toBeNull();
+  });
+
+  it("does not let a lab non-answer win the description match", () => {
+    // "Uspesifisert jord" scored against 10 13 99 "Avfall som ikke er spesifisert andre steder"
+    // and won it — a confident wrong code off a word that means the lab did not know.
+    const { source } = bkFromDatalab(datalabPayload({ matrise: "Uspesifisert jord" }), blocks, "eal-1013");
+    expect(source.eal.code).not.toBe("10 13 99");
+    expect(source.eal.confidence).toMatch(/AMBIGUOUS/);
+  });
+
+  it("picks the EAL code whose description matches the waste, not whichever comes first in the file", () => {
+    // Chapter 1013 non-hazardous holds nine candidates; file order gives 10 13 01 "Avfall av
+    // råstoffblanding før varmebehandling". The real answer for concrete sludge is 10 13 14.
+    const { source } = bkFromDatalab(
+      datalabPayload({ matrise: "Betongslam" }), blocks, "eal-1013");
+    expect(source.eal.code).toBe("10 13 14");
+    expect(source.eal.confidence).toMatch(/matched on description/);
   });
 });

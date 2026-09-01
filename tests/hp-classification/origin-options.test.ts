@@ -3,8 +3,31 @@ import { ORIGIN_OPTIONS, withCustomOrigin, deriveOriginFromLabCode, suggestOrigi
 import ealKoderFull from "@/lib/data/eal-koder-full.json";
 
 describe("ORIGIN_OPTIONS", () => {
-  it("has exactly 25 real origin types across 7 chapters", () => {
-    expect(ORIGIN_OPTIONS).toHaveLength(25);
+  it("offers every nivaa-2 chapter in the real catalogue, not just the 7 curated ones", () => {
+    // The curated list covered 7 of 20 chapters, so EAL 10 13 14 (concrete sludge, a real form in
+    // big_test/test_3) was unreachable — no user choice mapped to chapter 10.
+    const ealKoder = ealKoderFull as { nivaa: number; kode: string }[];
+    const allChapters = ealKoder.filter(e => e.nivaa === 2).map(e => e.kode);
+    expect(ORIGIN_OPTIONS).toHaveLength(allChapters.length);
+    expect(new Set(ORIGIN_OPTIONS.map(o => o.chapter))).toEqual(new Set(allChapters));
+    expect(ORIGIN_OPTIONS.some(o => o.chapter === "1013")).toBe(true);
+  });
+
+  it("keeps the 25 curated values verbatim and first — stored submissions carry those strings", () => {
+    expect(ORIGIN_OPTIONS.slice(0, 25).map(o => o.value)).toEqual([
+      "escavo terre e rocce", "concrete, brick, tile, or ceramic waste", "wood, glass, or plastic waste",
+      "bituminous mixtures, coal tar, or tar products", "metal waste",
+      "insulation material or asbestos-containing building material", "gypsum-based building material",
+      "other construction/demolition waste", "hydraulic oil waste", "engine, gear, or lubricating oil waste",
+      "transformer or heat-transfer oil waste", "bilge oil waste", "oil/water separator content",
+      "liquid fuel waste (heating oil, diesel, petrol)", "other oil waste, not otherwise specified",
+      "organic solvent, refrigerant, or propellant waste", "paint or varnish production/use/removal waste",
+      "adhesive or sealant (incl. waterproofing) waste", "packaging waste (incl. separately collected)",
+      "absorbents, filter materials, wiping cloths, or protective clothing",
+      "electrical or electronic equipment waste (WEEE)", "gas in pressurized containers or discarded chemicals",
+      "batteries and accumulators", "separately collected municipal waste fraction (excl. packaging)",
+      "other municipal waste",
+    ]);
   });
 
   it("every option has a non-empty value, label, and a 4-digit chapter code", () => {
@@ -36,9 +59,9 @@ describe("ORIGIN_OPTIONS", () => {
     }
   });
 
-  it("covers all 7 chapters the user identified as relevant: 08, 13, 14, 15, 16, 17, 20", () => {
+  it("covers all 20 top-level chapters", () => {
     const chaptersCovered = new Set(ORIGIN_OPTIONS.map(o => o.chapter.slice(0, 2)));
-    expect(chaptersCovered).toEqual(new Set(["08", "13", "14", "15", "16", "17", "20"]));
+    expect(chaptersCovered).toEqual(new Set(EAL_CHAPTERS.map(c => c.chapter)));
   });
 });
 
@@ -75,9 +98,14 @@ describe("deriveOriginFromLabCode", () => {
     expect(deriveOriginFromLabCode("170503")).toBe("escavo terre e rocce");
   });
 
-  it("returns null for a well-formed code whose chapter isn't one of the 25 curated ones", () => {
-    // Chapter 0101 (mineral extraction) is real but not among the 7 curated chapters.
-    expect(deriveOriginFromLabCode("01 01 01")).toBeNull();
+  it("now resolves a code outside the 25 curated chapters, since every real chapter is offered", () => {
+    // Chapter 0101 (mineral extraction) has no curated entry, so this used to return null and the
+    // lab's own classification was thrown away. It is a real chapter and now maps to one.
+    expect(deriveOriginFromLabCode("01 01 01")).toBe("eal-0101");
+  });
+
+  it("still returns null for a chapter code that is not in the catalogue at all", () => {
+    expect(deriveOriginFromLabCode("99 99 99")).toBeNull();
   });
 
   it("returns null when no lab code is given", () => {
@@ -100,9 +128,13 @@ describe("suggestOriginProcess", () => {
     expect(result).toBe("hydraulic oil waste");
   });
 
-  it("falls back to Claude's suggestion when the lab code's chapter isn't curated", () => {
+  it("prefers the lab code over Claude even for a generated chapter — the lab's own classification wins", () => {
     const result = suggestOriginProcess("01 01 01", "hydraulic oil waste");
-    expect(result).toBe("hydraulic oil waste");
+    expect(result).toBe("eal-0101");
+  });
+
+  it("still falls back to Claude when the lab code names no real chapter", () => {
+    expect(suggestOriginProcess("99 99 99", "hydraulic oil waste")).toBe("hydraulic oil waste");
   });
 
   it("rejects a Claude suggestion that isn't a real ORIGIN_OPTIONS value, even with no lab code", () => {
