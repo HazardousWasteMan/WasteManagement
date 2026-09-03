@@ -131,6 +131,9 @@ function stripTags(html: string): string {
   return html
     .replace(/<[^>]+>/g, " ")
     .replace(/&#xa0;|&nbsp;/gi, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();

@@ -27,10 +27,6 @@ export async function search(
   source: LegalSource,
   query: SearchQuery
 ): Promise<GroundedResult> {
-  // embedText/hybridSearch are exercised for the general-search path; the exact-location lookup
-  // below is what actually resolves a single form field's citation in this slice.
-  await embedText(query.queryText);
-
   const cached = await store.findByLocation(query.documentId, query.article, query.paragraph);
   if (cached) {
     if (query.staleAfterMs !== undefined) {

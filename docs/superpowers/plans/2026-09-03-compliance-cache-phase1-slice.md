@@ -1519,3 +1519,38 @@ this slice is anything more than a proof of mechanism:
    argument — see Task 5/6 — so this gap is scoped to the search leg only, not to writes.)
 2. **Lovdata archive research** (Task 3, Step 1) must be done for real before Task 8's seeding
    script can seed real data — the code before that point is written and tested against mocks.
+3. **The BK-skjema citation is unstructured prose, not a machine-checkable pointer.** `BkField`
+   (lib/bk-skjema/form-map.ts) has no `citedParagraphId`-shaped field — only a free-text `note`
+   string and a document-citation-shaped `citations?: BkCitation[]` (for extracted-document
+   citations, not legal_paragraphs rows). Task 8 grounded the existing `Checkbox10` field by
+   appending "Rettslig grunnlag: Avfallsforskriften § 11-4" to its `note` string rather than
+   adding a structured pointer, because `BkField` has no such field and adding one is a schema
+   change to the production form model with no other consumer yet. Nothing outside
+   lib/compliance and its own tests currently imports this module — the "wired form field" is a
+   prose annotation on Checkbox10, not a live, machine-checkable code path. Before this slice's
+   grounding claims can be trusted by anything downstream, `BkField` needs a real
+   `citedParagraphId?: string` field (or equivalent), populated from a real `legal_paragraphs.id`.
+4. **RLS (row-level security) is disabled on both `legal_paragraphs` and
+   `compliance_form_freezes`** (flagged by Supabase's own advisories during Task 1, deferred as
+   out of scope since all access in this slice is server-side via the service-role key, which
+   bypasses RLS). Before either table is reachable from any client-side/anon-key path, RLS
+   policies need to be designed and enabled.
+5. **The Step 9 real integration proof (search.ts + freeze.ts + real Supabase + real Voyage +
+   real Lovdata, end to end) has never actually been run.** `.env.local`'s
+   `SUPABASE_SERVICE_ROLE_KEY` and `VOYAGE_API_KEY` are still placeholder values. A human needs
+   to supply real credentials and run
+   `npx vitest run tests/compliance/integration/end-to-end.test.ts` (temporarily removing it from
+   vitest.config.ts's exclude list, or invoking vitest directly against that one file) before this
+   slice can be considered proven against real infrastructure rather than merely "plausibly wired"
+   (the one manual attempt reached a real Voyage HTTP 401 on the placeholder key, confirming
+   correct wiring up to that point, but not a full successful run).
+6. **`search()` never calls `ParagraphStore.hybridSearch`, and never filters by `jurisdiction` or
+   `in_force`.** The spec (§4) scopes hybrid vector+keyword search filtered by jurisdiction and
+   `in_force`; what shipped in this slice is an exact-location lookup only
+   (`store.findByLocation(documentId, article, paragraph)`) — `SearchQuery.jurisdiction` is
+   declared on the type but never read, and `in_force` is never checked anywhere in `search()`.
+   This is a defensible scope choice for a single-document proof slice, but was previously
+   understated in follow-up #1 above (which only mentioned the ANN query needing a real RPC, not
+   that the hybrid-search code path is entirely unreached from `search()`). Wiring real semantic
+   search — beyond one hardcoded document location — needs this closed before the cache is useful
+   for anything but the one seeded paragraph.

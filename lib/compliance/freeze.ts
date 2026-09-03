@@ -6,10 +6,10 @@ export interface FreezeStore {
   findByCase(caseId: string, fieldName: string): Promise<FormFreeze | null>;
 }
 
-// Writes an immutable copy of the paragraph's text/version/link AT THIS MOMENT — spread into a
-// new object so a later mutation of the caller's `paragraph` reference (e.g. the cache being
-// updated in place elsewhere) can never retroactively alter an already-frozen record. This is
-// the one behavior spec §8 exists to guarantee; see the "PROVES freeze integrity" test above.
+// Writes an immutable copy of the paragraph's text/version/link AT THIS MOMENT — the fields below
+// are copied by value into a new FormFreeze object, so a later mutation of the caller's
+// `paragraph` reference (e.g. the cache being updated in place elsewhere) can never retroactively
+// alter an already-frozen record. This is the one behavior spec §8 exists to guarantee.
 export async function freezeFormField(
   store: FreezeStore,
   args: { caseId: string; fieldName: string; paragraph: LegalParagraph }

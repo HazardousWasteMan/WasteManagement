@@ -92,25 +92,26 @@ export function createSupabaseParagraphStore(): ParagraphStore {
       return data ? rowToParagraph(data as Row) : null;
     },
 
-    async hybridSearch(queryEmbedding, queryText, opts) {
-      // Vector leg: cosine-distance nearest neighbors via pgvector.
-      let vectorQuery = client
-        .from("legal_paragraphs")
-        .select("*")
-        .order("embedding" as never, { ascending: true }) // placeholder ordering; real ANN uses an RPC (see note below)
-        .limit(opts.limit ?? 10);
-      if (opts.jurisdiction?.length) vectorQuery = vectorQuery.in("source", opts.jurisdiction);
-      // NOTE: supabase-js has no native "<->": use a Postgres function (`match_legal_paragraphs`)
-      // for real cosine-distance ANN search via RPC instead of the placeholder .order() above:
+    async hybridSearch(_queryEmbedding, _queryText, _opts) {
+      // Real cosine-distance ANN search needs a Postgres RPC function (`match_legal_paragraphs`)
+      // — supabase-js has no native "<->" operator, and there is no such function in the
+      // migrations yet:
       //   create function match_legal_paragraphs(query_embedding vector(1024), match_count int)
       //   returns setof legal_paragraphs language sql as $$
       //     select * from legal_paragraphs order by embedding <-> query_embedding limit match_count;
       //   $$;
-      // Add this function in a follow-up migration and call it here via client.rpc(...) before
-      // this store is used against real data — tracked as a known gap, not silently shipped.
-      const { data, error } = await vectorQuery;
-      if (error) throw new Error(`hybridSearch failed: ${error.message}`);
-      return (data as Row[]).map(rowToParagraph);
+      // A prior version of this method used `.order("embedding", ...)` as a placeholder, but
+      // that is not a real ANN query — it silently returns rows in an arbitrary,
+      // semantically-meaningless order. This module's whole design principle is "never
+      // fabricate, never silently gap", so we throw instead of returning wrong-looking-right
+      // results. Add the RPC function above in a follow-up migration and call it here via
+      // client.rpc(...) before this method is used against real data.
+      throw new Error(
+        "hybridSearch is not yet implemented — requires a match_legal_paragraphs Postgres RPC " +
+        "function for real cosine-distance ANN search (see docs/superpowers/plans/2026-09-03-" +
+        "compliance-cache-phase1-slice.md, Known follow-ups #1). The current .order() approach " +
+        "does not perform real vector search and was removed rather than left silently wrong."
+      );
     },
 
     async insert(paragraph, embedding) {

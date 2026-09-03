@@ -1,6 +1,7 @@
-import { LovdataSource } from "@/lib/compliance/sources/lovdata-source";
-import { createSupabaseParagraphStore } from "@/lib/compliance/store";
-import { embedText } from "@/lib/compliance/embeddings";
+import { fileURLToPath } from "node:url";
+import { LovdataSource } from "../lib/compliance/sources/lovdata-source";
+import { createSupabaseParagraphStore } from "../lib/compliance/store";
+import { embedText } from "../lib/compliance/embeddings";
 
 // The one real paragraph this proof slice seeds: Avfallsforskriften § 11-4, the hazardous-waste
 // handling-obligation provision that grounds the BK-skjema legal-basis field wired in Step 6.
@@ -25,7 +26,8 @@ async function main() {
   }
 }
 
-if (require.main === module) {
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+if (isMainModule) {
   main().catch(err => {
     console.error(err);
     process.exit(1);
