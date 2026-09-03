@@ -1513,8 +1513,11 @@ These are real gaps flagged during planning, not hidden — they need explicit f
 this slice is anything more than a proof of mechanism:
 
 1. **`ParagraphStore.hybridSearch`'s real ANN query** (Task 5) needs a Postgres RPC function
-   (`match_legal_paragraphs`), not the placeholder `.order()` call — add a follow-up migration
-   before this store is used for anything beyond the exact-location lookup Task 6 actually
+   (`match_legal_paragraphs`). The final whole-branch review found the original `.order()`
+   placeholder would have silently returned arbitrary-order results, so `hybridSearch` was
+   changed to throw an explicit "not yet implemented" error instead — it now refuses loudly
+   rather than looking like it works. Add the real RPC function and swap the throw for a real
+   call before this store is used for anything beyond the exact-location lookup Task 6 actually
    exercises. (`insert` correctly writes the `embedding` column via its required second
    argument — see Task 5/6 — so this gap is scoped to the search leg only, not to writes.)
 2. **Lovdata archive research** (Task 3, Step 1) must be done for real before Task 8's seeding

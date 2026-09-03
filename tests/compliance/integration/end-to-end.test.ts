@@ -34,6 +34,9 @@ describe("compliance cache end-to-end (real Supabase + Voyage + Lovdata)", () =>
     });
 
     const frozen = await freezeStore.findByCase(caseId, "eal-legal-basis");
-    expect(frozen).toBeDefined();
+    // toBeDefined() would pass on null (findByCase's real "not found" value) and prove nothing —
+    // assert the actual citation survived the round trip instead.
+    expect(frozen).not.toBeNull();
+    expect(frozen?.citedParagraphId).toBe(second.paragraph!.id);
   });
 });
