@@ -186,7 +186,13 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
     { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived", check: true,
-      note: "hazardous substances detected above LOQ, though all below HP thresholds" },
+      // Compliance cache Phase 1 proof slice: this is the field grounded in a live-verified
+      // legal paragraph (lib/compliance) rather than the document or the classification engine.
+      // Location is fixed to the seeded paragraph (scripts/seed-lovdata.ts); resolving/freezing
+      // the actual paragraph text against a case is the caller's job via lib/compliance/search.ts
+      // + freeze.ts (fieldName "eal-legal-basis").
+      note: "hazardous substances detected above LOQ, though all below HP thresholds. " +
+        "Rettslig grunnlag: Avfallsforskriften § 11-4 (håndteringsplikt for farlig avfall)." },
     { field: "TextField35", label: "TOC %", src: m.tocPct != null ? "extracted" : "human",
       value: m.tocPct != null ? String(m.tocPct) : undefined, ...cite(s, "tocPct"),
       note: m.tocPct != null ? undefined : "GAP: TOC not measured, but required for deponi for ordinært avfall" },
