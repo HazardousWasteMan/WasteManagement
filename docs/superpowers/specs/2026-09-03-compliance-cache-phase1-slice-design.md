@@ -80,6 +80,16 @@ scope: hazardous waste + oil/gas waste.
    in one call. Both the cache-hit path and the miss→live-fetch→write-back path are exercised by
    the slice's tests — this is the actual growth mechanism the architecture is built around, not
    an optional extra.
+
+   **`grounded_stale` handling in this slice, stated explicitly:** this slice does NOT enforce
+   staleness. `search()` can return `grounded_stale` for a hit past an age threshold, but no
+   max-age value has been confirmed yet — that's still an open decision in the parent
+   architecture (§11, "confirm or adjust"). Without a real threshold there is nothing honest to
+   enforce yet, so a `grounded_stale` result does not trigger a live re-fetch here; it is
+   returned to the caller as-is, same as `grounded_high`, just tagged with the weaker tier.
+   Enforcement (forcing re-verification before a stale hit is used) is deferred to §11's weekly
+   job, once a real max-age value is confirmed. A unit test asserts this boundary directly: a
+   seeded row past a test threshold returns `grounded_stale` without the adapter being called.
 5. One real grounded form field, reusing an existing BK-skjema field (the waste-code/EAL legal
    basis field) rather than inventing a new form — so the slice plugs into something real instead
    of a synthetic target.
@@ -116,7 +126,8 @@ still returns the original text and version, unaffected by the mutation.
 
 - Unit tests for `LovdataSource` (adapter contract, normalization to the common schema).
 - Unit tests for `search()` covering all four grounding-tier outcomes, including the miss→live
-  fetch→write-back path (mocked adapter for determinism).
+  fetch→write-back path (mocked adapter for determinism) and the `grounded_stale`
+  not-enforced boundary (stale row returned as-is, adapter never called).
 - The freeze-integrity acceptance test described above (integration-level, against a real or
   local Supabase instance).
 - `vitest run` and `next build` must pass, matching this repo's existing verification standard.
