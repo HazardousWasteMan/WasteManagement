@@ -45,7 +45,7 @@
 // rather than re-downloading per call.
 
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
@@ -64,6 +64,53 @@ interface ParagraphResult {
   sourceLink: string;
 }
 
+// Pure parsing logic, extracted so it can be tested directly against hand-written fixture HTML
+// without hitting the network or the filesystem. `getParagraphFromArchive` below is the thin I/O
+// wrapper: it downloads/extracts the real archive and delegates the actual parsing here.
+export function parseParagraphFromHtml(
+  html: string,
+  article: string,
+  paragraph: string
+): ParagraphResult | null {
+  const anchorName = `§${article}-${paragraph}`;
+  const marker = `data-name="${anchorName}"`;
+  const markerIdx = html.indexOf(marker);
+  if (markerIdx === -1) return null;
+
+  // Walk back to the start of this <article class="legalArticle" ...> tag, then forward to
+  // the next sibling <article class="legalArticle" so we capture the full provision (heading +
+  // body) without needing a balanced-tag HTML parser.
+  const tagStart = html.lastIndexOf("<article", markerIdx);
+  if (tagStart === -1) return null;
+
+  const nextSiblingIdx = html.indexOf('<article class="legalArticle"', markerIdx + marker.length);
+  const provisionHtml = nextSiblingIdx === -1 ? html.slice(tagStart) : html.slice(tagStart, nextSiblingIdx);
+
+  // Drop the heading (article number + title) so `text` holds the substantive provision body;
+  // fall back to the full provision text if no heading is found.
+  const headerEnd = provisionHtml.indexOf("</h3>");
+  const bodyHtml = headerEnd === -1 ? provisionHtml : provisionHtml.slice(headerEnd + "</h3>".length);
+  const text = stripTags(bodyHtml);
+  if (!text) return null;
+
+  const lastChangeMatch = html.match(
+    /<dd class="lastChangeInForce">([^<]+)<\/dd>/
+  );
+  // Fallback when no document-level last-changed date is found: epoch (1970-01-01T00:00:00.000Z).
+  // This is a known placeholder, not a real date — LegalParagraph.lastChangedAt is typed as a
+  // required string so we cannot return null here; callers must not treat this value as a
+  // genuine "last changed" timestamp.
+  const lastChangedAt = lastChangeMatch
+    ? new Date(lastChangeMatch[1].trim()).toISOString()
+    : new Date(0).toISOString();
+
+  return {
+    text,
+    lastChangedAt,
+    sourceLink: `https://lovdata.no/forskrift/${AVFALLSFORSKRIFTEN_DOC_ID}/${anchorName}`,
+  };
+}
+
 let cachedExtractionDir: string | null = null;
 
 async function ensureArchiveExtracted(): Promise<string> {
@@ -73,7 +120,7 @@ async function ensureArchiveExtracted(): Promise<string> {
   const res = await fetch(ARCHIVE_URL);
   if (!res.ok) throw new Error(`Lovdata archive download failed: HTTP ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
-  await import("node:fs/promises").then((fs) => fs.writeFile(archivePath, buf));
+  await writeFile(archivePath, buf);
   // Extract only the one file we need rather than all 5000+ regulations.
   await execFileAsync("tar", ["-xjf", archivePath, "-C", dir, AVFALLSFORSKRIFTEN_ARCHIVE_PATH]);
   cachedExtractionDir = dir;
@@ -103,37 +150,5 @@ export async function getParagraphFromArchive(query: {
   const html = await readFile(filePath, "utf-8").catch(() => null);
   if (!html) return null;
 
-  const anchorName = `§${query.article}-${query.paragraph}`;
-  const marker = `data-name="${anchorName}"`;
-  const markerIdx = html.indexOf(marker);
-  if (markerIdx === -1) return null;
-
-  // Walk back to the start of this <article class="legalArticle" ...> tag, then forward to
-  // the next sibling <article class="legalArticle" so we capture the full provision (heading +
-  // body) without needing a balanced-tag HTML parser.
-  const tagStart = html.lastIndexOf("<article", markerIdx);
-  if (tagStart === -1) return null;
-
-  const nextSiblingIdx = html.indexOf('<article class="legalArticle"', markerIdx + marker.length);
-  const provisionHtml = nextSiblingIdx === -1 ? html.slice(tagStart) : html.slice(tagStart, nextSiblingIdx);
-
-  // Drop the heading (article number + title) so `text` holds the substantive provision body;
-  // fall back to the full provision text if no heading is found.
-  const headerEnd = provisionHtml.indexOf("</h3>");
-  const bodyHtml = headerEnd === -1 ? provisionHtml : provisionHtml.slice(headerEnd + "</h3>".length);
-  const text = stripTags(bodyHtml);
-  if (!text) return null;
-
-  const lastChangeMatch = html.match(
-    /<dd class="lastChangeInForce">([^<]+)<\/dd>/
-  );
-  const lastChangedAt = lastChangeMatch
-    ? new Date(lastChangeMatch[1].trim()).toISOString()
-    : new Date(0).toISOString();
-
-  return {
-    text,
-    lastChangedAt,
-    sourceLink: `https://lovdata.no/forskrift/${AVFALLSFORSKRIFTEN_DOC_ID}/${anchorName}`,
-  };
+  return parseParagraphFromHtml(html, query.article, query.paragraph);
 }
