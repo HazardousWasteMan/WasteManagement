@@ -680,10 +680,14 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 - Produces: `export interface ParagraphStore { findByLocation(documentId: string, article:
   string, paragraph: string): Promise<LegalParagraph | null>; hybridSearch(queryEmbedding:
   number[], queryText: string, opts: { jurisdiction?: Jurisdiction[]; limit?: number }):
-  Promise<LegalParagraph[]>; insert(paragraph: LegalParagraph): Promise<void> }`,
-  `export function createSupabaseParagraphStore(): ParagraphStore` — consumed by Task 6
-  (`search.ts`), which takes a `ParagraphStore` as a constructor/function argument so it can be
-  unit-tested against an in-memory fake instead of live Supabase.
+  Promise<LegalParagraph[]>; insert(paragraph: LegalParagraph, embedding: number[]):
+  Promise<void> }`, `export function createSupabaseParagraphStore(): ParagraphStore` —
+  consumed by Task 6 (`search.ts`), which takes a `ParagraphStore` as a constructor/function
+  argument so it can be unit-tested against an in-memory fake instead of live Supabase.
+  `insert` takes the embedding as an explicit second argument (not read off the paragraph
+  object) because `legal_paragraphs.embedding` is `NOT NULL` (Task 1) and every caller that
+  writes a new row — Task 6's cache-miss path and Task 8's seeding script — has just computed
+  one via `embedText` and must supply it.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -710,7 +714,7 @@ export function createInMemoryParagraphStore(seed: LegalParagraph[] = []): Parag
         .filter(r => r.text.toLowerCase().includes(queryText.toLowerCase()))
         .slice(0, opts.limit ?? 10);
     },
-    async insert(paragraph) {
+    async insert(paragraph, _embedding) {
       rows.push(paragraph);
     },
   };
@@ -749,7 +753,7 @@ describe("ParagraphStore interface (via in-memory implementation)", () => {
 
   it("insert makes a new row findable", async () => {
     const store = createInMemoryParagraphStore([]);
-    await store.insert(paragraph);
+    await store.insert(paragraph, [0.1, 0.2, 0.3]);
     const found = await store.findByLocation("avfallsforskriften", "11", "4");
     expect(found?.id).toBe(paragraph.id);
   });
@@ -775,7 +779,9 @@ export interface ParagraphStore {
     queryText: string,
     opts: { jurisdiction?: Jurisdiction[]; limit?: number }
   ): Promise<LegalParagraph[]>;
-  insert(paragraph: LegalParagraph): Promise<void>;
+  // embedding is a required second argument, not read off `paragraph` — legal_paragraphs.embedding
+  // is NOT NULL (Task 1), so every caller must have already computed one via embedText.
+  insert(paragraph: LegalParagraph, embedding: number[]): Promise<void>;
 }
 
 interface Row {
@@ -816,7 +822,7 @@ function rowToParagraph(row: Row): LegalParagraph {
   };
 }
 
-function paragraphToRow(p: LegalParagraph): Row {
+function paragraphToRow(p: LegalParagraph, embedding: number[]): Row & { embedding: number[] } {
   return {
     id: p.id,
     source: p.source,
@@ -833,6 +839,7 @@ function paragraphToRow(p: LegalParagraph): Row {
     previous_version_id: p.previousVersionId,
     human_signed_off: p.humanSignedOff,
     source_link: p.sourceLink,
+    embedding,
   };
 }
 
@@ -876,8 +883,8 @@ export function createSupabaseParagraphStore(): ParagraphStore {
       return (data as Row[]).map(rowToParagraph);
     },
 
-    async insert(paragraph) {
-      const { error } = await client.from("legal_paragraphs").insert(paragraphToRow(paragraph) as never);
+    async insert(paragraph, embedding) {
+      const { error } = await client.from("legal_paragraphs").insert(paragraphToRow(paragraph, embedding) as never);
       if (error) throw new Error(`insert failed: ${error.message}`);
     },
   };
@@ -959,8 +966,9 @@ function fakeStore(rows: LegalParagraph[]): ParagraphStore {
     async hybridSearch() {
       return rows;
     },
-    async insert(p) {
+    async insert(p, embedding) {
       inserted.push(p);
+      expect(embedding).toEqual([0.1, 0.2, 0.3]); // proves search() computed an embedding before insert
       rows.push(p);
     },
   };
@@ -1101,7 +1109,10 @@ export async function search(
   });
   if (!live) return { tier: "no_match", paragraph: null };
 
-  await store.insert(live);
+  // legal_paragraphs.embedding is NOT NULL (Task 1) — every new row must carry a real
+  // embedding of its own text, not the query's, so later semantic search actually finds it.
+  const liveEmbedding = await embedText(live.text);
+  await store.insert(live, liveEmbedding);
   return { tier: "grounded_high", paragraph: live };
 }
 ```
@@ -1391,12 +1402,7 @@ async function main() {
       continue;
     }
     const embedding = await embedText(paragraph.text);
-    // ParagraphStore.insert doesn't take an embedding directly in this slice's interface (Task
-    // 5); real seeding needs the store to accept/store the embedding — extend
-    // ParagraphStore.insert's signature to `insert(paragraph, embedding)` before running this
-    // for real, and update lib/compliance/store.ts's Supabase implementation to write it into
-    // the `embedding` column set up in Task 1. Flagged here rather than silently skipped.
-    await store.insert(paragraph);
+    await store.insert(paragraph, embedding);
     console.log(`Seeded ${paragraph.id}`);
   }
 }
@@ -1509,9 +1515,7 @@ this slice is anything more than a proof of mechanism:
 1. **`ParagraphStore.hybridSearch`'s real ANN query** (Task 5) needs a Postgres RPC function
    (`match_legal_paragraphs`), not the placeholder `.order()` call — add a follow-up migration
    before this store is used for anything beyond the exact-location lookup Task 6 actually
-   exercises.
-2. **`ParagraphStore.insert`'s embedding parameter** (flagged in Task 8, Step 4) — the interface
-   as defined in Task 5 doesn't yet accept an embedding; extend it before real seeding writes
-   real vectors.
-3. **Lovdata archive research** (Task 3, Step 1) must be done for real before Task 8's seeding
+   exercises. (`insert` correctly writes the `embedding` column via its required second
+   argument — see Task 5/6 — so this gap is scoped to the search leg only, not to writes.)
+2. **Lovdata archive research** (Task 3, Step 1) must be done for real before Task 8's seeding
    script can seed real data — the code before that point is written and tested against mocks.
