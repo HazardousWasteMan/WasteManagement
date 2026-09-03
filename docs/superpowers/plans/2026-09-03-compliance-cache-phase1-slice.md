@@ -1538,15 +1538,17 @@ this slice is anything more than a proof of mechanism:
    out of scope since all access in this slice is server-side via the service-role key, which
    bypasses RLS). Before either table is reachable from any client-side/anon-key path, RLS
    policies need to be designed and enabled.
-5. **The Step 9 real integration proof (search.ts + freeze.ts + real Supabase + real Voyage +
-   real Lovdata, end to end) has never actually been run.** `.env.local`'s
-   `SUPABASE_SERVICE_ROLE_KEY` and `VOYAGE_API_KEY` are still placeholder values. A human needs
-   to supply real credentials and run
-   `npx vitest run tests/compliance/integration/end-to-end.test.ts` (temporarily removing it from
-   vitest.config.ts's exclude list, or invoking vitest directly against that one file) before this
-   slice can be considered proven against real infrastructure rather than merely "plausibly wired"
-   (the one manual attempt reached a real Voyage HTTP 401 on the placeholder key, confirming
-   correct wiring up to that point, but not a full successful run).
+5. ~~The Step 9 real integration proof has never actually been run.~~ **RESOLVED 2026-09-03.**
+   Run for real against real infrastructure (SUPABASE_SERVICE_ROLE_KEY, VOYAGE_API_KEY,
+   DATALAB_API_KEY, ANTHROPIC_API_KEY all supplied) —
+   `npx vitest run tests/compliance/integration/end-to-end.test.ts` passed: genuine cache miss →
+   live Lovdata archive fetch (§ 11-4) → Voyage embedding → Supabase write-back → cache hit on
+   the second `search()` call → `freezeFormField` → integrity-checked `findByCase` lookup, all
+   against the real `wastematch-compliance` Supabase project, not mocks. Confirmed independently
+   via `execute_sql`: `legal_paragraphs` contains exactly the seeded row
+   (`id: "no-avfallsforskriften-11-4"`, `verification_status: "current"`), written by the live
+   path, not fabricated. Full suite also reconfirmed green with real credentials: 527/527. The
+   mechanism this slice exists to prove is now proven end to end, not merely plausibly wired.
 6. **`search()` never calls `ParagraphStore.hybridSearch`, and never filters by `jurisdiction` or
    `in_force`.** The spec (§4) scopes hybrid vector+keyword search filtered by jurisdiction and
    `in_force`; what shipped in this slice is an exact-location lookup only
