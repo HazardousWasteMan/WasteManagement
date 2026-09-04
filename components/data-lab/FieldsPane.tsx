@@ -153,7 +153,16 @@ export function FieldsPane({
                       <LegalCitationBadge
                         citation={f.legalCitation}
                         onDispute={(reason, raisedBy) => onDispute(f, reason, raisedBy)}
-                        variant={f.field.startsWith("Checkbox") && !valueOf(f) ? "collapsed" : "full"}
+                        // Collapse only when this field's citation is genuinely shared with
+                        // another field (same resolved object, e.g. Checkbox1/2/3 all reading
+                        // "deponi-category-basis") AND this one isn't the checked outcome —
+                        // never collapse a citation nothing else shares (e.g. Checkbox10), or
+                        // "same legal basis as..." would be a lie rather than a summary.
+                        variant={
+                          fields.filter(other => other.legalCitation === f.legalCitation).length > 1 && !valueOf(f)
+                            ? "collapsed"
+                            : "full"
+                        }
                       />
                     )}
 
