@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { analyseBundle, citedBlocks, type BundleEvent } from "@/lib/bk-skjema/analyse-bundle";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
-import { resolveLegalCitations } from "@/lib/compliance/resolve-legal-citations";
+import { resolveLegalCitationsWithTimeout } from "@/lib/compliance/resolve-legal-citations";
 import { LovdataSource } from "@/lib/compliance/sources/lovdata-source";
 import { createSupabaseParagraphStore } from "@/lib/compliance/store";
 import { createSupabaseCorrectionStore } from "@/lib/compliance/corrections";
@@ -60,14 +60,16 @@ export async function POST(request: NextRequest) {
   // compliance layer ONCE per request, before analyseBundle runs — not once per sub-report. The
   // citation resolved here is the same for every sample in the bundle, so there is nothing to
   // gain (and real cost — duplicate Supabase/Voyage/Lovdata round trips, out-of-order stream
-  // writes, blocked first-sample latency) from re-resolving it per sample inside onEvent.
-  // Defensive on top of resolveLegalCitations's own internal try/catch (per its own doc): a
-  // Supabase/Voyage outage, or any other unexpected failure here, must never take down the
-  // surrounding extraction — legalCitations just comes back {} and every sample keeps Task 3's
-  // plain fallback note (see lib/bk-skjema/form-map.ts's Checkbox10 entry).
+  // writes, blocked first-sample latency) from re-resolving it per sample. It is threaded into
+  // analyseBundle -> bkFromDatalab -> buildBkFields, so form-map.ts's own Checkbox10 branch
+  // produces the citation-grounded field the first time — no post-hoc mutation here.
+  // Defensive on top of resolveLegalCitationsWithTimeout's own internal try/catch and bounded
+  // timeout: a Supabase/Voyage outage or hang must never take down the surrounding extraction —
+  // legalCitations just comes back {} and every sample keeps Task 3's plain fallback note (see
+  // lib/bk-skjema/form-map.ts's Checkbox10 entry).
   let legalCitations: Record<string, import("@/lib/compliance/citation-view").LegalCitationView | null> = {};
   try {
-    legalCitations = await resolveLegalCitations(
+    legalCitations = await resolveLegalCitationsWithTimeout(
       createSupabaseParagraphStore(),
       new LovdataSource(),
       createSupabaseCorrectionStore()
@@ -82,33 +84,16 @@ export async function POST(request: NextRequest) {
       const send = (event: Record<string, unknown>) =>
         controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
 
-      // Fully synchronous: no async work happens inside onEvent, so events are forwarded in
-      // exactly the order analyseBundle produces them and nothing can enqueue after close().
-      function groundAndSend(event: BundleEvent) {
-        if (event.phase === "sample") {
-          const checkbox10 = event.sample.fields.find(f => f.field === "Checkbox10");
-          if (checkbox10 && legalCitations["eal-legal-basis"]) {
-            // Mutates the same field object analyseBundle retains internally (later fed to the
-            // "done" event's citedBlocks call below) — deliberate, matches the original brief's
-            // approach. This means the "done" payload for this field reflects whichever outcome
-            // the hoisted resolution above had (real citation, or the plain fallback note) at the
-            // time onEvent ran for this sample.
-            checkbox10.legalCitation = legalCitations["eal-legal-basis"];
-            // Note text duplicates the template in lib/bk-skjema/form-map.ts's Checkbox10 entry
-            // (Task 3) — accepted, brief-mandated duplication for this slice; keep the two in sync.
-            checkbox10.note = `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${legalCitations["eal-legal-basis"]!.label}.`;
-          }
-        }
-        send(event as unknown as Record<string, unknown>);
-      }
-
       try {
         // Forwards analyseBundle's own progress: convert, then the sub-reports it found, then each
         // extracted form as it lands, so the first sample is usable before the last finishes.
+        // legalCitations is threaded straight into bkFromDatalab for every sub-report — form-map.ts's
+        // Checkbox10 branch builds the citation-grounded field itself, so events need no post-hoc edit.
         const analysis = await analyseBundle(pdf, filename, {
           originProcess,
           pageRange,
-          onEvent: groundAndSend,
+          legalCitations,
+          onEvent: event => send(event as unknown as Record<string, unknown>),
         });
         send({
           phase: "done",

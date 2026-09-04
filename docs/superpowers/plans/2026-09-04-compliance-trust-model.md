@@ -1186,3 +1186,13 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
    view on frozen records are both out of scope for this plan** — spec explicitly parked #2, and
    nothing here renders a correction record against a `compliance_form_freezes` row in the UI yet
    (the data model supports it; the view doesn't exist).
+5. **RLS (row-level security) is disabled on `compliance_corrections`** (alongside
+   `legal_paragraphs` and `compliance_form_freezes` — see the Phase 1 plan's Known follow-ups
+   item 4), and `compliance_corrections` is written by this plan's own public, unauthenticated
+   `POST /api/compliance/disputes` route. A DB-level check constraint
+   (`compliance_corrections_resolution_coherent`) now guards resolution/`corrected_paragraph_id`
+   coherence, but that is not a substitute for RLS policies.
+6. **A disputed citation can't be disputed again by a second person** — the "I disagree" button
+   only shows when `!disputed`, so once one dispute is raised on a paragraph, later reviewers get
+   no way to add their own dispute through the UI until it's resolved. Acceptable given there is
+   no resolution UI yet (item 2 above); revisit once one exists.

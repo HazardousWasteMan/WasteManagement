@@ -1527,18 +1527,26 @@ this slice is anything more than a proof of mechanism:
    `legalCitation?: LegalCitationView | null` field (lib/bk-skjema/form-map.ts), populated from
    `lib/compliance/resolve-legal-citations.ts`'s `resolveLegalCitations()` — a live, per-request
    call against the real `ParagraphStore`/`LegalSource`/`CorrectionStore`, wired into
-   `app/api/data-lab/route.ts` once per sub-report, right before that sample's fields are
-   streamed. `Checkbox10.note` is rebuilt with the real citation label
-   (`s.legalCitations["eal-legal-basis"]`) when resolution succeeds, and falls back to the plain
-   prose note — untouched — when it doesn't (cache miss, Supabase/Voyage down, or any other
-   failure; the call site is defensively try/caught on top of the function's own internal one, so
-   a compliance-layer failure never breaks the extraction stream). The "wired form field" is now a
-   live, machine-checkable code path, not just prose on Checkbox10.
-4. **RLS (row-level security) is disabled on both `legal_paragraphs` and
-   `compliance_form_freezes`** (flagged by Supabase's own advisories during Task 1, deferred as
-   out of scope since all access in this slice is server-side via the service-role key, which
-   bypasses RLS). Before either table is reachable from any client-side/anon-key path, RLS
-   policies need to be designed and enabled.
+   `app/api/data-lab/route.ts` (and `app/api/data-lab/reclassify/route.ts`) once per request —
+   not once per sub-report — before the stream/response starts, wrapped in a short
+   `Promise.race` timeout (`resolveLegalCitationsWithTimeout`, ~5s, degrading to `{}`) so a hung
+   Voyage/Lovdata/Supabase call can't stall the whole request. The resolved `legalCitations` map
+   is threaded as a real parameter through `analyseBundle` and `bkFromDatalab` into the
+   `BkSource` object, so `buildBkFields`'s own Checkbox10 branch in `lib/bk-skjema/form-map.ts`
+   builds `legalCitation`/`note` once, the first time, from `s.legalCitations["eal-legal-basis"]`
+   — there is no post-hoc mutation of an already-built field anywhere in either route. It falls
+   back to the plain prose note — untouched — when resolution comes back empty (cache miss,
+   Supabase/Voyage down, timeout, or any other failure; both call sites are defensively
+   try/caught on top of the function's own internal one, so a compliance-layer failure or hang
+   never breaks the extraction stream). The "wired form field" is now a live, machine-checkable
+   code path, not just prose on Checkbox10.
+4. **RLS (row-level security) is disabled on `legal_paragraphs`, `compliance_form_freezes`, and
+   `compliance_corrections`** (flagged by Supabase's own advisories during Task 1, deferred as
+   out of scope since server-side access in this slice uses the service-role key, which bypasses
+   RLS — but `compliance_corrections` is also written by the public, unauthenticated
+   `POST /api/compliance/disputes` route, so it is reachable from an anon-key/client-side path
+   today). Before any of these three tables should be considered safe, RLS policies need to be
+   designed and enabled on all three.
 5. ~~The Step 9 real integration proof has never actually been run.~~ **RESOLVED 2026-09-03.**
    Run for real against real infrastructure (SUPABASE_SERVICE_ROLE_KEY, VOYAGE_API_KEY,
    DATALAB_API_KEY, ANTHROPIC_API_KEY all supplied) —

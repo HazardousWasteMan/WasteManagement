@@ -46,3 +46,24 @@ export async function resolveLegalCitations(
   }
   return result;
 }
+
+/**
+ * Same as resolveLegalCitations, but bounded: resolution is hoisted to run once, before the
+ * stream/response starts, so a hung dependency (Voyage, Lovdata, Supabase — none of which have
+ * their own timeout) would otherwise stall the entire request until the route's own maxDuration
+ * kills it. Racing against a short timeout that degrades to {} keeps that risk localized to this
+ * one call, matching resolveLegalCitations's own contract of degrading rather than throwing.
+ */
+export async function resolveLegalCitationsWithTimeout(
+  store: ParagraphStore,
+  source: LegalSource,
+  corrections: CorrectionStore,
+  timeoutMs = 5000
+): Promise<Record<string, LegalCitationView | null>> {
+  return Promise.race([
+    resolveLegalCitations(store, source, corrections),
+    new Promise<Record<string, LegalCitationView | null>>(resolve =>
+      setTimeout(() => resolve({}), timeoutMs)
+    ),
+  ]);
+}
