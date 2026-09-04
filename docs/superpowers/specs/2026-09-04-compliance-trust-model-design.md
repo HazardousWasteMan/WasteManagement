@@ -134,3 +134,13 @@ ships: track dispute rate per citation/field, no dashboard needed yet — just a
   whole model was designed to avoid, but this should be a deliberate choice, not a default.)
 - Exact shape/name of the correction table and its relationship to `BkField`'s not-yet-added
   `citedParagraphId` — depends on how that field ships.
+- **What happens on a NEW citation of a paragraph that has an unresolved dispute elsewhere?**
+  Already answered for the frozen record a dispute is raised against (layered, never merged —
+  see "Corrections" above). Not yet answered: a *different, still-open* form field — someone
+  else filling out a case right now — that would cite the same disputed paragraph. Does the
+  inline citation UI show any signal that this paragraph is currently under dispute, or is it
+  silent until the dispute resolves? Leaning, consistent with the "informational, non-blocking"
+  philosophy: show a subtle flag on new citations too (something disputed once is worth a human
+  glancing at again), but never block the field from being grounded and used. This is a real
+  design choice the rest of this doc doesn't make yet — worth deciding explicitly before
+  implementation, not discovering mid-build.
