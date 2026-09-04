@@ -3,11 +3,14 @@ import { LovdataSource } from "../lib/compliance/sources/lovdata-source";
 import { createSupabaseParagraphStore } from "../lib/compliance/store";
 import { embedText } from "../lib/compliance/embeddings";
 
-// The one real paragraph this proof slice seeds: Avfallsforskriften § 11-4, the hazardous-waste
-// handling-obligation provision that grounds the BK-skjema legal-basis field wired in Step 6.
-// Extend this list once more of the seed corpus is added (out of scope for this slice, spec §10).
+// The paragraphs this codebase seeds. Extend this list once more of the seed corpus is added —
+// see each plan's Known follow-ups for what still needs a real citation.
 export function buildSeedLocations(documentId: string): { documentId: string; article: string; paragraph: string }[] {
-  return [{ documentId, article: "11", paragraph: "4" }];
+  return [
+    { documentId, article: "11", paragraph: "4" }, // hazardous-waste handling obligation (Checkbox10)
+    { documentId, article: "9", paragraph: "5" },  // landfill categories (Checkbox1/2/3)
+    { documentId, article: "9", paragraph: "6" },  // waste permitted per landfill category (Checkbox1/2/3)
+  ];
 }
 
 async function main() {
