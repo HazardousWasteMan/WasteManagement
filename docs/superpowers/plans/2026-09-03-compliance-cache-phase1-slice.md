@@ -1522,17 +1522,18 @@ this slice is anything more than a proof of mechanism:
    argument — see Task 5/6 — so this gap is scoped to the search leg only, not to writes.)
 2. **Lovdata archive research** (Task 3, Step 1) must be done for real before Task 8's seeding
    script can seed real data — the code before that point is written and tested against mocks.
-3. **The BK-skjema citation is unstructured prose, not a machine-checkable pointer.** `BkField`
-   (lib/bk-skjema/form-map.ts) has no `citedParagraphId`-shaped field — only a free-text `note`
-   string and a document-citation-shaped `citations?: BkCitation[]` (for extracted-document
-   citations, not legal_paragraphs rows). Task 8 grounded the existing `Checkbox10` field by
-   appending "Rettslig grunnlag: Avfallsforskriften § 11-4" to its `note` string rather than
-   adding a structured pointer, because `BkField` has no such field and adding one is a schema
-   change to the production form model with no other consumer yet. Nothing outside
-   lib/compliance and its own tests currently imports this module — the "wired form field" is a
-   prose annotation on Checkbox10, not a live, machine-checkable code path. Before this slice's
-   grounding claims can be trusted by anything downstream, `BkField` needs a real
-   `citedParagraphId?: string` field (or equivalent), populated from a real `legal_paragraphs.id`.
+3. ~~The BK-skjema citation is unstructured prose, not a machine-checkable pointer.~~ **RESOLVED
+   2026-09-04** (compliance trust model plan, Tasks 3 and 6). `BkField` now carries a real
+   `legalCitation?: LegalCitationView | null` field (lib/bk-skjema/form-map.ts), populated from
+   `lib/compliance/resolve-legal-citations.ts`'s `resolveLegalCitations()` — a live, per-request
+   call against the real `ParagraphStore`/`LegalSource`/`CorrectionStore`, wired into
+   `app/api/data-lab/route.ts` once per sub-report, right before that sample's fields are
+   streamed. `Checkbox10.note` is rebuilt with the real citation label
+   (`s.legalCitations["eal-legal-basis"]`) when resolution succeeds, and falls back to the plain
+   prose note — untouched — when it doesn't (cache miss, Supabase/Voyage down, or any other
+   failure; the call site is defensively try/caught on top of the function's own internal one, so
+   a compliance-layer failure never breaks the extraction stream). The "wired form field" is now a
+   live, machine-checkable code path, not just prose on Checkbox10.
 4. **RLS (row-level security) is disabled on both `legal_paragraphs` and
    `compliance_form_freezes`** (flagged by Supabase's own advisories during Task 1, deferred as
    out of scope since all access in this slice is server-side via the service-role key, which

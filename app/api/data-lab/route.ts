@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { analyseBundle, citedBlocks } from "@/lib/bk-skjema/analyse-bundle";
+import { analyseBundle, citedBlocks, type BundleEvent } from "@/lib/bk-skjema/analyse-bundle";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
+import { resolveLegalCitations } from "@/lib/compliance/resolve-legal-citations";
+import { LovdataSource } from "@/lib/compliance/sources/lovdata-source";
+import { createSupabaseParagraphStore } from "@/lib/compliance/store";
+import { createSupabaseCorrectionStore } from "@/lib/compliance/corrections";
 
 // Datalab parses and extracts server-side; both are polled. Comfortable margin under Vercel's cap.
 export const maxDuration = 300;
@@ -57,14 +61,46 @@ export async function POST(request: NextRequest) {
     async start(controller) {
       const send = (event: Record<string, unknown>) =>
         controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+
+      // Resolves the one field this slice grounds (Checkbox10 / "eal-legal-basis") against the
+      // live compliance layer, once per sub-report, right before that sample's fields are sent.
+      // Defensive on top of resolveLegalCitations's own internal try/catch (per its own doc): a
+      // Supabase/Voyage outage, or any other unexpected failure here, must never take down the
+      // surrounding extraction stream — the field just keeps Task 3's plain fallback note.
+      async function groundAndSend(event: BundleEvent) {
+        if (event.phase === "sample") {
+          try {
+            const legalCitations = await resolveLegalCitations(
+              createSupabaseParagraphStore(),
+              new LovdataSource(),
+              createSupabaseCorrectionStore()
+            );
+            const checkbox10 = event.sample.fields.find(f => f.field === "Checkbox10");
+            if (checkbox10 && legalCitations["eal-legal-basis"]) {
+              checkbox10.legalCitation = legalCitations["eal-legal-basis"];
+              checkbox10.note = `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${legalCitations["eal-legal-basis"]!.label}.`;
+            }
+          } catch (err) {
+            console.error("Legal citation resolution failed, keeping fallback note:", err);
+          }
+        }
+        send(event as unknown as Record<string, unknown>);
+      }
+
+      // Pending per-sample grounding lookups, awaited before "done" so every sample is fully
+      // resolved (or has safely fallen back) before the stream reports completion.
+      const pending: Promise<void>[] = [];
       try {
         // Forwards analyseBundle's own progress: convert, then the sub-reports it found, then each
         // extracted form as it lands, so the first sample is usable before the last finishes.
         const analysis = await analyseBundle(pdf, filename, {
           originProcess,
           pageRange,
-          onEvent: event => send(event as unknown as Record<string, unknown>),
+          onEvent: event => {
+            pending.push(groundAndSend(event));
+          },
         });
+        await Promise.all(pending);
         send({
           phase: "done",
           blocks: citedBlocks(analysis.samples, analysis.blocks),
