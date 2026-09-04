@@ -1011,3 +1011,26 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 3. **Only two fields grounded now** (Checkbox10, Checkbox1/2/3) out of 100+ on the BK-skjema.
    Extending further needs the same real-research-per-paragraph discipline this plan and its
    predecessor both followed — no shortcut exists or should be built.
+4. **§ 11-4's cached text is an amendment footnote, not the operative provision** — found by the
+   final whole-branch review, comparing against this plan's two cleanly-parsed siblings. Seeded
+   by the Phase 1 slice, not this plan; not caught by either of that plan's own reviews. The UI
+   is unaffected (only `label`/`sourceLink` render, both correct), but hybrid-search relevance
+   for § 11-4 is degraded and the cached text would mislead a reviewer of a real dispute. Fix:
+   re-seed § 11-4 once follow-up #2 (seed-script idempotency) lands, and add an assertion (e.g.
+   in `tests/compliance/seed-lovdata.test.ts` or the real-infra integration test) that seeded
+   text isn't solely an "Endret ved forskrift…" amendment note — that class of parse failure is
+   currently silent.
+5. **No structural invariant enforces "exactly one `primary: true`" per `LegalCitationView`.**
+   Every current construction site (`buildLegalCitationView`, driven by `RESOLVED_FIELDS`)
+   satisfies it by config discipline, and every consumer degrades safely if it didn't
+   (`.find(c => c.primary) ?? citations[0]`) — but nothing would catch a future
+   `RESOLVED_FIELDS` entry with zero or two `primary: true` locations at the point it's written.
+   A one-line assertion in `buildLegalCitationView` would make the property the type's own
+   comment already claims actually enforced.
+6. **`LegalCitationBadge`'s `expanded` state isn't resynced if a reclassify flips a field from
+   `"full"` to `"collapsed"` variant without remounting** — it stays expanded, rendering full
+   content under a `"collapsed"` prop. Cosmetic (the reverse direction is safe, and a remount
+   clears it), not fixed here.
+7. **The all-or-nothing resolution test only exercises a second-location miss**, not a symmetric
+   first-location-miss case. The code is provably order-independent by inspection; a first-miss
+   test would make that a test-enforced guarantee rather than a manually-traced one.
