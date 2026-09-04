@@ -7,6 +7,7 @@
 // Deliberately independent of any one extraction backend: callers normalize whatever their
 // provider returns into BkSource, so the Anthropic pipeline and Datalab both feed the same code.
 import type { EalAssignment } from "../hp-classification/eal";
+import type { LegalCitationView } from "../compliance/citation-view";
 
 /** Where a field's value comes from — the whole point of the coverage exercise. */
 export type BkSrc =
@@ -42,6 +43,8 @@ export interface BkField {
   citations?: BkCitation[];
   /** Provider confidence, 1-5, when the provider reports one. */
   score?: number | null;
+  /** A live-verified legal citation grounding this field, when one has been resolved. */
+  legalCitation?: LegalCitationView | null;
 }
 
 export interface BkResultRow {
@@ -86,6 +89,8 @@ export interface BkSource {
   citations?: Record<string, BkCitation[]>;
   /** Per-metadata-key confidence scores, keyed the same way. */
   scores?: Record<string, number | null>;
+  /** Per-field resolved legal citations, keyed by a stable field identifier (e.g. "eal-legal-basis"). */
+  legalCitations?: Record<string, LegalCitationView | null>;
 }
 
 const cite = (s: BkSource, key: string): Pick<BkField, "citations" | "score"> => ({
@@ -186,13 +191,16 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
     { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived", check: true,
-      // Compliance cache Phase 1 proof slice: this is the field grounded in a live-verified
-      // legal paragraph (lib/compliance) rather than the document or the classification engine.
-      // Location is fixed to the seeded paragraph (scripts/seed-lovdata.ts); resolving/freezing
-      // the actual paragraph text against a case is the caller's job via lib/compliance/search.ts
-      // + freeze.ts (fieldName "eal-legal-basis").
-      note: "hazardous substances detected above LOQ, though all below HP thresholds. " +
-        "Rettslig grunnlag: Avfallsforskriften § 11-4 (håndteringsplikt for farlig avfall)." },
+      // Compliance trust model: legalCitation is resolved server-side (see
+      // lib/compliance/search.ts + app/api/data-lab/route.ts) and passed in via
+      // s.legalCitations["eal-legal-basis"]. The note stays truthful either way: it names the
+      // real citation when one was resolved this time, and falls back to the plain classification
+      // note when it wasn't (compliance lookup unavailable, or not yet wired for this call site) —
+      // never claims a citation that isn't actually attached to this field.
+      legalCitation: s.legalCitations?.["eal-legal-basis"] ?? null,
+      note: s.legalCitations?.["eal-legal-basis"]
+        ? `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${s.legalCitations["eal-legal-basis"]!.label}.`
+        : "hazardous substances detected above LOQ, though all below HP thresholds" },
     { field: "TextField35", label: "TOC %", src: m.tocPct != null ? "extracted" : "human",
       value: m.tocPct != null ? String(m.tocPct) : undefined, ...cite(s, "tocPct"),
       note: m.tocPct != null ? undefined : "GAP: TOC not measured, but required for deponi for ordinært avfall" },

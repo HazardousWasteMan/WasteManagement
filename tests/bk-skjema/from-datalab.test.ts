@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { bkFromDatalab, resolveCitations } from "@/lib/bk-skjema/from-datalab";
 import { flattenBlocks, narrowCitation, parseRegions } from "@/lib/bk-skjema/datalab";
-import { bkSection } from "@/lib/bk-skjema/form-map";
+import { bkSection, buildBkFields, type BkSource } from "@/lib/bk-skjema/form-map";
 
 // Shaped exactly like a real /convert json tree: nested children, ids that encode the page.
 const CONVERT_JSON = {
@@ -118,6 +118,34 @@ describe("bkFromDatalab", () => {
     for (const f of fields.filter(f => f.src === "derived" && (f.value || f.check || f.select))) {
       expect(f.citations, `${f.field} has nothing to cite`).not.toHaveLength(0);
     }
+  });
+
+  it("Checkbox10's note includes the real legal citation when one is supplied via legalCitations", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const withCitation: BkSource = {
+      ...source,
+      legalCitations: {
+        "eal-legal-basis": {
+          paragraphId: "no-avfallsforskriften-11-4",
+          label: "Avfallsforskriften § 11-4",
+          sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-4",
+          verifiedAt: "2026-09-03T19:26:14.030Z",
+          disputed: false,
+        },
+      },
+    };
+    const fields = buildBkFields(withCitation);
+    const checkbox10 = fields.find(f => f.field === "Checkbox10")!;
+    expect(checkbox10.note).toContain("Avfallsforskriften § 11-4");
+    expect(checkbox10.legalCitation?.paragraphId).toBe("no-avfallsforskriften-11-4");
+  });
+
+  it("Checkbox10 has no legalCitation and a plain note when legalCitations is absent", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    const checkbox10 = fields.find(f => f.field === "Checkbox10")!;
+    expect(checkbox10.legalCitation ?? null).toBeNull();
+    expect(checkbox10.note).toContain("hazardous substances detected above LOQ");
   });
 });
 
