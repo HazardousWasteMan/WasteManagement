@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { analyseBundle, citedBlocks, type BundleEvent } from "@/lib/bk-skjema/analyse-bundle";
+import { analyseBundle, citedBlocks } from "@/lib/bk-skjema/analyse-bundle";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
 import { resolveLegalCitationsWithTimeout } from "@/lib/compliance/resolve-legal-citations";
 import { LovdataSource } from "@/lib/compliance/sources/lovdata-source";

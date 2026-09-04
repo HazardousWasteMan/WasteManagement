@@ -60,10 +60,18 @@ export async function resolveLegalCitationsWithTimeout(
   corrections: CorrectionStore,
   timeoutMs = 5000
 ): Promise<Record<string, LegalCitationView | null>> {
-  return Promise.race([
-    resolveLegalCitations(store, source, corrections),
-    new Promise<Record<string, LegalCitationView | null>>(resolve =>
-      setTimeout(() => resolve({}), timeoutMs)
-    ),
-  ]);
+  let timer: ReturnType<typeof setTimeout>;
+  try {
+    return await Promise.race([
+      resolveLegalCitations(store, source, corrections),
+      new Promise<Record<string, LegalCitationView | null>>(resolve => {
+        timer = setTimeout(() => resolve({}), timeoutMs);
+      }),
+    ]);
+  } finally {
+    // Clears the timer on the fast (real-result) path so it doesn't hold an event-loop
+    // reference until it fires — harmless on serverless, but avoids a dangling timer on any
+    // long-lived Node process.
+    clearTimeout(timer!);
+  }
 }
