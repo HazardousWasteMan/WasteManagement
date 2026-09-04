@@ -1,7 +1,7 @@
 # Compliance Trust Model — Design
 
-**Status:** Drafted from a brainstorming session (2026-09-04); not yet plan-ready — see "Open
-questions" at the end before this becomes an implementation plan.
+**Status:** Approved for planning (2026-09-04) — all four open questions resolved, see
+"Decisions" (replacing the former "Open questions" section) at the end.
 **Branch:** `compliance`
 **Builds on:** `docs/superpowers/specs/2026-09-03-compliance-cache-phase1-slice-design.md`,
 `docs/superpowers/plans/2026-09-03-compliance-cache-phase1-slice.md` (the Phase 1 seed slice —
@@ -125,22 +125,25 @@ real paragraph that doesn't actually apply here"), that's the signal to revisit 
 category of field needs a review gate after all. Suggested cheap instrumentation once this
 ships: track dispute rate per citation/field, no dashboard needed yet — just a queryable number.
 
-## Open questions before this is plan-ready
+## Decisions
 
-- Where does the "I disagree" action live in the UI, exactly, and who can raise it (anyone
-  viewing the form, or only a compliance-team role)?
-- Does an unresolved dispute (`resolution: null`) block anything, or is it purely informational
-  until resolved? (Leaning: informational — blocking anything here reintroduces the friction this
-  whole model was designed to avoid, but this should be a deliberate choice, not a default.)
-- Exact shape/name of the correction table and its relationship to `BkField`'s not-yet-added
-  `citedParagraphId` — depends on how that field ships.
-- **What happens on a NEW citation of a paragraph that has an unresolved dispute elsewhere?**
-  Already answered for the frozen record a dispute is raised against (layered, never merged —
-  see "Corrections" above). Not yet answered: a *different, still-open* form field — someone
-  else filling out a case right now — that would cite the same disputed paragraph. Does the
-  inline citation UI show any signal that this paragraph is currently under dispute, or is it
-  silent until the dispute resolves? Leaning, consistent with the "informational, non-blocking"
-  philosophy: show a subtle flag on new citations too (something disputed once is worth a human
-  glancing at again), but never block the field from being grounded and used. This is a real
-  design choice the rest of this doc doesn't make yet — worth deciding explicitly before
-  implementation, not discovering mid-build.
+All four questions raised during brainstorming/refinement are now resolved:
+
+- **Who can raise "I disagree with this citation"?** Compliance-team role only, not anyone
+  viewing the form. Keeps a dispute record meaningful — it signals someone with real authority
+  flagged it, matching the audit-trail/legal-defensibility framing this whole model serves. The
+  UI location (exact placement of the action) is an implementation detail for the plan, not a
+  design decision — it lives adjacent to the inline citation badge (UI surface #1), gated to the
+  compliance-team role.
+- **Does an unresolved dispute (`resolution: null`) block anything?** No — purely informational
+  until resolved. Blocking would reintroduce the friction this whole model exists to avoid.
+- **Correction table shape and its relationship to `BkField`'s `citedParagraphId`:** the sketch
+  in "Corrections" above (`freeze_id`, `disputed_paragraph_id`, `raised_by`/`raised_at`,
+  `reason`, `resolution`, `corrected_paragraph_id`, `resolved_by`/`resolved_at`) is final for
+  planning purposes; exact column types/naming get finalized in the implementation plan the way
+  the Phase 1 slice's schema was. It depends on `BkField.citedParagraphId` existing first (Known
+  follow-up #3 from the Phase 1 plan) — that remains a hard prerequisite task in the
+  implementation plan, not something this spec re-solves.
+- **New citation of a paragraph with an unresolved dispute elsewhere:** show a subtle flag on
+  the new citation too (something disputed once is worth a glance), but never block the field
+  from being grounded and used — consistent with the informational, non-blocking answer above.
