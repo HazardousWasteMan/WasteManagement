@@ -5,20 +5,48 @@ import type { CorrectionStore } from "@/lib/compliance/corrections";
 import type { LegalCitationView } from "@/lib/compliance/citation-view";
 import { buildLegalCitationView } from "@/lib/compliance/citation-view";
 import { search } from "@/lib/compliance/search";
+import type { LegalParagraph } from "@/lib/compliance/types";
 
-// The one field this slice grounds. Extending this to more fields is real, deliberate future
-// work (Known follow-ups) — do not silently expand this list without also updating BkField's
-// callers in form-map.ts.
-const RESOLVED_FIELDS: { key: string; documentId: string; article: string; paragraph: string; queryText: string }[] = [
-  { key: "eal-legal-basis", documentId: "avfallsforskriften", article: "11", paragraph: "4", queryText: "farlig avfall håndtering" },
+interface ResolvedFieldLocation {
+  documentId: string;
+  article: string;
+  paragraph: string;
+  queryText: string;
+  /** Exactly one location per field must set this true — the paragraph a dispute anchors on. */
+  primary?: boolean;
+}
+
+interface ResolvedFieldConfig {
+  key: string;
+  locations: ResolvedFieldLocation[];
+}
+
+// Every field this codebase grounds. Extending this list is real, deliberate work (see each
+// plan's Known follow-ups) — do not silently expand it without also updating BkField's callers
+// in form-map.ts. A field with more than one location is resolved all-or-nothing (see
+// resolveLegalCitations below) — never a partial citation set.
+const RESOLVED_FIELDS: ResolvedFieldConfig[] = [
+  {
+    key: "eal-legal-basis",
+    locations: [
+      { documentId: "avfallsforskriften", article: "11", paragraph: "4", queryText: "farlig avfall håndtering", primary: true },
+    ],
+  },
+  {
+    key: "deponi-category-basis",
+    locations: [
+      { documentId: "avfallsforskriften", article: "9", paragraph: "5", queryText: "kategorier av deponier" },
+      { documentId: "avfallsforskriften", article: "9", paragraph: "6", queryText: "avfall som tillates deponert på de ulike deponikategoriene", primary: true },
+    ],
+  },
 ];
 
-// Resolves every field this slice grounds into a real, live-verified citation, checking dispute
-// state for each. A failure anywhere in the compliance layer (Supabase down, Voyage down, a
-// genuine no_match) degrades that one field to null rather than throwing — the surrounding
-// extraction pipeline must never break because the compliance layer had a bad day. Callers that
-// want the field's plain, uncited note (Task 3's fallback in form-map.ts) get exactly that when
-// a key is null here.
+// Resolves every field this codebase grounds into a real, live-verified citation, checking
+// dispute state per paragraph. A multi-location field only produces a citation once EVERY one of
+// its locations resolves — a partial set could look complete when it isn't, so it's null instead.
+// A failure anywhere in the compliance layer (Supabase down, Voyage down, a genuine no_match)
+// degrades that field to null rather than throwing — the surrounding extraction pipeline must
+// never break because the compliance layer had a bad day.
 export async function resolveLegalCitations(
   store: ParagraphStore,
   source: LegalSource,
@@ -27,21 +55,29 @@ export async function resolveLegalCitations(
   const result: Record<string, LegalCitationView | null> = {};
   for (const field of RESOLVED_FIELDS) {
     try {
-      const grounded = await search(store, source, {
-        queryText: field.queryText,
-        documentId: field.documentId,
-        article: field.article,
-        paragraph: field.paragraph,
-      });
-      if (!grounded.paragraph) {
+      const resolved: { paragraph: LegalParagraph; primary: boolean }[] = [];
+      for (const location of field.locations) {
+        const grounded = await search(store, source, {
+          queryText: location.queryText,
+          documentId: location.documentId,
+          article: location.article,
+          paragraph: location.paragraph,
+        });
+        if (!grounded.paragraph) {
+          resolved.length = 0; // all-or-nothing: one miss invalidates the whole field
+          break;
+        }
+        resolved.push({ paragraph: grounded.paragraph, primary: location.primary === true });
+      }
+      if (resolved.length !== field.locations.length) {
         result[field.key] = null;
         continue;
       }
-      const disputed = await corrections.hasUnresolved(grounded.paragraph.id);
-      result[field.key] = buildLegalCitationView(
-        [{ paragraph: grounded.paragraph, primary: true }],
-        { [grounded.paragraph.id]: disputed }
-      );
+      const disputedByParagraphId: Record<string, boolean> = {};
+      for (const { paragraph } of resolved) {
+        disputedByParagraphId[paragraph.id] = await corrections.hasUnresolved(paragraph.id);
+      }
+      result[field.key] = buildLegalCitationView(resolved, disputedByParagraphId);
     } catch {
       // Never let a compliance-layer failure break the surrounding extraction pipeline.
       result[field.key] = null;

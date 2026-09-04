@@ -8,7 +8,7 @@ import type { LegalParagraph } from "@/lib/compliance/types";
 
 vi.mock("@/lib/compliance/embeddings", () => ({ embedText: vi.fn().mockResolvedValue([0.1]) }));
 
-const paragraph: LegalParagraph = {
+const p11_4: LegalParagraph = {
   id: "no-avfallsforskriften-11-4", source: "no", jurisdictionApplies: ["no"],
   documentId: "avfallsforskriften", article: "11", paragraph: "4",
   text: "farlig avfall skal håndteres forsvarlig", inForce: true,
@@ -16,6 +16,8 @@ const paragraph: LegalParagraph = {
   verificationStatus: "current", amendedBy: [], previousVersionId: null,
   humanSignedOff: false, sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-4",
 };
+const p9_5: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-5", article: "9", paragraph: "5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5" };
+const p9_6: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-6", article: "9", paragraph: "6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6" };
 
 function fakeStore(rows: LegalParagraph[]): ParagraphStore {
   return {
@@ -26,23 +28,50 @@ function fakeStore(rows: LegalParagraph[]): ParagraphStore {
 }
 
 describe("resolveLegalCitations", () => {
-  it("resolves eal-legal-basis to the seeded § 11-4 citation, not disputed, on a cache hit", async () => {
-    const store = fakeStore([paragraph]);
+  it("resolves eal-legal-basis (single location) to a one-element citations array", async () => {
+    const store = fakeStore([p11_4]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
     const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["eal-legal-basis"]?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-4");
-    expect(result["eal-legal-basis"]?.citations[0]?.disputed).toBe(false);
+    expect(result["eal-legal-basis"]?.citations).toHaveLength(1);
+    expect(result["eal-legal-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-11-4");
+    expect(result["eal-legal-basis"]?.citations[0].primary).toBe(true);
   });
 
-  it("marks the citation disputed when CorrectionStore reports an unresolved dispute", async () => {
-    const store = fakeStore([paragraph]);
+  it("resolves deponi-category-basis (two locations) to a two-element citations array, § 9-6 primary", async () => {
+    const store = fakeStore([p11_4, p9_5, p9_6]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
-    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(true) };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["eal-legal-basis"]?.citations[0]?.disputed).toBe(true);
+    expect(result["deponi-category-basis"]?.citations).toHaveLength(2);
+    const primary = result["deponi-category-basis"]?.citations.find(c => c.primary);
+    expect(primary?.paragraphId).toBe("no-avfallsforskriften-9-6");
+  });
+
+  it("is all-or-nothing: if one of a multi-location field's paragraphs is missing, the whole field is null", async () => {
+    // Only § 9-5 present, § 9-6 missing.
+    const store = fakeStore([p11_4, p9_5]);
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn().mockResolvedValue(null) };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["deponi-category-basis"]).toBeNull();
+  });
+
+  it("checks dispute status independently per paragraph within a multi-location field", async () => {
+    const store = fakeStore([p11_4, p9_5, p9_6]);
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
+    const corrections: CorrectionStore = {
+      raise: vi.fn(),
+      hasUnresolved: vi.fn().mockImplementation(async (id: string) => id === "no-avfallsforskriften-9-6"),
+    };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    const citations = result["deponi-category-basis"]?.citations ?? [];
+    expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-5")?.disputed).toBe(false);
+    expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-6")?.disputed).toBe(true);
   });
 
   it("returns eal-legal-basis: null, never throws, when the underlying search fails", async () => {
@@ -56,5 +85,6 @@ describe("resolveLegalCitations", () => {
 
     const result = await resolveLegalCitations(store, source, corrections);
     expect(result["eal-legal-basis"]).toBeNull();
+    expect(result["deponi-category-basis"]).toBeNull();
   });
 });
