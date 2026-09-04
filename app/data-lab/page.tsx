@@ -248,6 +248,33 @@ export default function DataLabPage() {
     }
   }
 
+  async function handleDispute(field: BkField, reason: string, raisedBy: string) {
+    if (!field.legalCitation) return;
+    let res: Response;
+    try {
+      res = await fetch("/api/compliance/disputes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paragraphId: field.legalCitation.paragraphId,
+          freezeId: null, // this call site disputes at fill time, before any freeze exists
+          raisedBy,
+          reason,
+        }),
+      });
+    } catch {
+      const message = "Could not reach the compliance service. Check your connection and try again.";
+      setError(message);
+      throw new Error(message);
+    }
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      const message = json.error ?? `The request failed (${res.status}).`;
+      setError(message);
+      throw new Error(message);
+    }
+  }
+
   function downloadFilledForm() {
     if (!filledPdf || !sample) return;
     const url = URL.createObjectURL(filledPdf);
@@ -434,6 +461,7 @@ export default function DataLabPage() {
                 onSelect={setSelected}
                 onlyFilled={onlyFilled}
                 onEdit={applyEdit}
+                onDispute={handleDispute}
               />
             </div>
           </details>
