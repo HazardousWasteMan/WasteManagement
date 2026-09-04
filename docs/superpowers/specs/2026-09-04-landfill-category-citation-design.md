@@ -102,10 +102,22 @@ adapter work — just two more `(article, paragraph)` locations against the same
 
 ## Known follow-ups this spec surfaces but does not resolve
 
-1. **Cross-field dispute-scoping collision**, described above — real, deliberate, deferred.
+1. **Cross-field dispute-scoping collision**, described above — real, deliberate, deferred. Not
+   solving it now, but the eventual fix is probably clear enough to name: `hasUnresolvedDispute()`
+   likely needs to scope by `(paragraphId, resolvedFieldKey)` composite instead of `paragraphId`
+   alone, once a second field ever shares a paragraph with an existing one — a dispute raised
+   against `"deponi-category-basis"`'s use of § 9-6 shouldn't flag a citation of § 9-6 used
+   elsewhere for an unrelated field. Whoever hits this should start there rather than re-deriving
+   the tradeoff from scratch; it may turn out differently once a real second consumer exists.
 2. **`LegalCitationBadge`'s collapsed "same basis" variant is new UI** not yet built for any
    existing field (Checkbox10 never needed it, being the only checkbox grounded so far) — the
-   implementation plan needs to design this component variant for real, not just describe it.
+   implementation plan needs to design this component variant for real, not just describe it. In
+   particular, the plan must specify what's actually clickable: the collapsed indicator itself
+   should be the click target (not a separate "why?" link next to it), and it must read as
+   *compact*, not *hidden* — same citation content as the full badge, just collapsed, never a
+   degraded or less-trustworthy presentation. This directly follows the "citation must be visible
+   at point of use" principle from the trust-model spec; a collapsed state that reads as buried
+   would violate it.
 3. **Multi-paragraph citations may recur for future fields** (this is the second field, but
    likely not the last needing more than one paragraph) — `LegalCitationView`'s new shape should
    be treated as the durable contract going forward, not a one-off special case for this field.
