@@ -129,12 +129,17 @@ ships: track dispute rate per citation/field, no dashboard needed yet — just a
 
 All four questions raised during brainstorming/refinement are now resolved:
 
-- **Who can raise "I disagree with this citation"?** Compliance-team role only, not anyone
-  viewing the form. Keeps a dispute record meaningful — it signals someone with real authority
-  flagged it, matching the audit-trail/legal-defensibility framing this whole model serves. The
-  UI location (exact placement of the action) is an implementation detail for the plan, not a
-  design decision — it lives adjacent to the inline citation badge (UI surface #1), gated to the
-  compliance-team role.
+- **Who can raise "I disagree with this citation"?** Intent: compliance-team role only, to keep
+  a dispute record meaningful — it should signal someone with real authority flagged it, matching
+  the audit-trail/legal-defensibility framing this whole model serves. Reality check during
+  planning: this app has no per-user role system at all today — one shared login
+  (`BASIC_AUTH_USER`/`PASSWORD` in `proxy.ts`) for everyone, no per-user identity. Building real
+  roles is out of scope for this feature. Decision: ship the dispute action available to anyone
+  with app access for now — no role gating — and disclose this openly rather than pretend the
+  intent is enforced. `raised_by` is still captured on every dispute record (free-text/session
+  identity, whatever the app can attribute today) so provenance isn't lost even without
+  enforcement. Real role-gating is a known, deferred follow-up once the app has actual per-user
+  identity — see "Known follow-ups" in the implementation plan.
 - **Does an unresolved dispute (`resolution: null`) block anything?** No — purely informational
   until resolved. Blocking would reintroduce the friction this whole model exists to avoid.
 - **Correction table shape and its relationship to `BkField`'s `citedParagraphId`:** the sketch
