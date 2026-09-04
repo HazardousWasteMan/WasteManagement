@@ -150,6 +150,35 @@ describe("bkFromDatalab", () => {
     expect(checkbox10.legalCitation ?? null).toBeNull();
     expect(checkbox10.note).toContain("hazardous substances detected above LOQ");
   });
+
+  it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const citation = {
+      citations: [
+        { paragraphId: "no-avfallsforskriften-9-5", label: "Avfallsforskriften § 9-5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5", verifiedAt: "2026-09-04T00:00:00.000Z", disputed: false, primary: false },
+        { paragraphId: "no-avfallsforskriften-9-6", label: "Avfallsforskriften § 9-6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6", verifiedAt: "2026-09-04T00:00:00.000Z", disputed: false, primary: true },
+      ],
+    };
+    const withCitation: BkSource = {
+      ...source,
+      legalCitations: { "deponi-category-basis": citation },
+    };
+    const fields = buildBkFields(withCitation);
+    const checkbox1 = fields.find(f => f.field === "Checkbox1")!;
+    const checkbox2 = fields.find(f => f.field === "Checkbox2")!;
+    const checkbox3 = fields.find(f => f.field === "Checkbox3")!;
+    expect(checkbox1.legalCitation?.citations).toHaveLength(2);
+    expect(checkbox2.legalCitation?.citations).toHaveLength(2);
+    expect(checkbox3.legalCitation?.citations).toHaveLength(2);
+  });
+
+  it("Checkbox1/2/3 have no legalCitation when deponi-category-basis wasn't resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    expect(fields.find(f => f.field === "Checkbox1")!.legalCitation ?? null).toBeNull();
+    expect(fields.find(f => f.field === "Checkbox2")!.legalCitation ?? null).toBeNull();
+    expect(fields.find(f => f.field === "Checkbox3")!.legalCitation ?? null).toBeNull();
+  });
 });
 
 describe("narrowCitation", () => {

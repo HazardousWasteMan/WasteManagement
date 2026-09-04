@@ -180,10 +180,20 @@ export function buildBkFields(s: BkSource): BkField[] {
     ...[30, 31, 32, 33, 34].map(n => ({ field: `TextField${n}`, label: "Kommune", src: "human" as BkSrc, note: "administrative code, not analysis data" })),
 
     { field: "Checkbox1", label: "Deponi for ordinært avfall", src: "derived", check: !s.isHazardous,
+      // Same shared citation as Checkbox2/3 — see the comment on Checkbox3 below for why.
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
       note: "CONSERVATIVE: inert cannot be claimed without a leaching test" },
     { field: "Checkbox2", label: "Deponi for inert avfall", src: "derived", check: false,
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
       note: "requires ristetest/kolonnetest results, which a standard total-analysis report lacks" },
-    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous },
+    // Checkbox1/2/3 are mutually exclusive outcomes of ONE classification decision (which
+    // landfill category this waste belongs in), so they share ONE resolved citation
+    // ("deponi-category-basis", § 9-5 + § 9-6) rather than each having its own — the citation
+    // grounds the decision, not any one checkbox's specific state. All three carry it (not just
+    // whichever is checked) so a reviewer can see the same basis regardless of which outcome the
+    // classifier landed on, and dispute the classification itself if they think it landed wrong.
+    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous,
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null },
     { field: "Checkbox4", label: "Avfallstype: Ordinært avfall", src: "derived", check: !s.isHazardous },
     { field: "Checkbox5", label: "Avfallstype: Inert avfall", src: "derived", check: false },
     { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous },

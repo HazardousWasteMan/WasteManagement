@@ -153,6 +153,7 @@ export function FieldsPane({
                       <LegalCitationBadge
                         citation={f.legalCitation}
                         onDispute={(reason, raisedBy) => onDispute(f, reason, raisedBy)}
+                        variant={f.field.startsWith("Checkbox") && !valueOf(f) ? "collapsed" : "full"}
                       />
                     )}
 
