@@ -250,13 +250,15 @@ export default function DataLabPage() {
 
   async function handleDispute(field: BkField, reason: string, raisedBy: string) {
     if (!field.legalCitation) return;
+    const primary = field.legalCitation.citations.find(c => c.primary) ?? field.legalCitation.citations[0];
+    if (!primary) return;
     let res: Response;
     try {
       res = await fetch("/api/compliance/disputes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paragraphId: field.legalCitation.paragraphId,
+          paragraphId: primary.paragraphId,
           freezeId: null, // this call site disputes at fill time, before any freeze exists
           raisedBy,
           reason,

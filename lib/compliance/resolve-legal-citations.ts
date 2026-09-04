@@ -38,7 +38,10 @@ export async function resolveLegalCitations(
         continue;
       }
       const disputed = await corrections.hasUnresolved(grounded.paragraph.id);
-      result[field.key] = buildLegalCitationView(grounded.paragraph, disputed);
+      result[field.key] = buildLegalCitationView(
+        [{ paragraph: grounded.paragraph, primary: true }],
+        { [grounded.paragraph.id]: disputed }
+      );
     } catch {
       // Never let a compliance-layer failure break the surrounding extraction pipeline.
       result[field.key] = null;

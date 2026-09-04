@@ -126,18 +126,21 @@ describe("bkFromDatalab", () => {
       ...source,
       legalCitations: {
         "eal-legal-basis": {
-          paragraphId: "no-avfallsforskriften-11-4",
-          label: "Avfallsforskriften § 11-4",
-          sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-4",
-          verifiedAt: "2026-09-03T19:26:14.030Z",
-          disputed: false,
+          citations: [{
+            paragraphId: "no-avfallsforskriften-11-4",
+            label: "Avfallsforskriften § 11-4",
+            sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-4",
+            verifiedAt: "2026-09-03T19:26:14.030Z",
+            disputed: false,
+            primary: true,
+          }],
         },
       },
     };
     const fields = buildBkFields(withCitation);
     const checkbox10 = fields.find(f => f.field === "Checkbox10")!;
     expect(checkbox10.note).toContain("Avfallsforskriften § 11-4");
-    expect(checkbox10.legalCitation?.paragraphId).toBe("no-avfallsforskriften-11-4");
+    expect(checkbox10.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-4");
   });
 
   it("Checkbox10 has no legalCitation and a plain note when legalCitations is absent", () => {

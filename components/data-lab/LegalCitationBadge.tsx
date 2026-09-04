@@ -9,23 +9,32 @@ export function canSubmitDispute(reason: string, raisedBy: string): boolean {
 /**
  * Inline, non-blocking legal citation display. Trust-by-default: the citation is shown and used
  * without any approval step. The only action available is disputing it — no role gating (this
- * app has no per-user identity yet; see the plan's Global Constraints) — which posts a dispute
- * and never edits any already-frozen record; it only ever adds a new one.
+ * app has no per-user identity yet) — which posts a dispute against the citation's `primary`
+ * paragraph and never edits any already-frozen record; it only ever adds a new one.
+ *
+ * `variant="collapsed"` renders a compact, click-to-expand indicator carrying the SAME citation
+ * content as `"full"` — never a degraded or hidden version, just compact. Used for fields where
+ * more than one rendered outcome shares one citation (e.g. Checkbox1/2/3), so the reasoning isn't
+ * printed three times over on the unchecked outcomes.
  */
 export function LegalCitationBadge({
   citation,
   onDispute,
+  variant = "full",
 }: {
   citation: LegalCitationView;
   onDispute: (reason: string, raisedBy: string) => Promise<void>;
+  variant?: "full" | "collapsed";
 }) {
+  const [expanded, setExpanded] = useState(variant === "full");
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [raisedBy, setRaisedBy] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [justDisputed, setJustDisputed] = useState(false);
 
-  const disputed = citation.disputed || justDisputed;
+  const disputed = citation.citations.some(c => c.disputed) || justDisputed;
+  const primaryLabel = citation.citations.find(c => c.primary)?.label ?? citation.citations[0]?.label ?? "";
 
   async function submit() {
     if (!canSubmitDispute(reason, raisedBy)) return;
@@ -39,29 +48,44 @@ export function LegalCitationBadge({
     }
   }
 
+  if (variant === "collapsed" && !expanded) {
+    return (
+      <button
+        type="button"
+        onClick={() => setExpanded(true)}
+        className="mt-1 text-[11px] text-forest/40 underline decoration-dotted underline-offset-2 hover:text-forest/70"
+      >
+        {disputed && <span className="mr-1 rounded-full bg-amber-100 px-1.5 py-0.5 font-medium text-amber-800">disputed</span>}
+        same legal basis as &ldquo;{primaryLabel}&rdquo;
+      </button>
+    );
+  }
+
   return (
     <div className="mt-1 flex flex-col gap-1 text-[11px]">
-      <div className="flex items-center gap-1.5">
-        {disputed && (
-          <span className="rounded-full bg-amber-100 px-1.5 py-0.5 font-medium text-amber-800" title="This citation has an unresolved dispute">
-            disputed
-          </span>
-        )}
-        <a
-          href={citation.sourceLink}
-          target="_blank"
-          rel="noreferrer"
-          className="text-forest/60 underline decoration-dotted underline-offset-2 hover:text-forest"
-        >
-          {citation.label}
-        </a>
-        <span className="text-forest/35">verified {new Date(citation.verifiedAt).toLocaleDateString("no-NO")}</span>
-        {!disputed && (
-          <button type="button" onClick={() => setOpen(v => !v)} className="text-forest/40 underline decoration-dotted hover:text-forest/70">
-            I disagree
-          </button>
-        )}
-      </div>
+      {citation.citations.map(c => (
+        <div key={c.paragraphId} className="flex items-center gap-1.5">
+          {c.disputed && (
+            <span className="rounded-full bg-amber-100 px-1.5 py-0.5 font-medium text-amber-800" title="This citation has an unresolved dispute">
+              disputed
+            </span>
+          )}
+          <a
+            href={c.sourceLink}
+            target="_blank"
+            rel="noreferrer"
+            className="text-forest/60 underline decoration-dotted underline-offset-2 hover:text-forest"
+          >
+            {c.label}
+          </a>
+          <span className="text-forest/35">verified {new Date(c.verifiedAt).toLocaleDateString("no-NO")}</span>
+        </div>
+      ))}
+      {!disputed && (
+        <button type="button" onClick={() => setOpen(v => !v)} className="self-start text-forest/40 underline decoration-dotted hover:text-forest/70">
+          I disagree
+        </button>
+      )}
 
       {open && (
         <div className="flex flex-col gap-1 rounded-lg border border-forest/15 bg-white/60 p-2">

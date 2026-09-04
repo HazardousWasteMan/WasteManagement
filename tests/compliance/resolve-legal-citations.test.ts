@@ -32,8 +32,8 @@ describe("resolveLegalCitations", () => {
     const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["eal-legal-basis"]?.paragraphId).toBe("no-avfallsforskriften-11-4");
-    expect(result["eal-legal-basis"]?.disputed).toBe(false);
+    expect(result["eal-legal-basis"]?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-4");
+    expect(result["eal-legal-basis"]?.citations[0]?.disputed).toBe(false);
   });
 
   it("marks the citation disputed when CorrectionStore reports an unresolved dispute", async () => {
@@ -42,7 +42,7 @@ describe("resolveLegalCitations", () => {
     const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(true) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["eal-legal-basis"]?.disputed).toBe(true);
+    expect(result["eal-legal-basis"]?.citations[0]?.disputed).toBe(true);
   });
 
   it("returns eal-legal-basis: null, never throws, when the underlying search fails", async () => {

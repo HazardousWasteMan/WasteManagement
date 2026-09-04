@@ -191,15 +191,15 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
     { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived", check: true,
-      // Compliance trust model: legalCitation is resolved server-side (see
-      // lib/compliance/search.ts + app/api/data-lab/route.ts) and passed in via
-      // s.legalCitations["eal-legal-basis"]. The note stays truthful either way: it names the
-      // real citation when one was resolved this time, and falls back to the plain classification
-      // note when it wasn't (compliance lookup unavailable, or not yet wired for this call site) —
-      // never claims a citation that isn't actually attached to this field.
+      // Compliance trust model: legalCitation is resolved server-side and passed in via
+      // s.legalCitations["eal-legal-basis"]. LegalCitationView now carries a `citations` array
+      // so multi-paragraph fields (e.g. Checkbox1/2/3) can share the same shape — Checkbox10 is
+      // a one-element case. The note stays truthful either way: it names the real primary
+      // citation when one was resolved this time, and falls back to the plain classification
+      // note when it wasn't — never claims a citation that isn't attached.
       legalCitation: s.legalCitations?.["eal-legal-basis"] ?? null,
-      note: s.legalCitations?.["eal-legal-basis"]
-        ? `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${s.legalCitations["eal-legal-basis"]!.label}.`
+      note: s.legalCitations?.["eal-legal-basis"]?.citations[0]
+        ? `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${s.legalCitations["eal-legal-basis"]!.citations[0].label}.`
         : "hazardous substances detected above LOQ, though all below HP thresholds" },
     { field: "TextField35", label: "TOC %", src: m.tocPct != null ? "extracted" : "human",
       value: m.tocPct != null ? String(m.tocPct) : undefined, ...cite(s, "tocPct"),
