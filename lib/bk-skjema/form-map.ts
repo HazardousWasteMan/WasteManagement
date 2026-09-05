@@ -114,8 +114,8 @@ export function buildDescription(s: BkSource): string {
     `Alle øvrige parametere under deteksjonsgrense.`,
     `Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014):`,
     s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
-    s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidence}.`,
-    s.eal.code ? `Merk: ${s.eal.confidence}.` : "",
+    s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidenceNo}.`,
+    s.eal.code ? `Merk: ${s.eal.confidenceNo}.` : "",
     `Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.`,
   ].filter(Boolean).join(" ");
 }

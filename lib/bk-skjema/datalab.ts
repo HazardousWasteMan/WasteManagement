@@ -89,7 +89,18 @@ async function start(path: string, form: FormData, key: string): Promise<Record<
   return poll(init.request_check_url, key);
 }
 
-const stripTags = (html: string) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+// Decodes HTML entities after tags are stripped — &amp; must be last, or "&amp;lt;" would
+// double-decode into "<" instead of the literal "&lt;" it actually represents.
+const stripTags = (html: string) =>
+  html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&#xa0;|&nbsp;/gi, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 
 // NARROWING
 // Datalab cites a whole block, and its table blocks are huge — on a Eurofins report one Table

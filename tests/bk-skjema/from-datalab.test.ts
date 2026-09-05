@@ -217,6 +217,13 @@ describe("narrowCitation", () => {
   it("leaves blocks with no table geometry alone", () => {
     expect(narrowCitation(blocks["/page/2/Text/3"], "Avinor AS").bbox).toEqual([10, 20, 200, 40]);
   });
+
+  it("decodes HTML entities in cell text rather than leaving them literal (e.g. Fluoren &lt; 0.030)", () => {
+    const rawHtml = `<tr data-bbox="24 700 900 722"><td>Fluoren</td><td>&lt; 0.030 mg/kg TS</td></tr>`;
+    const regions = parseRegions(rawHtml);
+    expect(regions).toHaveLength(1);
+    expect(regions[0].cells).toEqual(["Fluoren", "< 0.030 mg/kg TS"]);
+  });
 });
 
 describe("bkSection", () => {
