@@ -64,10 +64,17 @@ ever using the keywords the extraction prompt looks for.
 - New pure function `unitsIndicateLeachate(results: SampleResult[]): boolean` in
   `lib/hp-classification/classify-sample.ts` — inspects each result row's `unitRaw` for a liquid-
   concentration denominator (`mg/l`, `µg/l`, `ng/l`, `g/l` — a `/l` unit, not `/kg`). Real,
-  disclosed threshold rule (not "any single row"): a sample is flagged only when a clear majority
-  of its rows report liquid units — a single stray row (e.g. one parameter reported both ways in
-  a report) must not gate an otherwise-solid total-content sample. The exact majority threshold
-  is a real implementation decision the plan resolves precisely (not left vague here).
+  disclosed threshold rule (not "any single row"): count rows with a liquid-unit denominator
+  against rows with a solid-basis denominator (`/kg`, e.g. `mg/kg TS`); rows with neither (no
+  recognized unit, or a unit that is neither a mass-per-volume nor mass-per-mass form) are
+  excluded from both counts, not treated as evidence either way. The function returns `true` only
+  when liquid-unit rows are a **strict majority of the counted rows** (`liquidCount >
+  solidCount + unmatchedInDenominator` is not the rule — precisely: `liquidCount / (liquidCount +
+  solidCount) > 0.5`, i.e. more than half; a 50/50 split does NOT gate, since "majority" requires
+  more liquid rows than solid rows, not merely as many). A sample with zero counted rows (all
+  units unrecognized) returns `false` — absence of evidence is not evidence of leaching. This
+  fixes the threshold as a concrete, locked comparison, not an open parameter — the plan
+  implements exactly this arithmetic, no rounding or configurable knob.
 - Lives in `classify-sample.ts` (not `from-datalab.ts`/`datalab.ts`) specifically because it
   operates on `SampleResult[]`, which `classifySample` already receives regardless of which
   extraction backend produced it (Datalab or the older Anthropic pipeline) — this protects both
@@ -77,6 +84,19 @@ ever using the keywords the extraction prompt looks for.
   `totalinnholdUtfort` say — even if the LLM explicitly claimed `totalinnhold_utfort: true`. This
   is a deliberate override, not a fallback-only signal, because a wrong hazardous fabrication is
   judged worse than an over-cautious gate.
+- **Conflict must be traceable, not silent**: when `unitsIndicateLeachate` is the reason a sample
+  gates — specifically when it returns `true` while the LLM's own flags say otherwise (e.g.
+  `totalinnholdUtfort: true`, or `ristetestUtfort`/`kolonnetestUtfort` both `false`/undefined) —
+  `classifySample` must produce a DIFFERENT `confidenceFlags`/`confidenceFlagsNo` message than the
+  existing keyword-triggered gate uses, one that says explicitly that unit-based detection
+  overrode the extraction's own flags (e.g. English: "...overriding the extraction's own
+  totalinnhold_utfort flag, because result units indicate a liquid/eluate sample regardless of
+  what the report's language claimed."; Norwegian companion equivalent). When the two signals
+  agree (both say leaching-only), the existing message from the prior plan is reused unchanged —
+  no new message needed for the non-conflicting case. This preserves the exact debugging
+  guarantee the `confidenceFlags` mechanism already exists for: a future reader must be able to
+  tell, from the flag text alone, why a sample with `totalinnhold_utfort: true` still ended up
+  `isHazardous: null`.
 
 ## Explicitly disclosed, not solved by this spec
 
@@ -105,9 +125,15 @@ ever using the keywords the extraction prompt looks for.
   avfall" verdict it got in production.
 - A regression case confirming a normal total-content sample (mg/kg TS units) is unaffected.
 - A case proving the "units win, always" override: `totalinnhold_utfort: true` explicitly set,
-  but liquid units present — must still gate.
-- A case at/near the majority threshold, proving a single stray liquid-unit row among
-  mostly-solid rows does NOT gate (the real threshold rule, not "any row").
+  but liquid units present — must still gate, AND its `confidenceFlags`/`confidenceFlagsNo` must
+  contain the distinct override-specific message (not the plain leaching-only message reused from
+  the prior plan).
+- A case at exactly a 50/50 liquid/solid split, proving it does NOT gate (majority requires
+  strictly more than half).
+- A case with one stray liquid-unit row among several solid-basis rows (well under 50%), proving
+  it does NOT gate — the real threshold rule, not "any row".
+- A case with all-unrecognized units (zero counted rows), proving `unitsIndicateLeachate` returns
+  `false` rather than trivially "flagging" on empty evidence.
 - Real seeding verification for § 11-2 (SQL query against the live Supabase project, same
   pattern as prior plans).
 - `TextField38`'s `legalCitation` presence test across all three `isHazardous` states (`true`,
