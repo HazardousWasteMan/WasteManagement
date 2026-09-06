@@ -38,6 +38,7 @@ export function resolveCitations(
 
 const num = (v: unknown): number | null => (typeof v === "number" && Number.isFinite(v) ? v : null);
 const str = (v: unknown): string | null => (typeof v === "string" && v.trim() ? v.trim() : null);
+const bool = (v: unknown): boolean | null => (typeof v === "boolean" ? v : null);
 
 /** "mg/kg TS", "% TS", "µg/kg tørrstoff" all mean the value is already on a dry-matter basis. */
 const isDryBasis = (unit: string): boolean => /\b(ts|t[øo]rrstoff|dw)\b/i.test(unit);
@@ -118,6 +119,9 @@ export function bkFromDatalab(
     ph: num(data.ph),
     labClassificationGiven: false,
     labStatedEalCode: null,
+    ristetestUtfort: bool(data.ristetest_utfort) ?? undefined,
+    kolonnetestUtfort: bool(data.kolonnetest_utfort) ?? undefined,
+    totalinnholdUtfort: bool(data.totalinnhold_utfort),
   };
 
   const sampleResults: SampleResult[] = rows.map((r, i) => ({

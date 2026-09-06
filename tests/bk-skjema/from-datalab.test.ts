@@ -179,6 +179,59 @@ describe("bkFromDatalab", () => {
     expect(fields.find(f => f.field === "Checkbox2")!.legalCitation ?? null).toBeNull();
     expect(fields.find(f => f.field === "Checkbox3")!.legalCitation ?? null).toBeNull();
   });
+
+  it("gates to isHazardous: null for a leaching-test-only sample (ristetest metals, no total content)", () => {
+    const { classification, source } = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        kolonnetest_utfort: false,
+        totalinnhold_utfort: false,
+        analyseresultater: [
+          { parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" },
+          { parameter: "Kadmium (Cd)", analyte_id: "cadmium-oxide", verdi: 0.189, under_loq: false, loq: 0.05, enhet: "mg/kg TS" },
+        ],
+      }),
+      blocks,
+      ORIGIN
+    );
+    expect(classification.hazard.isHazardous).toBeNull();
+    expect(source.isHazardous).toBeNull();
+    expect(classification.eal.code).toBeNull();
+  });
+
+  it("does not gate a normal total-content report — regression, using this file's default fixture", () => {
+    // datalabPayload() with NO overrides has no ristetest_utfort/totalinnhold_utfort at all
+    // (both absent) — per the default-absent rule, this must NOT gate, exactly like every other
+    // existing test in this file that already calls bkFromDatalab(datalabPayload(), blocks, ORIGIN).
+    const { classification } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    expect(classification.hazard.isHazardous).not.toBeNull();
+  });
+
+  it("gates per-sample, not per-document: sample A has both test types, sample B has leaching only", () => {
+    const sampleA = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: true,
+        analyseresultater: [{ parameter: "Benzo[a]pyren", analyte_id: "benzo-a-pyrene", verdi: 2.5, under_loq: false, loq: 0.1, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN
+    );
+    const sampleB = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: false,
+        analyseresultater: [{ parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN
+    );
+    expect(sampleA.classification.hazard.isHazardous).not.toBeNull();
+    expect(sampleB.classification.hazard.isHazardous).toBeNull();
+  });
 });
 
 describe("narrowCitation", () => {

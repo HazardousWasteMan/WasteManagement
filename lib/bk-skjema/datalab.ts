@@ -317,6 +317,7 @@ export function buildBkPageSchema(): object {
       fysisk_form: { type: "string", description: "Prøvens fysiske form: fast, flytende eller pulver" },
       ristetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en ristetest (utlekkingstest)" },
       kolonnetest_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra en kolonnetest" },
+      totalinnhold_utfort: { type: "boolean", description: "True bare hvis rapporten inneholder resultater fra totalinnhold (bulk) analyse, ikke bare utlekking/eluat" },
       analyseresultater: {
         type: "array",
         description: "Hver enkelt analyseparameter i rapporten, med resultat. Ta med alle rader, også de under deteksjonsgrensen.",
