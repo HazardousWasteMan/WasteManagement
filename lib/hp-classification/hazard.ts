@@ -32,8 +32,11 @@ export interface HazardClassification {
   /** Internal/machine-facing flags — kept in English, matching this file's other note/log text. */
   confidenceFlags: string[];
   /** Same flags, in Norwegian — for Norwegian-only document text (BK-skjema TextField41,
-   * buildDescription's "Merk:" sentence), which must never mix languages. Only populated where
-   * confidenceFlags is; index-aligned with it. */
+   * buildDescription's "Merk:" sentence), which must never mix languages. NOT index-aligned with
+   * confidenceFlags in general — classifyHazard's own internal flags (e.g. the HP6
+   * no-threshold-row note) never populate this array, since those only ever accompany a real
+   * true/false isHazardous. Only the leaching-only gate in classify-sample.ts populates both
+   * arrays together today. Any future producer of isHazardous: null must populate both. */
   confidenceFlagsNo?: string[];
 }
 
