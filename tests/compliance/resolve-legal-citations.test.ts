@@ -18,6 +18,7 @@ const p11_4: LegalParagraph = {
 };
 const p9_5: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-5", article: "9", paragraph: "5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5" };
 const p9_6: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-6", article: "9", paragraph: "6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6" };
+const p11_2: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-11-2", article: "11", paragraph: "2", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-2" };
 
 function fakeStore(rows: LegalParagraph[]): ParagraphStore {
   return {
@@ -83,6 +84,26 @@ describe("resolveLegalCitations", () => {
     expect(result["hazard-indeterminate-basis"]?.citations).toHaveLength(1);
     expect(result["hazard-indeterminate-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-9-6");
     expect(result["hazard-indeterminate-basis"]?.citations[0].primary).toBe(true);
+  });
+
+  it("resolves hp-methodology-basis (§ 11-2, single location) to a one-element citations array, primary true", async () => {
+    const store = fakeStore([p11_2]);
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hp-methodology-basis"]?.citations).toHaveLength(1);
+    expect(result["hp-methodology-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-11-2");
+    expect(result["hp-methodology-basis"]?.citations[0].primary).toBe(true);
+  });
+
+  it("hp-methodology-basis is null when § 11-2 is not cached", async () => {
+    const store = fakeStore([]); // empty — § 11-2 absent
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn().mockResolvedValue(null) };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hp-methodology-basis"]).toBeNull();
   });
 
   it("returns eal-legal-basis: null, never throws, when the underlying search fails", async () => {

@@ -45,6 +45,12 @@ const RESOLVED_FIELDS: ResolvedFieldConfig[] = [
       { documentId: "avfallsforskriften", article: "9", paragraph: "6", queryText: "avfall som tillates deponert på de ulike deponikategoriene", primary: true },
     ],
   },
+  {
+    key: "hp-methodology-basis",
+    locations: [
+      { documentId: "avfallsforskriften", article: "11", paragraph: "2", queryText: "definisjon av farlig avfall HP1-HP15 vedlegg", primary: true },
+    ],
+  },
 ];
 
 // Resolves every field this codebase grounds into a real, live-verified citation, checking

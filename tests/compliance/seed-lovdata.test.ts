@@ -13,6 +13,11 @@ describe("buildSeedLocations", () => {
     expect(locations).toContainEqual({ documentId: "avfallsforskriften", article: "9", paragraph: "6" });
   });
 
+  it("also returns § 11-2 for the HP1-15 methodology citation", () => {
+    const locations = buildSeedLocations("avfallsforskriften");
+    expect(locations).toContainEqual({ documentId: "avfallsforskriften", article: "11", paragraph: "2" });
+  });
+
   it("every location has a non-empty article and paragraph", () => {
     const locations = buildSeedLocations("avfallsforskriften");
     for (const loc of locations) {
