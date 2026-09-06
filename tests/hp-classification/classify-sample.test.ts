@@ -169,6 +169,34 @@ describe("classifySample", () => {
     expect(result.hazard.confidenceFlagsNo?.[0]).toContain("overstyrer ekstraksjonens eget totalinnhold_utfort-flagg");
     expect(result.eal.code).toBeNull();
   });
+
+  it("does NOT gate a mixed report where total-content data exists for the same analytes also re-reported in mg/l (real dual-reporting pattern)", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+        resultValue: 5000, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null }, // 5000 mg/kg TS = 0.5% dry basis, above the 0.1% HP7 threshold
+      { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
+        resultValue: 0.01, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    // The mg/l row for "test-carcinogen" is excluded (its analyte has a solid-basis row), so
+    // unitsIndicateLeachate returns false; the keyword flag is also false (baseMetadata has no
+    // leaching flags set) — so classification proceeds normally on the real total-content row.
+    expect(result.hazard.isHazardous).toBe(true);
+  });
+
+  it("uses the non-overclaiming unit-triggered message when totalinnholdUtfort was never claimed true (absent)", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+      { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen-2", rawAnalyteName: "Cr",
+        resultValue: 0.059, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    // baseMetadata has totalinnholdUtfort left unset (undefined) — no claim was ever made to override.
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).not.toContain("overriding the extraction's own totalinnhold_utfort flag");
+    expect(result.hazard.confidenceFlags[0]).toContain("even though the extraction did not confirm total-content data was collected");
+  });
 });
 
 function result(overrides: Partial<SampleResult>): SampleResult {
@@ -183,11 +211,11 @@ function result(overrides: Partial<SampleResult>): SampleResult {
 describe("unitsIndicateLeachate", () => {
   it("returns true for the real Test-1 leachate pattern (Ba/Cr/Mo/Cl in mg/l, pH unitless)", () => {
     const results: SampleResult[] = [
-      result({ rawAnalyteName: "Ba", resultValue: 0.13, unitRaw: "mg/l" }),
-      result({ rawAnalyteName: "Cr", resultValue: 0.059, unitRaw: "mg/l" }),
-      result({ rawAnalyteName: "Mo", resultValue: 0.069, unitRaw: "mg/l" }),
-      result({ rawAnalyteName: "Cl", resultValue: 23, unitRaw: "mg/l" }),
-      result({ rawAnalyteName: "pH", resultValue: 12.5, unitRaw: "" }),
+      result({ analyteId: "ba", rawAnalyteName: "Ba", resultValue: 0.13, unitRaw: "mg/l" }),
+      result({ analyteId: "cr", rawAnalyteName: "Cr", resultValue: 0.059, unitRaw: "mg/l" }),
+      result({ analyteId: "mo", rawAnalyteName: "Mo", resultValue: 0.069, unitRaw: "mg/l" }),
+      result({ analyteId: "cl", rawAnalyteName: "Cl", resultValue: 23, unitRaw: "mg/l" }),
+      result({ analyteId: "ph", rawAnalyteName: "pH", resultValue: 12.5, unitRaw: "" }),
     ];
     expect(unitsIndicateLeachate(results)).toBe(true);
   });
@@ -203,22 +231,22 @@ describe("unitsIndicateLeachate", () => {
 
   it("returns false at exactly a 50/50 liquid/solid split (majority requires strictly more than half)", () => {
     const results: SampleResult[] = [
-      result({ unitRaw: "mg/l" }),
-      result({ unitRaw: "mg/l" }),
-      result({ unitRaw: "mg/kg TS" }),
-      result({ unitRaw: "mg/kg TS" }),
+      result({ analyteId: "ba", unitRaw: "mg/l" }),
+      result({ analyteId: "cr", unitRaw: "mg/l" }),
+      result({ analyteId: "mo", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "cl", unitRaw: "mg/kg TS" }),
     ];
     expect(unitsIndicateLeachate(results)).toBe(false);
   });
 
   it("returns false for a single stray liquid-unit row among mostly-solid rows", () => {
     const results: SampleResult[] = [
-      result({ unitRaw: "mg/l" }),
-      result({ unitRaw: "mg/kg TS" }),
-      result({ unitRaw: "mg/kg TS" }),
-      result({ unitRaw: "mg/kg TS" }),
-      result({ unitRaw: "mg/kg TS" }),
-      result({ unitRaw: "mg/kg TS" }),
+      result({ analyteId: "ba", unitRaw: "mg/l" }),
+      result({ analyteId: "cr", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "mo", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "cl", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "zn", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "pb", unitRaw: "mg/kg TS" }),
     ];
     expect(unitsIndicateLeachate(results)).toBe(false);
   });
@@ -234,11 +262,43 @@ describe("unitsIndicateLeachate", () => {
 
   it("recognizes µg/l and ng/l and g/l as liquid units, and mg/kg (no TS suffix) as solid", () => {
     const results: SampleResult[] = [
-      result({ unitRaw: "µg/l" }),
-      result({ unitRaw: "ng/l" }),
-      result({ unitRaw: "g/l" }),
-      result({ unitRaw: "mg/kg" }),
+      result({ analyteId: "ug-l-analyte", unitRaw: "µg/l" }),
+      result({ analyteId: "ng-l-analyte", unitRaw: "ng/l" }),
+      result({ analyteId: "g-l-analyte", unitRaw: "g/l" }),
+      result({ analyteId: "mg-kg-analyte", unitRaw: "mg/kg" }),
     ];
     expect(unitsIndicateLeachate(results)).toBe(true); // 3 liquid / 1 solid = 75% > 50%
+  });
+
+  it("excludes a liquid-unit row from the count when the same analyte also has a solid-unit (total-content) row — the mixed-report case", () => {
+    const results: SampleResult[] = [
+      result({ analyteId: "ba", rawAnalyteName: "Ba", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "ba", rawAnalyteName: "Ba", unitRaw: "mg/l" }), // same analyte, re-reported — excluded from liquid count
+      result({ analyteId: "cr", rawAnalyteName: "Cr", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "cr", rawAnalyteName: "Cr", unitRaw: "mg/l" }), // same analyte, re-reported — excluded from liquid count
+    ];
+    // Both liquid rows are excluded (their analytes have solid counterparts) — liquidCount=0, solidCount=2 → false.
+    expect(unitsIndicateLeachate(results)).toBe(false);
+  });
+
+  it("does NOT exclude a liquid-unit row when its analyte has no solid-unit counterpart, even in a report that also has unrelated solid-unit rows", () => {
+    const results: SampleResult[] = [
+      result({ analyteId: "ba", rawAnalyteName: "Ba", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "cr", rawAnalyteName: "Cr", unitRaw: "mg/l" }), // different analyte, no solid counterpart — counted
+      result({ analyteId: "mo", rawAnalyteName: "Mo", unitRaw: "mg/l" }), // different analyte, no solid counterpart — counted
+      result({ analyteId: "cl", rawAnalyteName: "Cl", unitRaw: "mg/l" }), // different analyte, no solid counterpart — counted
+    ];
+    // liquidCount=3, solidCount=1 → 75% > 50% → true.
+    expect(unitsIndicateLeachate(results)).toBe(true);
+  });
+
+  it("excludes only the dual-reported analyte's liquid row while still counting a genuinely leachate-only analyte's liquid row", () => {
+    const results: SampleResult[] = [
+      result({ analyteId: "ba", rawAnalyteName: "Ba", unitRaw: "mg/kg TS" }),
+      result({ analyteId: "ba", rawAnalyteName: "Ba", unitRaw: "mg/l" }), // dual-reported — excluded
+      result({ analyteId: "cr", rawAnalyteName: "Cr", unitRaw: "mg/l" }), // leachate-only — counted
+    ];
+    // liquidCount=1 (cr only), solidCount=1 (ba) → 1/2=0.5, not > 0.5 → false.
+    expect(unitsIndicateLeachate(results)).toBe(false);
   });
 });

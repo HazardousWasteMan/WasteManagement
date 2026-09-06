@@ -16,10 +16,22 @@ const SOLID_UNIT_PATTERN = /\/\s*kg\b/i;
 // row whose unit matches neither pattern is excluded from both counts — absence of a recognized
 // unit is not evidence either way. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
 export function unitsIndicateLeachate(results: SampleResult[]): boolean {
+  const solidAnalyteIds = new Set<string>();
+  for (const r of results) {
+    if (r.analyteId && SOLID_UNIT_PATTERN.test(r.unitRaw)) {
+      solidAnalyteIds.add(r.analyteId);
+    }
+  }
   let liquidCount = 0;
   let solidCount = 0;
   for (const r of results) {
     if (LIQUID_UNIT_PATTERN.test(r.unitRaw)) {
+      // A liquid-basis row for an analyte that ALSO has a real solid-basis (total-content) row
+      // elsewhere in this sample is a mixed-report re-reporting, not evidence of a leachate-only
+      // sample — that analyte's real classification data already exists in its solid-basis row.
+      // Excluding it here is what stops a mixed total-content-plus-leaching-table report from
+      // being miscounted into the leachate majority just because the leaching table has more rows.
+      if (r.analyteId && solidAnalyteIds.has(r.analyteId)) continue;
       liquidCount++;
     } else if (SOLID_UNIT_PATTERN.test(r.unitRaw)) {
       solidCount++;
@@ -69,13 +81,22 @@ export function classifySample(
           "question from hazardous-waste classification (kap. 11), which requires total content. " +
           "Manual review required.",
         ]
-      : [
+      : metadata.totalinnholdUtfort === true
+      ? [
           "HP1-15 hazard classification not performed: reported result units indicate a " +
           "liquid/eluate sample (a majority of results use a mg/l-class concentration unit), " +
           "overriding the extraction's own totalinnhold_utfort flag — regardless of what the " +
           "report's language claimed, leaching-test results are landfill-acceptance-criteria " +
           "data (avfallsforskriften kap. 9), a different regulatory question from hazardous-" +
           "waste classification (kap. 11), which requires total content. Manual review required.",
+        ]
+      : [
+          "HP1-15 hazard classification not performed: reported result units indicate a " +
+          "liquid/eluate sample (a majority of results use a mg/l-class concentration unit), " +
+          "even though the extraction did not confirm total-content data was collected — " +
+          "leaching-test results are landfill-acceptance-criteria data (avfallsforskriften kap. 9), " +
+          "a different regulatory question from hazardous-waste classification (kap. 11), which " +
+          "requires total content. Manual review required.",
         ];
     const confidenceFlagsNo = keywordFlaggedLeachingOnly
       ? [
@@ -85,7 +106,8 @@ export function classifySample(
           "regelverksspørsmål enn farlig avfall-klassifisering (kap. 11), som krever totalinnhold. " +
           "Manuell gjennomgang kreves.",
         ]
-      : [
+      : metadata.totalinnholdUtfort === true
+      ? [
           "HP1-15-klassifisering ikke utført: rapporterte resultatenheter indikerer en " +
           "væske-/eluatprøve (et flertall av resultatene bruker en mg/l-basert " +
           "konsentrasjonsenhet), som overstyrer ekstraksjonens eget totalinnhold_utfort-flagg — " +
@@ -93,6 +115,14 @@ export function classifySample(
           "mottakskriterier-data for deponering (avfallsforskriften kap. 9), et annet " +
           "regelverksspørsmål enn farlig avfall-klassifisering (kap. 11), som krever totalinnhold. " +
           "Manuell gjennomgang kreves.",
+        ]
+      : [
+          "HP1-15-klassifisering ikke utført: rapporterte resultatenheter indikerer en " +
+          "væske-/eluatprøve (et flertall av resultatene bruker en mg/l-basert " +
+          "konsentrasjonsenhet), selv om ekstraksjonen ikke bekreftet at totalinnhold-data ble " +
+          "innhentet — utlekkingstest-resultater er mottakskriterier-data for deponering " +
+          "(avfallsforskriften kap. 9), et annet regelverksspørsmål enn farlig avfall-" +
+          "klassifisering (kap. 11), som krever totalinnhold. Manuell gjennomgang kreves.",
         ];
     const hazard: HazardClassification = {
       resultsByHp: {},
