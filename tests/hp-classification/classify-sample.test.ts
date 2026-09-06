@@ -184,6 +184,21 @@ describe("classifySample", () => {
     expect(result.hazard.isHazardous).toBe(true);
   });
 
+  it("does NOT misclassify a mixed report by feeding a dual-reported analyte's liquid-unit row into classification as if it were dry-basis %", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+        resultValue: 10, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null }, // 10 mg/kg TS = 0.001% dry basis — well below the 0.1% HP7/H350 threshold
+      { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null }, // same analyte, liquid-basis re-reporting — must be excluded from classification entirely
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    // Without this fix, the 0.13 mg/l row would be misread as 0.13% dry basis (> 0.1% threshold),
+    // wrongly triggering HP7. With the fix, only the real 10 mg/kg TS (0.001%) row is classified,
+    // which is safely below threshold.
+    expect(result.hazard.isHazardous).toBe(false);
+    expect(result.hazard.resultsByHp.HP7).not.toBe(true);
+  });
+
   it("uses the non-overclaiming unit-triggered message when totalinnholdUtfort was never claimed true (absent)", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",

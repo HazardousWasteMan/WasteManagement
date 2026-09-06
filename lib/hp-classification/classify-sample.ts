@@ -136,7 +136,14 @@ export function classifySample(
     return { hazard, eal, noDataWarning: false };
   }
 
-  const normalized = normalizeSample(metadata, results, analyteRef);
+  // Liquid-basis rows (mg/l-class concentrations) are never a valid input to HP total-content
+  // classification, which is defined on dry-basis % — regardless of whether unitsIndicateLeachate
+  // gated this sample or not. A mixed report (the same analyte re-reported as both solid
+  // total-content and liquid eluate) must classify off its real solid-basis row only; feeding the
+  // liquid-basis row's raw number through normalizeSample would misread an eluate concentration
+  // as a dry-basis percentage. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
+  const resultsForClassification = results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
+  const normalized = normalizeSample(metadata, resultsForClassification, analyteRef);
   const noDataWarning = normalized.length === 0;
 
   const withClp: NormalizedResultWithClp[] = [];
