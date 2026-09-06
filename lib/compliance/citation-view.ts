@@ -23,9 +23,12 @@ const DOCUMENT_LABELS: Record<string, string> = {
 
 function buildSingleCitation(paragraph: LegalParagraph, primary: boolean, disputed: boolean): SingleCitation {
   const docLabel = DOCUMENT_LABELS[paragraph.documentId] ?? paragraph.documentId;
+  const label = paragraph.paragraph.startsWith("vedlegg-")
+    ? `${docLabel} Vedlegg ${paragraph.paragraph.slice("vedlegg-".length)}`
+    : `${docLabel} § ${paragraph.article}-${paragraph.paragraph}`;
   return {
     paragraphId: paragraph.id,
-    label: `${docLabel} § ${paragraph.article}-${paragraph.paragraph}`,
+    label,
     sourceLink: paragraph.sourceLink,
     verifiedAt: paragraph.lastVerifiedAt,
     disputed,
