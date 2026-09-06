@@ -101,18 +101,33 @@ verdict. That's a real category error, confirmed against two independent sources
    clear `confidence`/`confidenceNo` message ("cannot assign an EAL code — hazard status could
    not be determined from leaching-test data alone"), reusing the existing
    `confidence`/`confidenceNo` pattern (the Norwegian-translation fix from earlier this session).
-5. **BK-skjema wiring**: when `isHazardous === null`, Checkbox9/Checkbox10 (Innhold av farlige
-   stoffer: Nei/Ja) both render unchecked (neither asserted) with a shared note explaining the
-   indeterminate state; Checkbox1/2/3 (landfill category) likewise cannot be determined and
-   render unchecked. `buildDescription`'s generated text gets a new sentence for this case.
+5. **BK-skjema wiring, corrected against the real current code (a real error caught while
+   planning — Checkbox9/10 are NOT part of this cascade):** reading `lib/bk-skjema/form-map.ts`
+   directly shows Checkbox9 ("Innhold av farlige stoffer: Nei") and Checkbox10 ("...Ja") are
+   currently **hardcoded** (`check: false` / `check: true` respectively) and never read
+   `s.isHazardous` at all — they represent a different question (whether any hazardous
+   *substance* was detected above LOQ, already grounded via `"eal-legal-basis"`/§ 11-4 from the
+   prior plan), not the overall HP-threshold hazardous/non-hazardous verdict this fix concerns.
+   That hardcoding is a real, separate, pre-existing simplification — out of scope for this fix,
+   disclosed as its own follow-up below, not silently fixed as scope creep.
+
+   The fields that actually read `s.isHazardous` today, confirmed by direct inspection, are:
+   Checkbox1 (`!s.isHazardous`), Checkbox3 (`s.isHazardous`), Checkbox4 (`!s.isHazardous`),
+   Checkbox6 (`s.isHazardous`), and `TextField41`'s value (`s.isHazardous ? "Ja — se
+   analyserapport." : "Nei — ingen HP-kategori utløst."`). When `isHazardous === null`, all five
+   of these render as their own "cannot determine" state (checkboxes unchecked, `TextField41`
+   gets a third value) rather than either boolean branch — sharing the same
+   `resolveLegalCitations` `"hazard-indeterminate-basis"` citation Checkbox1/2/3 already share for
+   `"deponi-category-basis"` today. `buildDescription`'s generated text gets a new sentence for
+   this case.
    **Single source of truth for the explanation text (a real gap caught in review):** the
    indeterminate-state wording must exist in exactly ONE place — the new `confidenceFlags` entry
-   added in Step 3 — and every downstream renderer (Checkbox9/10's shared note, Checkbox1/2/3's
-   note, `buildDescription`'s new sentence) reads that same string, rather than each independently
-   hardcoding its own paraphrase. If `classify-sample.ts`'s confidenceFlags text and
-   `form-map.ts`'s note text were separate literals, they could drift apart and say subtly
-   different things about the same field on the same form. The implementation plan must wire
-   `s.hazard.confidenceFlags` (or the specific indeterminate-reason entry within it) through to
+   added in Step 3 — and every downstream renderer (the shared note on Checkbox1/3/4/6,
+   `TextField41`'s value, `buildDescription`'s new sentence) reads that same string, rather than
+   each independently hardcoding its own paraphrase. If `classify-sample.ts`'s confidenceFlags
+   text and `form-map.ts`'s note text were separate literals, they could drift apart and say
+   subtly different things about the same field on the same form. The implementation plan must
+   wire `s.hazard.confidenceFlags` (or the specific indeterminate-reason entry within it) through to
    `form-map.ts` as the literal source `buildDescription`/the checkbox notes quote — not restate
    it.
 6. **Legal grounding, zero new seeding required**: § 9-6 is already seeded (from the prior
@@ -138,6 +153,10 @@ verdict. That's a real category error, confirmed against two independent sources
   roadmap confirmed with the user). Demand-driven only; nothing in this spec needs them.
 - **Composite `(paragraphId, resolvedFieldKey)` dispute scoping.** Still deferred, but now
   materially closer to mattering, since § 9-6 is about to ground two fields at once.
+- **Checkbox9/10's hardcoded `check: false`/`check: true`.** Discovered while planning this fix:
+  neither ever reads `s.isHazardous` — they're fixed regardless of the actual classification
+  result, representing a different (also real, also un-automated) question about detected
+  hazardous substance content. Real, pre-existing gap; not touched by this fix.
 
 ## Testing
 
