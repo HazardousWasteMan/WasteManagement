@@ -61,16 +61,12 @@ export function classifySample(
     metadata.totalinnholdUtfort === false;
 
   // Deterministic fallback (see unitsIndicateLeachate above): units win, always — even overriding
-  // an explicit totalinnholdUtfort: true from the extraction LLM. See
-  // docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
-  //
-  // Bypass for a genuinely liquid waste stream: mg/l is that sample's real, legitimate
-  // total-content basis, not evidence of a re-reported leachate/eluate table — the unit check
-  // exists to catch a SOLID sample's eluate data, not to gate a sample that IS liquid. This
-  // bypass does NOT apply to keywordFlaggedLeachingOnly above — a liquid sample can still
-  // genuinely have only leaching-test data (the LLM's own flags say so), which must still gate.
-  // See docs/superpowers/specs/2026-09-06-liquid-waste-stream-disambiguation-design.md.
-  const unitFlaggedLeachingOnly = metadata.physicalState === "liquid" ? false : unitsIndicateLeachate(results);
+  // an explicit totalinnholdUtfort: true from the extraction LLM, and regardless of the sample's
+  // declared physicalState. There is no exception here: normalizeSample has no mg/l conversion
+  // path, so a liquid sample's mg/l rows must gate the same as any other sample's — the
+  // physicalState only changes which message is shown below when the sample gates, never whether
+  // it gates. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
+  const unitFlaggedLeachingOnly = unitsIndicateLeachate(results);
 
   const leachingOnly = keywordFlaggedLeachingOnly || unitFlaggedLeachingOnly;
 
@@ -80,7 +76,17 @@ export function classifySample(
     // reader must be able to tell, from confidenceFlags alone, why a sample with e.g.
     // totalinnholdUtfort: true still ended up isHazardous: null. When both signals agree, reuse
     // the plain keyword-gate message unchanged.
-    const confidenceFlags = keywordFlaggedLeachingOnly
+    const confidenceFlags = metadata.physicalState === "liquid"
+      ? [
+          "HP1-15 hazard classification not performed: this sample is a liquid waste stream " +
+          "(not a leaching/eluate test of a solid) reporting its own total-content basis in a " +
+          "liquid-concentration unit (mg/l-class). This system does not yet support converting " +
+          "a liquid stream's own concentration data into the dry-basis percentage HP1-15 " +
+          "thresholds are defined on — classifying it would require a real, disclosed density " +
+          "or basis-conversion assumption this codebase does not currently make. Manual review " +
+          "required.",
+        ]
+      : keywordFlaggedLeachingOnly
       ? [
           "HP1-15 hazard classification not performed: this sample has leaching-test " +
           "(ristetest/kolonnetest) data only, no total content data — leaching-test results are " +
@@ -105,7 +111,17 @@ export function classifySample(
           "a different regulatory question from hazardous-waste classification (kap. 11), which " +
           "requires total content. Manual review required.",
         ];
-    const confidenceFlagsNo = keywordFlaggedLeachingOnly
+    const confidenceFlagsNo = metadata.physicalState === "liquid"
+      ? [
+          "HP1-15-klassifisering ikke utført: denne prøven er en flytende avfallsstrøm (ikke en " +
+          "utlekkings-/eluat-test av et fast stoff) som rapporterer sitt eget totalinnhold i en " +
+          "væskekonsentrasjonsenhet (mg/l-basert). Dette systemet støtter foreløpig ikke å " +
+          "konvertere en flytende strøms egen konsentrasjonsdata til den tørrstoffbaserte " +
+          "prosentandelen HP1-15-tersklene er definert på — å klassifisere den ville kreve en " +
+          "reell, opplyst tetthets- eller basisantakelse dette systemet i dag ikke gjør. " +
+          "Manuell gjennomgang kreves.",
+        ]
+      : keywordFlaggedLeachingOnly
       ? [
           "HP1-15-klassifisering ikke utført: denne prøven har kun utlekkingstest-data " +
           "(ristetest/kolonnetest), ingen totalinnhold-data — utlekkingstest-resultater er " +
@@ -150,11 +166,14 @@ export function classifySample(
   // liquid-basis row's raw number through normalizeSample would misread an eluate concentration
   // as a dry-basis percentage. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
   //
-  // Same liquid-waste-stream bypass as above: a confirmed liquid sample's mg/l rows ARE its real
-  // total-content basis and must never be stripped from classification input.
-  const resultsForClassification = metadata.physicalState === "liquid"
-    ? results
-    : results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
+  // Liquid-unit rows are ALWAYS excluded here, regardless of physicalState — normalizeSample has
+  // no mg/l-to-dry-basis-percent conversion path, so letting a liquid-unit row reach it (for any
+  // sample, "liquid" declared or not) would have normalizeSample fall into its "unrecognized
+  // unit" branch and use the raw mg/l number as-is as a percentage, overstating concentration by
+  // ~10,000x. A genuinely liquid waste stream reporting its own data in mg/l gates out above
+  // (unitFlaggedLeachingOnly) before this line is even reached in practice; this filter is the
+  // second line of defense for any mixed-report shape that still has liquid-unit rows.
+  const resultsForClassification = results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
   const normalized = normalizeSample(metadata, resultsForClassification, analyteRef);
   const noDataWarning = normalized.length === 0;
 

@@ -199,43 +199,30 @@ describe("classifySample", () => {
     expect(result.hazard.resultsByHp.HP7).not.toBe(true);
   });
 
-  it("does NOT gate or exclude a genuinely liquid waste stream's mg/l data (physicalState: liquid bypasses the unit-based checks)", () => {
+  it("gates a genuinely liquid waste stream to isHazardous: null with an accurate 'liquid stream' message, not the leaching-test framing", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
         resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
     ];
     const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
     const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    // Without the bypass, unitsIndicateLeachate would gate this to null (100% liquid units) —
-    // with the bypass, this classifies normally off its own real mg/l data, same as if it had
-    // been reported in a solid-basis unit.
-    expect(result.hazard.isHazardous).toBe(true);
-    expect(result.hazard.resultsByHp.HP7).toBe(true);
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).toContain("liquid waste stream");
+    expect(result.hazard.confidenceFlags[0]).not.toContain("leaching-test");
+    expect(result.hazard.confidenceFlagsNo?.[0]).toContain("flytende avfallsstrøm");
   });
 
-  it("does NOT strip liquid-unit rows from classification when physicalState is liquid, even in a would-be mixed-report shape", () => {
+  it("a solid sample's liquid-unit data still gates exactly as before", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
         resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
     ];
-    const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
-    const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    // No exclusion note should appear — this sample's mg/l row was never excluded, so it must not
-    // carry the "One or more result rows were excluded..." confidenceFlags note.
-    expect(result.hazard.confidenceFlags.some(f => f.includes("excluded from HP classification"))).toBe(false);
-  });
-
-  it("a solid sample's liquid-unit data is still gated/excluded exactly as before (bypass is scoped to physicalState: liquid only)", () => {
-    const results: SampleResult[] = [
-      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
-        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
-    ];
-    // baseMetadata's physicalState is "solid" — no bypass should apply.
+    // baseMetadata's physicalState is "solid".
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBeNull(); // still gates, same as pre-existing behavior
   });
 
-  it("a liquid sample still gates when the keyword flag explicitly says leaching-only, regardless of the unit bypass", () => {
+  it("a liquid sample with an explicit leaching-only claim still gates, using the liquid-stream message (physicalState checked first)", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
         resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
@@ -244,8 +231,8 @@ describe("classifySample", () => {
       ...baseMetadata, physicalState: "liquid", ristetestUtfort: true, totalinnholdUtfort: false,
     };
     const result = classifySample(liquidLeachingOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    // The keyword-based gate is untouched by the physicalState bypass — this must still gate.
     expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).toContain("liquid waste stream");
   });
 
   it("leaves a traceable confidenceFlags note when a liquid-basis row was excluded from a non-gated classification", () => {
