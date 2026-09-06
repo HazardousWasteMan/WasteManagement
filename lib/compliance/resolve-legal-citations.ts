@@ -39,6 +39,12 @@ const RESOLVED_FIELDS: ResolvedFieldConfig[] = [
       { documentId: "avfallsforskriften", article: "9", paragraph: "6", queryText: "avfall som tillates deponert på de ulike deponikategoriene", primary: true },
     ],
   },
+  {
+    key: "hazard-indeterminate-basis",
+    locations: [
+      { documentId: "avfallsforskriften", article: "9", paragraph: "6", queryText: "avfall som tillates deponert på de ulike deponikategoriene", primary: true },
+    ],
+  },
 ];
 
 // Resolves every field this codebase grounds into a real, live-verified citation, checking

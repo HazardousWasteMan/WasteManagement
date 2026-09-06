@@ -74,6 +74,17 @@ describe("resolveLegalCitations", () => {
     expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-6")?.disputed).toBe(true);
   });
 
+  it("resolves hazard-indeterminate-basis to § 9-6 alone (reusing the already-seeded paragraph, no new location)", async () => {
+    const store = fakeStore([p9_6]); // only § 9-6 needed — no § 9-5 for this field
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hazard-indeterminate-basis"]?.citations).toHaveLength(1);
+    expect(result["hazard-indeterminate-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(result["hazard-indeterminate-basis"]?.citations[0].primary).toBe(true);
+  });
+
   it("returns eal-legal-basis: null, never throws, when the underlying search fails", async () => {
     const store: ParagraphStore = {
       async findByLocation() { throw new Error("supabase unreachable"); },

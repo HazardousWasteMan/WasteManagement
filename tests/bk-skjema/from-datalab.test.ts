@@ -232,6 +232,45 @@ describe("bkFromDatalab", () => {
     expect(sampleA.classification.hazard.isHazardous).not.toBeNull();
     expect(sampleB.classification.hazard.isHazardous).toBeNull();
   });
+
+  it("Checkbox1/3/4/6 and TextField41 render an indeterminate state, grounded in § 9-6, when isHazardous is null", () => {
+    const legalCitations = {
+      "hazard-indeterminate-basis": {
+        citations: [{
+          paragraphId: "no-avfallsforskriften-9-6", label: "Avfallsforskriften § 9-6",
+          sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6",
+          verifiedAt: "2026-09-06T00:00:00.000Z", disputed: false, primary: true,
+        }],
+      },
+    };
+    const { fields, classification } = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: false,
+        analyseresultater: [{ parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN,
+      legalCitations
+    );
+    const checkbox1 = fields.find(f => f.field === "Checkbox1")!;
+    const checkbox3 = fields.find(f => f.field === "Checkbox3")!;
+    const checkbox4 = fields.find(f => f.field === "Checkbox4")!;
+    const checkbox6 = fields.find(f => f.field === "Checkbox6")!;
+    const textField41 = fields.find(f => f.field === "TextField41")!;
+
+    expect(checkbox1.check).toBe(false);
+    expect(checkbox3.check).toBe(false);
+    expect(checkbox4.check).toBe(false);
+    expect(checkbox6.check).toBe(false);
+    expect(checkbox1.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(textField41.value).toContain("ikke bestemt");
+
+    // Single-source-of-truth: the note text must be the EXACT confidenceFlags string, not an
+    // independently-paraphrased one.
+    expect(checkbox1.note).toBe(classification.hazard.confidenceFlags[0]);
+  });
 });
 
 describe("narrowCitation", () => {
