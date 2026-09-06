@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import facilityStoleheia from "@/lib/data/facility-stoleheia.json";
 import facilityReturkraft from "@/lib/data/facility-returkraft.json";
 import crosswalk from "@/lib/data/avfallsstoffnummer-eal-crosswalk.json";
-import { matchFacilities } from "@/lib/hp-classification/facility-match";
+import { matchFacilities, type FacilityMatchInput } from "@/lib/hp-classification/facility-match";
 
 describe("facility data shape", () => {
   it("Støleheia has exactly 4 fixed hazardous EAL lines with real codes", () => {
@@ -76,5 +76,20 @@ describe("matchFacilities", () => {
   it("a non-mineral matrix with an EAL code not in the crosswalk reports the honest gap for Returkraft", () => {
     const result = matchFacilities({ isHazardous: false, ealCode: "20 01 99", matrixType: "Blandet avfall" });
     expect(result.returkraft.eligible).toBe("requires crosswalk (not available for this code)");
+  });
+
+  it("stoleheia routes to insufficient-data, NOT the non-hazardous assumption, when isHazardous is null", () => {
+    const input: FacilityMatchInput = { isHazardous: null, ealCode: "17 05 04", matrixType: "jord" };
+    const { stoleheia } = matchFacilities(input);
+    expect(stoleheia.eligible).toBe("insufficient data");
+    expect(stoleheia.reason ?? "").toMatch(/indeterminate|hazard status/i);
+    // Must NOT be the existing non-hazardous branch's reason text:
+    expect(stoleheia.reason ?? "").not.toContain("ordinary/contaminated mass path");
+  });
+
+  it("returkraft is unaffected by isHazardous: null — its eligibility never depended on hazard status", () => {
+    const withHazard: FacilityMatchInput = { isHazardous: true, ealCode: "17 05 04", matrixType: "jord" };
+    const withoutHazard: FacilityMatchInput = { isHazardous: null, ealCode: "17 05 04", matrixType: "jord" };
+    expect(matchFacilities(withHazard).returkraft).toEqual(matchFacilities(withoutHazard).returkraft);
   });
 });
