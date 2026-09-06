@@ -250,6 +250,10 @@ export default function DataLabPage() {
 
   async function handleDispute(field: BkField, reason: string, raisedBy: string) {
     if (!field.legalCitation) return;
+    if (!field.legalCitationKey) {
+      setError("This citation has no associated field key — cannot raise a scoped dispute.");
+      throw new Error("legalCitationKey missing");
+    }
     const primary = field.legalCitation.citations.find(c => c.primary) ?? field.legalCitation.citations[0];
     if (!primary) return;
     let res: Response;
@@ -259,6 +263,7 @@ export default function DataLabPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paragraphId: primary.paragraphId,
+          citedFieldKey: field.legalCitationKey,
           freezeId: null, // this call site disputes at fill time, before any freeze exists
           raisedBy,
           reason,
