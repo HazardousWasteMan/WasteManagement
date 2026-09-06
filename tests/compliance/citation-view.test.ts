@@ -79,7 +79,7 @@ describe("buildLegalCitationView", () => {
 
   it("renders a vedlegg-shaped paragraph as 'Vedlegg <label>', not '§ 11-vedlegg-2'", () => {
     const view = buildLegalCitationView([{ paragraph: vedlegg2, primary: false }], {});
-    expect(view.citations[0].label).toBe("Avfallsforskriften Vedlegg 2");
+    expect(view.citations[0].label).toBe("Avfallsforskriften kap. 11 Vedlegg 2");
   });
 
   it("still renders an ordinary paragraph's label unchanged, regression coverage", () => {

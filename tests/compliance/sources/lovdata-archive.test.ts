@@ -117,6 +117,19 @@ describe("parseVedleggFromHtml", () => {
     expect(result).toBeNull();
   });
 
+  it("returns null rather than a bare-domain sourceLink when the section has no data-lovdata-URL", () => {
+    const fixtureWithoutUrl = `
+<html><body><header><dd class="lastChangeInForce">2026-01-01</dd></header>
+<section class="section" data-name="vedlegg9" id="kapittel-14-kapittel-9">
+  <h3>Vedlegg 9. Missing its data-lovdata-URL attribute</h3>
+  <article class="legalP">Real body text, but no source URL to cite.</article>
+</section>
+</body></html>
+`;
+    const result = parseVedleggFromHtml(fixtureWithoutUrl, "14", "9");
+    expect(result).toBeNull();
+  });
+
   it("parses the document-level last-changed date the same way parseParagraphFromHtml does", () => {
     const result = parseVedleggFromHtml(VEDLEGG_FIXTURE, "14", "2");
     expect(result).not.toBeNull();
@@ -128,7 +141,10 @@ describe("getParagraphFromArchive routing", () => {
   it("routes a paragraph starting with 'vedlegg-' through the vedlegg parser using the confirmed chapter map", async () => {
     // This test exercises the real archive download/extraction path (network), matching how
     // this file's other getParagraphFromArchive-level behavior is verified elsewhere in this
-    // suite — it requires network access to Lovdata's real archive.
+    // suite — it requires network access to Lovdata's real archive. Explicit timeout: downloading
+    // the real ~21MB archive takes ~4-5s standalone and can exceed vitest's 5000ms default under
+    // full-suite concurrency (observed flaking intermittently) — this is a real network op, not a
+    // slow assertion, so it gets a longer allowance rather than a tighter one.
     const result = await getParagraphFromArchive({
       documentId: "avfallsforskriften",
       article: "11",
@@ -136,7 +152,7 @@ describe("getParagraphFromArchive routing", () => {
     });
     expect(result).not.toBeNull();
     expect(result!.text).toContain("HP");
-  });
+  }, 20000);
 
   it("returns null for a chapter with no confirmed entry in CHAPTER_INTERNAL_ID, never guessing", async () => {
     const result = await getParagraphFromArchive({

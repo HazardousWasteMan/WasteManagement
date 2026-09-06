@@ -184,6 +184,13 @@ export function parseVedleggFromHtml(
   const text = stripTags(bodyHtml);
   if (!text) return null;
 
+  // Never fabricate: without a real data-lovdata-URL there is no genuine, disambiguated source
+  // link to cite — a bare "https://lovdata.no/" front-page fallback would present as a verified
+  // citation while resolving nowhere near the actual paragraph. Every vedlegg section in today's
+  // archive carries this attribute; if a future revision ever drops it, treat that as not found
+  // rather than seed an unverifiable link.
+  if (!sourceUrl) return null;
+
   const lastChangeMatch = html.match(/<dd class="lastChangeInForce">([^<]+)<\/dd>/);
   const lastChangedAt = lastChangeMatch
     ? new Date(lastChangeMatch[1].trim()).toISOString()
