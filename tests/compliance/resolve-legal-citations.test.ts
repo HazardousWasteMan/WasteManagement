@@ -62,18 +62,46 @@ describe("resolveLegalCitations", () => {
     expect(result["deponi-category-basis"]).toBeNull();
   });
 
-  it("checks dispute status independently per paragraph within a multi-location field", async () => {
+  it("checks dispute status independently per (paragraph, field key) within a multi-location field", async () => {
     const store = fakeStore([p11_4, p9_5, p9_6]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
     const corrections: CorrectionStore = {
       raise: vi.fn(),
-      hasUnresolved: vi.fn().mockImplementation(async (id: string) => id === "no-avfallsforskriften-9-6"),
+      hasUnresolved: vi.fn().mockImplementation(
+        async (paragraphId: string, fieldKey: string) =>
+          paragraphId === "no-avfallsforskriften-9-6" && fieldKey === "deponi-category-basis"
+      ),
     };
 
     const result = await resolveLegalCitations(store, source, corrections);
     const citations = result["deponi-category-basis"]?.citations ?? [];
     expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-5")?.disputed).toBe(false);
     expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-6")?.disputed).toBe(true);
+  });
+
+  it("the SAME paragraph disputed under one field key does not affect its citation under a DIFFERENT field key", async () => {
+    const store = fakeStore([p9_6]);
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
+    const corrections: CorrectionStore = {
+      raise: vi.fn(),
+      // § 9-6 is disputed as "deponi-category-basis" ONLY — its "hazard-indeterminate-basis" use
+      // (a different RESOLVED_FIELDS key reusing the same paragraph) must show disputed: false.
+      hasUnresolved: vi.fn().mockImplementation(
+        async (paragraphId: string, fieldKey: string) =>
+          paragraphId === "no-avfallsforskriften-9-6" && fieldKey === "deponi-category-basis"
+      ),
+    };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hazard-indeterminate-basis"]?.citations[0]?.disputed).toBe(false);
+  });
+
+  it("exports RESOLVED_FIELD_KEYS matching every real RESOLVED_FIELDS entry, as the single source of truth", async () => {
+    const { RESOLVED_FIELD_KEYS } = await import("@/lib/compliance/resolve-legal-citations");
+    expect(RESOLVED_FIELD_KEYS).toEqual(
+      expect.arrayContaining(["eal-legal-basis", "deponi-category-basis", "hazard-indeterminate-basis", "hp-methodology-basis"])
+    );
+    expect(RESOLVED_FIELD_KEYS).toHaveLength(4);
   });
 
   it("resolves hazard-indeterminate-basis to § 9-6 alone (reusing the already-seeded paragraph, no new location)", async () => {

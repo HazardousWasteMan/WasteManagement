@@ -54,6 +54,11 @@ const RESOLVED_FIELDS: ResolvedFieldConfig[] = [
   },
 ];
 
+// Single source of truth for every valid dispute-scoping key — Task 4's dispute API route
+// validates a caller-supplied citedFieldKey against this list, so an unrecognized/mistyped key
+// is rejected rather than silently stored as an orphaned, unmatchable dispute.
+export const RESOLVED_FIELD_KEYS: string[] = RESOLVED_FIELDS.map(f => f.key);
+
 // Resolves every field this codebase grounds into a real, live-verified citation, checking
 // dispute state per paragraph. A multi-location field only produces a citation once EVERY one of
 // its locations resolves — a partial set could look complete when it isn't, so it's null instead.
@@ -88,7 +93,7 @@ export async function resolveLegalCitations(
       }
       const disputedByParagraphId: Record<string, boolean> = {};
       for (const { paragraph } of resolved) {
-        disputedByParagraphId[paragraph.id] = await corrections.hasUnresolved(paragraph.id);
+        disputedByParagraphId[paragraph.id] = await corrections.hasUnresolved(paragraph.id, field.key);
       }
       result[field.key] = buildLegalCitationView(resolved, disputedByParagraphId);
     } catch {
