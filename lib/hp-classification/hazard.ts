@@ -29,7 +29,12 @@ export interface HazardClassification {
   /** null means "cannot be determined from the data available" — never a guessed true/false. */
   isHazardous: boolean | null;
   triggeredHps: string[];
+  /** Internal/machine-facing flags — kept in English, matching this file's other note/log text. */
   confidenceFlags: string[];
+  /** Same flags, in Norwegian — for Norwegian-only document text (BK-skjema TextField41,
+   * buildDescription's "Merk:" sentence), which must never mix languages. Only populated where
+   * confidenceFlags is; index-aligned with it. */
+  confidenceFlagsNo?: string[];
 }
 
 function sumForHStatement(results: NormalizedResultWithClp[], hStatement: string): number {

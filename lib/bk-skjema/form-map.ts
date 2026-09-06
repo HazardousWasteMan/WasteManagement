@@ -85,8 +85,12 @@ export interface BkSource {
   results: BkResultRow[];
   isHazardous: boolean | null;
   /** Set only when isHazardous is null — the single-source explanation every indeterminate-state
-   * note below must quote verbatim, never independently paraphrase. */
+   * note below must quote verbatim, never independently paraphrase. English — machine/reviewer-
+   * facing (e.g. Checkbox1/3's note). */
   hazardConfidenceFlags?: string[];
+  /** Same as hazardConfidenceFlags, in Norwegian — for Norwegian-only document text (TextField41,
+   * buildDescription). Never substitute hazardConfidenceFlags into those two fields. */
+  hazardConfidenceFlagsNo?: string[];
   eal: EalAssignment;
   /** Per-metadata-key citations, keyed by the metadata field name above. */
   citations?: Record<string, BkCitation[]>;
@@ -117,7 +121,7 @@ export function buildDescription(s: BkSource): string {
     `Alle øvrige parametere under deteksjonsgrense.`,
     `Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014):`,
     s.isHazardous === null
-      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlags?.[0] ?? "kun utlekkingstest-data foreligger"}.`
+      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlagsNo?.[0] ?? "kun utlekkingstest-data foreligger"}.`
       : s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
     s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidenceNo}.`,
     s.eal.code ? `Merk: ${s.eal.confidenceNo}.` : "",
@@ -201,9 +205,13 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous === true,
       legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null) },
     { field: "Checkbox4", label: "Avfallstype: Ordinært avfall", src: "derived",
-      check: s.isHazardous === null ? false : !s.isHazardous },
+      check: s.isHazardous === null ? false : !s.isHazardous,
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox5", label: "Avfallstype: Inert avfall", src: "derived", check: false },
-    { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous === true },
+    { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous === true,
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox7", label: "Testpliktig: Nei", src: "derived", check: false },
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
@@ -251,7 +259,7 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "TextField40", label: "Lukt (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField41", label: "Må deponiet treffe ekstra forhåndsregler?", src: "derived",
       value: s.isHazardous === null
-        ? `Ikke bestemt — ${s.hazardConfidenceFlags?.[0] ?? "farestatus kunne ikke fastslås"}`
+        ? `Ikke bestemt — ${s.hazardConfidenceFlagsNo?.[0] ?? "farestatus kunne ikke fastslås"}`
         : s.isHazardous ? "Ja — se analyserapport." : "Nei — ingen HP-kategori utløst." },
 
     // 5. Avfall som oppstår jevnlig

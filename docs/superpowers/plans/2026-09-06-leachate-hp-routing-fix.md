@@ -999,8 +999,10 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
    `lovdata-vedlegg-addressing-gap` memory for the real archive location already found
    (`KAPITTEL_11-2`, title "Karakterisering og kriterier for mottak av avfall").
 3. **Composite `(paragraphId, resolvedFieldKey)` dispute scoping** — still deferred, now
-   materially closer to mattering: § 9-6 grounds THREE fields as of this plan
-   (`deponi-category-basis`, `hazard-indeterminate-basis`, and indirectly via both).
+   materially closer to mattering: § 9-6 grounds two resolution keys as of this plan
+   (`deponi-category-basis`, `hazard-indeterminate-basis`), each covering multiple BK-skjema
+   fields — five fields total across both keys (Checkbox1/2/3 share `deponi-category-basis`;
+   Checkbox1/3/4/6 also read `hazard-indeterminate-basis` when indeterminate), not three.
 4. **The seed-corpus chapter roadmap** (kap. 10, 10a, 13/13A, 14A, 17, 18A — confirmed with the
    user, tracked in the `avfallsforskriften-chapter-roadmap` memory) remains demand-driven only;
    nothing in this plan needs a new chapter.

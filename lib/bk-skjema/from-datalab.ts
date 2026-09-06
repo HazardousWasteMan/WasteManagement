@@ -171,6 +171,7 @@ export function bkFromDatalab(
     results: rows,
     isHazardous: classification.hazard.isHazardous,
     hazardConfidenceFlags: classification.hazard.confidenceFlags,
+    hazardConfidenceFlagsNo: classification.hazard.confidenceFlagsNo,
     eal: classification.eal,
     citations: {
       externalReportNo: citationsFor("rapportnummer", metadata.externalReportNo),

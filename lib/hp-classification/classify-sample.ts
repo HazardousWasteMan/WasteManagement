@@ -35,6 +35,13 @@ export function classifySample(
         "question from hazardous-waste classification (kap. 11), which requires total content. " +
         "Manual review required.",
       ],
+      confidenceFlagsNo: [
+        "HP1-15 hazardklassifisering ikke utført: denne prøven har kun utlekkingstest-data " +
+        "(ristetest/kolonnetest), ingen totalinnhold-data — utlekkingstest-resultater er " +
+        "mottakskriterier-data for deponering (avfallsforskriften kap. 9), et annet " +
+        "regelverksspørsmål enn farlig avfall-klassifisering (kap. 11), som krever totalinnhold. " +
+        "Manuell gjennomgang kreves.",
+      ],
     };
     const eal = assignEalCode(null, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
     return { hazard, eal, noDataWarning: false };

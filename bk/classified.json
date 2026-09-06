@@ -26,7 +26,8 @@
     "eal": {
       "code": null,
       "description": null,
-      "confidence": "HALT — missing origin/process metadata, cannot select EAL chapter"
+      "confidence": "HALT — missing origin/process metadata, cannot select EAL chapter",
+      "confidenceNo": "STANS — mangler informasjon om opprinnelse/prosess, kan ikke velge EAL-kapittel"
     },
     "noDataWarning": false
   },
@@ -57,7 +58,8 @@
     "eal": {
       "code": "17 01 01",
       "description": "concrete",
-      "confidence": "AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended"
+      "confidence": "AMBIGUOUS — multiple EAL codes match chapter/hazard status (170101, 170102, 170103, 170107), used first match — manual review recommended",
+      "confidenceNo": "TVETYDIG — flere EAL-koder samsvarer med kapittel/farestatus (170101, 170102, 170103, 170107), brukte første treff — manuell gjennomgang anbefales"
     },
     "noDataWarning": false
   },

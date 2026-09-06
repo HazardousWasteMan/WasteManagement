@@ -85,6 +85,7 @@ describe("matchFacilities", () => {
     expect(stoleheia.reason ?? "").toMatch(/indeterminate|hazard status/i);
     // Must NOT be the existing non-hazardous branch's reason text:
     expect(stoleheia.reason ?? "").not.toContain("ordinary/contaminated mass path");
+    expect(stoleheia.route).not.toBe("ordinary/contaminated mass path (leachate-tier dependent)");
   });
 
   it("returkraft is unaffected by isHazardous: null — its eligibility never depended on hazard status", () => {

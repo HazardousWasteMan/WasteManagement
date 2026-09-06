@@ -123,6 +123,7 @@ describe("classifySample", () => {
     const result = classifySample(leachateOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBeNull();
     expect(result.hazard.confidenceFlags.some(f => f.includes("leach") || f.includes("total content"))).toBe(true);
+    expect(result.hazard.confidenceFlagsNo?.some(f => f.includes("utlekkingstest") || f.includes("totalinnhold"))).toBe(true);
     expect(result.eal.code).toBeNull();
   });
 

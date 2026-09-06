@@ -265,10 +265,19 @@ describe("bkFromDatalab", () => {
     expect(checkbox4.check).toBe(false);
     expect(checkbox6.check).toBe(false);
     expect(checkbox1.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox4.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox6.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox4.note).toBe(classification.hazard.confidenceFlags[0]);
+    expect(checkbox6.note).toBe(classification.hazard.confidenceFlags[0]);
     expect(textField41.value).toContain("Ikke bestemt");
 
-    // Single-source-of-truth: the note text must be the EXACT confidenceFlags string, not an
-    // independently-paraphrased one.
+    // TextField41/buildDescription are Norwegian-only — must quote the Norwegian companion flag,
+    // never the English confidenceFlags text.
+    expect(textField41.value).toContain(classification.hazard.confidenceFlagsNo?.[0]);
+    expect(textField41.value).not.toContain(classification.hazard.confidenceFlags[0]);
+
+    // Single-source-of-truth: Checkbox notes are machine/reviewer-facing and stay English — the
+    // note text must be the EXACT confidenceFlags string, not an independently-paraphrased one.
     expect(checkbox1.note).toBe(classification.hazard.confidenceFlags[0]);
   });
 });

@@ -21,7 +21,7 @@ export const DEPOTS: Depot[] = depotsRaw as Depot[];
 // goes to municipal facilities that are not part of this permit dataset.
 // With a concrete avfallsstoffnr, only stations whose permit covers it light up.
 export function depotIsLit(depot: Depot, analysisIsHazardous: boolean | null, avfallsstoffnr?: string | null): boolean {
-  if (!analysisIsHazardous) return false;
+  if (analysisIsHazardous !== true) return false;
   if (!avfallsstoffnr) return true;
   return depot.codes.includes(avfallsstoffnr);
 }
