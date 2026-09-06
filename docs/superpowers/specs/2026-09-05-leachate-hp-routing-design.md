@@ -46,7 +46,15 @@ verdict. That's a real category error, confirmed against two independent sources
 
 1. **New extraction field**: `totalinnhold_utfort: boolean` in `lib/bk-skjema/datalab.ts`,
    mirroring the two existing flags — "True only if the report contains total-content (bulk)
-   analysis results, not just leachate/eluate concentrations."
+   analysis results, not just leachate/eluate concentrations." **Granularity, confirmed against
+   the real schema**: `buildBkPageSchema()` (where all three flags live) is extracted **per
+   sample**, not per document — its field descriptions already say "denne prøven" (this sample).
+   A bundle with multiple sub-reports already gets one independent schema instance per sample
+   (the existing multi-sample-per-bundle pipeline). So a document containing sample A (both
+   leaching and total-content data) and sample B (leaching only) correctly produces two
+   independent flag sets and two independent gating decisions — this is architecturally already
+   correct, not something this fix has to build; it only has to not break it. Proven explicitly
+   by a dedicated test case (see Testing).
 2. **`isHazardous` becomes `boolean | null`** in `HazardClassification` — `null` means
    "cannot be determined from the data available," never a guessed `true`/`false`. Every
    consumer (`assignEalCode`, `form-map.ts`'s Checkbox1/2/3/9/10 wiring, `buildDescription`)
@@ -73,6 +81,16 @@ verdict. That's a real category error, confirmed against two independent sources
    stoffer: Nei/Ja) both render unchecked (neither asserted) with a shared note explaining the
    indeterminate state; Checkbox1/2/3 (landfill category) likewise cannot be determined and
    render unchecked. `buildDescription`'s generated text gets a new sentence for this case.
+   **Single source of truth for the explanation text (a real gap caught in review):** the
+   indeterminate-state wording must exist in exactly ONE place — the new `confidenceFlags` entry
+   added in Step 3 — and every downstream renderer (Checkbox9/10's shared note, Checkbox1/2/3's
+   note, `buildDescription`'s new sentence) reads that same string, rather than each independently
+   hardcoding its own paraphrase. If `classify-sample.ts`'s confidenceFlags text and
+   `form-map.ts`'s note text were separate literals, they could drift apart and say subtly
+   different things about the same field on the same form. The implementation plan must wire
+   `s.hazard.confidenceFlags` (or the specific indeterminate-reason entry within it) through to
+   `form-map.ts` as the literal source `buildDescription`/the checkbox notes quote — not restate
+   it.
 6. **Legal grounding, zero new seeding required**: § 9-6 is already seeded (from the prior
    landfill-category plan). Add ONE new `resolve-legal-citations.ts` `RESOLVED_FIELDS` entry,
    key `"hazard-indeterminate-basis"`, pointing at the SAME already-cached § 9-6 paragraph,
@@ -109,3 +127,14 @@ verdict. That's a real category error, confirmed against two independent sources
 - A regression case confirming a normal total-content report (e.g. the existing Eurofins
   concrete fixture) is completely unaffected — `totalinnhold_utfort: true` (or absent, defaulting
   non-blocking) still produces a real `true`/`false` verdict as today.
+- **A mixed-document case, proving gating is per-sample, not per-document** (a real gap caught in
+  review): one bundle with two samples — sample A carries both leaching and total-content data
+  (`totalinnhold_utfort: true`), sample B carries leaching data only
+  (`totalinnhold_utfort: false`). Assert sample A still gets a real `true`/`false` verdict while
+  sample B gets `null` — proving the fix operates on each sample's own extracted flags
+  independently, since `buildBkPageSchema()` is already a per-sample schema and must stay that
+  way through this change.
+- **A single-string-source test** proving the confidenceFlags text and the rendered BK-skjema
+  note are the same value, not independently duplicated: assert `checkbox9.note` (or whichever
+  field carries it) equals the exact string in `hazard.confidenceFlags`, not merely "contains
+  similar words."
