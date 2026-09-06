@@ -20,7 +20,7 @@ export const DEPOTS: Depot[] = depotsRaw as Depot[];
 // Every station in this dataset is a hazardous-waste receiver; ordinary waste
 // goes to municipal facilities that are not part of this permit dataset.
 // With a concrete avfallsstoffnr, only stations whose permit covers it light up.
-export function depotIsLit(depot: Depot, analysisIsHazardous: boolean, avfallsstoffnr?: string | null): boolean {
+export function depotIsLit(depot: Depot, analysisIsHazardous: boolean | null, avfallsstoffnr?: string | null): boolean {
   if (!analysisIsHazardous) return false;
   if (!avfallsstoffnr) return true;
   return depot.codes.includes(avfallsstoffnr);

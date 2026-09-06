@@ -17,7 +17,7 @@ export default function DepotMap({
   onRequestTransport,
   routes = [],
 }: {
-  isHazardous?: boolean;
+  isHazardous?: boolean | null;
   avfallsstoffnr?: string | null;
   onRequestTransport?: (depot: Depot) => void;
   routes?: MapRoute[];
@@ -74,11 +74,13 @@ export default function DepotMap({
                     ? avfallsstoffnr
                       ? `✓ Permit covers avfallsstoffnr ${avfallsstoffnr}`
                       : "✓ Licensed to receive hazardous waste"
-                    : isHazardous
-                      ? avfallsstoffnr
-                        ? `Permit does not list avfallsstoffnr ${avfallsstoffnr}`
-                        : "Not licensed for this waste"
-                      : "Ordinary waste — use municipal facilities"}
+                    : isHazardous === null
+                      ? "Hazard status indeterminate — resolve manually before matching a depot"
+                      : isHazardous
+                        ? avfallsstoffnr
+                          ? `Permit does not list avfallsstoffnr ${avfallsstoffnr}`
+                          : "Not licensed for this waste"
+                        : "Ordinary waste — use municipal facilities"}
                 </p>
               )}
               {lit && onRequestTransport && (

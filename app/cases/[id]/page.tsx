@@ -22,8 +22,8 @@ function WasteEntryCard({ caseName, entry }: { caseName: string; entry: WasteEnt
     <div className="rounded-2xl bg-white/80 border border-black/5 px-6 py-5 flex flex-col gap-4">
       <div className="flex items-center gap-3">
         <p className="font-medium text-forest">{entry.sampleLabel}</p>
-        <Chip color={entry.isHazardous ? "danger" : "success"} variant="soft">
-          {entry.isHazardous ? "Hazardous" : "Non-hazardous"}
+        <Chip color={entry.isHazardous === null ? "warning" : entry.isHazardous ? "danger" : "success"} variant="soft">
+          {entry.isHazardous === null ? "Indeterminate" : entry.isHazardous ? "Hazardous" : "Non-hazardous"}
         </Chip>
         {entry.ealCode && <span className="text-sm font-mono text-forest">EAL {entry.ealCode}</span>}
       </div>
@@ -33,11 +33,13 @@ function WasteEntryCard({ caseName, entry }: { caseName: string; entry: WasteEnt
         <h3 className="text-sm font-semibold text-forest">Eligible depot stations</h3>
         <p className="text-xs text-black/40">
           Norwegian farlig avfall receivers (avfallsdeklarering.no / norskeutslipp.no permits).{" "}
-          {entry.isHazardous
-            ? entry.avfallsstoffnr
-              ? `Glowing stations hold a permit covering avfallsstoffnr ${entry.avfallsstoffnr} — zoom and click one for its permitted codes and permit PDF.`
-              : "Glowing stations are licensed to receive hazardous waste — zoom and click one for its permitted codes and permit PDF."
-            : "This waste is non-hazardous and can go to ordinary municipal facilities; hazardous receivers are shown dimmed."}
+          {entry.isHazardous === null
+            ? "Hazard status could not be determined — resolve manually before matching a depot."
+            : entry.isHazardous
+              ? entry.avfallsstoffnr
+                ? `Glowing stations hold a permit covering avfallsstoffnr ${entry.avfallsstoffnr} — zoom and click one for its permitted codes and permit PDF.`
+                : "Glowing stations are licensed to receive hazardous waste — zoom and click one for its permitted codes and permit PDF."
+              : "This waste is non-hazardous and can go to ordinary municipal facilities; hazardous receivers are shown dimmed."}
         </p>
         <DepotMap
           isHazardous={entry.isHazardous}

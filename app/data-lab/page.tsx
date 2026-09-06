@@ -390,7 +390,7 @@ export default function DataLabPage() {
               ["Classified", String(coverage.classified)],
               ["Still blank", String(coverage.stillBlank)],
               ["EAL", sample.classification.eal.code ?? "not assigned"],
-              ["Hazardous", sample.classification.hazard.isHazardous ? "yes" : "no"],
+              ["Hazardous", sample.classification.hazard.isHazardous === null ? "indeterminate" : sample.classification.hazard.isHazardous ? "yes" : "no"],
               ["Datalab cost", `${(bundle.costCents / 100).toFixed(2)} USD`],
             ].map(([label, value]) => (
               <div key={label} className="flex items-baseline gap-2">

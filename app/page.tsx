@@ -8,6 +8,7 @@ interface ProjectRow {
   project: Project;
   caseCount: number;
   hazardousEntryCount: number;
+  indeterminateEntryCount: number;
 }
 
 export default function ProjectsPage() {
@@ -20,7 +21,11 @@ export default function ProjectsPage() {
       projects.map(project => {
         const cases = listCasesForProject(project.id);
         const entries = cases.flatMap(c => c.wasteEntries);
-        return { project, caseCount: cases.length, hazardousEntryCount: entries.filter(e => e.isHazardous).length };
+        return {
+          project, caseCount: cases.length,
+          hazardousEntryCount: entries.filter(e => e.isHazardous === true).length,
+          indeterminateEntryCount: entries.filter(e => e.isHazardous === null).length,
+        };
       })
     );
     setNow(Date.now());
@@ -30,6 +35,7 @@ export default function ProjectsPage() {
 
   const totalCases = rows.reduce((sum, r) => sum + r.caseCount, 0);
   const totalHazardous = rows.reduce((sum, r) => sum + r.hazardousEntryCount, 0);
+  const totalIndeterminate = rows.reduce((sum, r) => sum + r.indeterminateEntryCount, 0);
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-6 flex flex-col gap-6">
@@ -43,10 +49,11 @@ export default function ProjectsPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StatCard label="Projects" value={String(rows.length)} />
         <StatCard label="Cases" value={String(totalCases)} />
         <StatCard label="Hazardous entries" value={String(totalHazardous)} />
+        <StatCard label="Indeterminate entries" value={String(totalIndeterminate)} />
       </div>
 
       <div className="flex flex-col gap-2">

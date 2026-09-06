@@ -90,7 +90,8 @@ export default function ProjectDetailPage() {
 
       <div className="flex flex-col gap-2">
         {cases.map(c => {
-          const hazardousCount = c.wasteEntries.filter(e => e.isHazardous).length;
+          const hazardousCount = c.wasteEntries.filter(e => e.isHazardous === true).length;
+          const indeterminateCount = c.wasteEntries.filter(e => e.isHazardous === null).length;
           return (
             <Link
               key={c.id}
@@ -102,6 +103,7 @@ export default function ProjectDetailPage() {
                 <p className="text-xs text-black/40 mt-0.5">
                   Uploaded {new Date(c.createdAt).toLocaleString()} · {c.wasteEntries.length} waste entr{c.wasteEntries.length === 1 ? "y" : "ies"}
                   {hazardousCount > 0 && ` · ${hazardousCount} hazardous`}
+                  {indeterminateCount > 0 && ` · ${indeterminateCount} indeterminate`}
                 </p>
               </div>
               <StatusChip />

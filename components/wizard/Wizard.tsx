@@ -187,7 +187,7 @@ export function Wizard() {
 
   function buildWasteEntry() {
     if (!extraction || !classificationResult) return null;
-    const hazard = classificationResult.hazard as { isHazardous: boolean };
+    const hazard = classificationResult.hazard as { isHazardous: boolean | null };
     const eal = classificationResult.eal as { code: string | null };
     return {
       sampleLabel: extraction.metadata.sampleMarking ?? currentSampleIdentifier ?? extraction.metadata.customerName ?? "Waste sample",
@@ -195,9 +195,11 @@ export function Wizard() {
       ealCode: eal.code,
       // ponytail: classification outputs EAL only; map EAL -> avfallsstoffnr when that table exists
       avfallsstoffnr: null,
-      summary: hazard.isHazardous
-        ? "Classified as hazardous waste. See facility match for eligible treatment partners."
-        : "Classified as non-hazardous waste. See facility match for eligible facilities.",
+      summary: hazard.isHazardous === null
+        ? "Hazard status could not be determined from the available data. Resolve manually before matching a facility."
+        : hazard.isHazardous
+          ? "Classified as hazardous waste. See facility match for eligible treatment partners."
+          : "Classified as non-hazardous waste. See facility match for eligible facilities.",
     };
   }
 
@@ -310,7 +312,7 @@ export function Wizard() {
           {classificationResult && extraction && activeCase && (
             <>
               <FacilityMatchStep
-                isHazardous={(classificationResult.hazard as { isHazardous: boolean }).isHazardous}
+                isHazardous={(classificationResult.hazard as { isHazardous: boolean | null }).isHazardous}
               />
               <div className="mt-6 flex justify-end gap-2">
                 {remainingSamples.length > 0 && pendingFile && (
