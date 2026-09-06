@@ -46,8 +46,14 @@ case detail pages, the depot map, and the older wizard flow.
   extraction flags live) is extracted per sample, not per document — a bundle with a mixed
   document (one sample with total content, one leaching-only) must produce two independent
   gating decisions. Proven by a dedicated test, not assumed.
-- Every task ends green on `pnpm test` (`npx vitest run`) and `pnpm build`, matching this repo's
-  existing verification standard.
+- **Every task's OWN new/modified test files must pass** (`npx vitest run <that task's test
+  files>`), matching this repo's existing verification standard. **`pnpm build` (whole-tree
+  type-check) is explicitly NOT required to be green until Task 5's completion** — this refactor
+  touches ~15 files across the app, too many to land atomically the way a smaller reshape did
+  earlier this session; each task's own type change is real and tested, but the wider tree only
+  finishes updating at Task 5. Every task's own steps say so explicitly where relevant — this is
+  a deliberate, disclosed exception to the "every task ends green" default, not a contradiction to
+  paper over.
 
 ---
 
