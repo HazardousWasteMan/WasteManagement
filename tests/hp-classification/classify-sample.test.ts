@@ -293,6 +293,32 @@ describe("classifySample", () => {
     expect(result.hazard.hasDetectedHazardousSubstance).toBe(false);
   });
 
+  it("does NOT count a below-LOQ (non-detect) row as a detected hazardous substance", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(false);
+  });
+
+  it("still counts a real above-LOQ detection alongside a below-LOQ non-detect of a different analyte", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (detected)",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+      {
+        resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (non-detect)",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(true);
+  });
+
   it("sets hasDetectedHazardousSubstance: null when gated by the keyword leaching-only flag", () => {
     const results: SampleResult[] = [
       {

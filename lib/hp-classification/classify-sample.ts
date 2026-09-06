@@ -179,6 +179,14 @@ export function classifySample(
   const noDataWarning = normalized.length === 0;
 
   const withClp: NormalizedResultWithClp[] = [];
+  // Tracks, separately from withClp's own contents, whether any entry pushed into withClp came
+  // from a genuinely detected (non-below-LOQ) row. withClp itself must keep including below-LOQ
+  // rows — normalizeSample substitutes the LOQ value as a conservative stand-in for HP-threshold
+  // summation, which is correct for classifyHazard's purposes — but "was a hazardous substance
+  // actually detected?" is a different question, and a sample where every hazardous-mapped
+  // analyte is a non-detect must not answer that question true. See bug fix: exclude below-LOQ
+  // non-detects from hasDetectedHazardousSubstance.
+  let hasAboveLoqHazardousSubstance = false;
   for (const n of normalized) {
     const ref = analyteRef.find(a => a.analyteId === n.analyteId);
     if (!ref) continue; // no reference entry — skip, never guess (should already be filtered by normalizeSample, defensive here too)
@@ -195,6 +203,7 @@ export function classifySample(
             mFactorAcute: clp.hStatement === "H400" ? clp.mFactorAcute : null,
             mFactorChronic: clp.hStatement === "H410" ? clp.mFactorChronic : null,
           });
+          if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
         }
       }
     } else if (ref.hStatement && ref.hazardClass) {
@@ -206,6 +215,7 @@ export function classifySample(
         mFactorAcute: null,
         mFactorChronic: ref.mFactorChronic,
       });
+      if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
     } else if (ref.hStatements) {
       for (const h of ref.hStatements) {
         withClp.push({
@@ -216,6 +226,7 @@ export function classifySample(
           mFactorAcute: null,
           mFactorChronic: ref.mFactorChronic,
         });
+        if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
       }
     }
     // an AnalyteReference entry with none of elementSymbol/hStatement/hStatements set has no known
@@ -226,7 +237,7 @@ export function classifySample(
   const hazard = classifyHazard(withClp, metadata, testResults);
   const eal = assignEalCode(hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
 
-  hazard.hasDetectedHazardousSubstance = withClp.length > 0;
+  hazard.hasDetectedHazardousSubstance = hasAboveLoqHazardousSubstance;
 
   // Traceability for the exclusion above: when this sample proceeded to real classification
   // (not gated), any liquid-basis row silently dropped from that classification must leave a
