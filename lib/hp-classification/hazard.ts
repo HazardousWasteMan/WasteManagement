@@ -38,6 +38,14 @@ export interface HazardClassification {
    * true/false isHazardous. Only the leaching-only gate in classify-sample.ts populates both
    * arrays together today. Any future producer of isHazardous: null must populate both. */
   confidenceFlagsNo?: string[];
+  /** Whether any detected result mapped to a real CLP hazard classification (elementSymbol,
+   * hStatement, or hStatements on its AnalyteReference entry) above LOQ — a narrower question
+   * than isHazardous (which asks whether the whole waste crosses an HP1-15 threshold). Optional
+   * because classifyHazard's own return statements never set this — classify-sample.ts computes
+   * and attaches it afterward, since classifyHazard's signature/logic must stay untouched. null
+   * means the classification never ran at all (the sample was gated before this could be
+   * determined) — never a guessed true/false. */
+  hasDetectedHazardousSubstance?: boolean | null;
 }
 
 function sumForHStatement(results: NormalizedResultWithClp[], hStatement: string): number {

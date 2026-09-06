@@ -154,6 +154,7 @@ export function classifySample(
       triggeredHps: [],
       confidenceFlags,
       confidenceFlagsNo,
+      hasDetectedHazardousSubstance: null,
     };
     const eal = assignEalCode(null, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
     return { hazard, eal, noDataWarning: false };
@@ -224,6 +225,8 @@ export function classifySample(
 
   const hazard = classifyHazard(withClp, metadata, testResults);
   const eal = assignEalCode(hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
+
+  hazard.hasDetectedHazardousSubstance = withClp.length > 0;
 
   // Traceability for the exclusion above: when this sample proceeded to real classification
   // (not gated), any liquid-basis row silently dropped from that classification must leave a
