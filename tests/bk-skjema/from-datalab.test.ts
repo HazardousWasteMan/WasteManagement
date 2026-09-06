@@ -212,6 +212,28 @@ describe("bkFromDatalab", () => {
     expect(textField38.legalCitation ?? null).toBeNull();
   });
 
+  it("every citation-bearing field carries the correct legalCitationKey alongside its legalCitation", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+
+    const nonHazardous: BkSource = { ...source, isHazardous: false };
+    const nonHazardousFields = buildBkFields(nonHazardous);
+    expect(nonHazardousFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("deponi-category-basis");
+
+    const indeterminate: BkSource = { ...source, isHazardous: null };
+    const indeterminateFields = buildBkFields(indeterminate);
+    expect(indeterminateFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+
+    const fields = buildBkFields(source);
+    expect(fields.find(f => f.field === "Checkbox10")!.legalCitationKey).toBe("eal-legal-basis");
+    expect(fields.find(f => f.field === "TextField38")!.legalCitationKey).toBe("hp-methodology-basis");
+  });
+
   it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {
     const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
     const citation = {
