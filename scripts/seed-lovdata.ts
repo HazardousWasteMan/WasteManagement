@@ -11,6 +11,7 @@ export function buildSeedLocations(documentId: string): { documentId: string; ar
     { documentId, article: "9", paragraph: "5" },  // landfill categories (Checkbox1/2/3)
     { documentId, article: "9", paragraph: "6" },  // waste permitted per landfill category (Checkbox1/2/3)
     { documentId, article: "11", paragraph: "2" }, // HP1-15 methodology basis (TextField38, every sample)
+    { documentId, article: "11", paragraph: "vedlegg-2" }, // HP1-15 criteria table (TextField38, every sample)
   ];
 }
 

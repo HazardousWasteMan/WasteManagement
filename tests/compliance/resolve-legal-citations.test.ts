@@ -19,6 +19,7 @@ const p11_4: LegalParagraph = {
 const p9_5: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-5", article: "9", paragraph: "5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5" };
 const p9_6: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-6", article: "9", paragraph: "6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6" };
 const p11_2: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-11-2", article: "11", paragraph: "2", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-2" };
+const pVedlegg2: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-11-vedlegg-2", article: "11", paragraph: "vedlegg-2", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/KAPITTEL_14-2" };
 
 function fakeStore(rows: LegalParagraph[]): ParagraphStore {
   return {
@@ -86,15 +87,24 @@ describe("resolveLegalCitations", () => {
     expect(result["hazard-indeterminate-basis"]?.citations[0].primary).toBe(true);
   });
 
-  it("resolves hp-methodology-basis (§ 11-2, single location) to a one-element citations array, primary true", async () => {
-    const store = fakeStore([p11_2]);
+  it("resolves hp-methodology-basis (§ 11-2 + Vedlegg 2) to a two-element citations array, § 11-2 primary", async () => {
+    const store = fakeStore([p11_2, pVedlegg2]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
     const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["hp-methodology-basis"]?.citations).toHaveLength(1);
-    expect(result["hp-methodology-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-11-2");
-    expect(result["hp-methodology-basis"]?.citations[0].primary).toBe(true);
+    expect(result["hp-methodology-basis"]?.citations).toHaveLength(2);
+    const primary = result["hp-methodology-basis"]?.citations.find(c => c.primary);
+    expect(primary?.paragraphId).toBe("no-avfallsforskriften-11-2");
+  });
+
+  it("hp-methodology-basis is null when only one of § 11-2 / Vedlegg 2 is cached (all-or-nothing)", async () => {
+    const store = fakeStore([p11_2]); // Vedlegg 2 missing
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn().mockResolvedValue(null) };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hp-methodology-basis"]).toBeNull();
   });
 
   it("hp-methodology-basis is null when § 11-2 is not cached", async () => {

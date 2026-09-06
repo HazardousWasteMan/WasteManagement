@@ -49,6 +49,7 @@ const RESOLVED_FIELDS: ResolvedFieldConfig[] = [
     key: "hp-methodology-basis",
     locations: [
       { documentId: "avfallsforskriften", article: "11", paragraph: "2", queryText: "definisjon av farlig avfall HP1-HP15 vedlegg", primary: true },
+      { documentId: "avfallsforskriften", article: "11", paragraph: "vedlegg-2", queryText: "kriterier som gjør avfall til farlig avfall HP1-HP15" },
     ],
   },
 ];
