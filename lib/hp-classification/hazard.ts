@@ -26,7 +26,8 @@ export interface HazardClassification {
   // determined by a lab test rather than substance data, or is one of the case-specific/
   // not-automatable HPs (HP1-3, HP9, HP12, HP15), since there's nothing real to attribute.
   triggeringSubstancesByHp: Record<string, string[]>;
-  isHazardous: boolean;
+  /** null means "cannot be determined from the data available" — never a guessed true/false. */
+  isHazardous: boolean | null;
   triggeredHps: string[];
   confidenceFlags: string[];
 }

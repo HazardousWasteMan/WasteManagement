@@ -114,4 +114,11 @@ describe("assignEalCode", () => {
       "Oljebasert borevæske (enhver borevæske som inneholder olje eller oljeemulsjon av mineralopprinnelse)"
     );
   });
+
+  it("returns no code and a clear message when isHazardous is null (indeterminate)", () => {
+    const result = assignEalCode(null, "escavo terre e rocce", null, originLookup);
+    expect(result.code).toBeNull();
+    expect(result.confidence).toContain("indeterminate");
+    expect(result.confidenceNo).toContain("ikke bestemt");
+  });
 });

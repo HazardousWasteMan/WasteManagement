@@ -19,11 +19,19 @@ export interface EalAssignment {
 }
 
 export function assignEalCode(
-  isHazardous: boolean,
+  isHazardous: boolean | null,
   originProcess: string | null,
   labStatedEalCode: string | null,
   originToChapterLookup: Record<string, string>
 ): EalAssignment {
+  if (isHazardous === null) {
+    return {
+      code: null, description: null,
+      confidence: "indeterminate — hazard status could not be determined (leaching-test data only), cannot assign an EAL code",
+      confidenceNo: "ikke bestemt — farestatus kunne ikke fastslås (kun utlekkingstest-data), kan ikke tildele EAL-kode",
+    };
+  }
+
   if (!originProcess) {
     return {
       code: null, description: null,

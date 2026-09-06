@@ -106,4 +106,49 @@ describe("classifySample", () => {
     const result = classifySample(baseMetadata, results, [], realAnalyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.resultsByHp.HP7).toBe(false);
   });
+
+  it("gates HP classification to isHazardous: null when only leaching-test data exists (no total content)", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const leachateOnlyMetadata: SampleMetadata = {
+      ...baseMetadata,
+      ristetestUtfort: true,
+      kolonnetestUtfort: false,
+      totalinnholdUtfort: false,
+    };
+    const result = classifySample(leachateOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags.some(f => f.includes("leach") || f.includes("total content"))).toBe(true);
+    expect(result.eal.code).toBeNull();
+  });
+
+  it("does NOT gate when totalinnholdUtfort is absent (default-absent means assume present)", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const metadataWithLeachFlagOnly: SampleMetadata = { ...baseMetadata, ristetestUtfort: true };
+    const result = classifySample(metadataWithLeachFlagOnly, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBe(true); // unaffected — same as the existing non-gated test above
+  });
+
+  it("does NOT gate when totalinnholdUtfort is explicitly true, even alongside a leaching flag", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const mixedMetadata: SampleMetadata = {
+      ...baseMetadata, ristetestUtfort: true, totalinnholdUtfort: true,
+    };
+    const result = classifySample(mixedMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBe(true);
+  });
 });

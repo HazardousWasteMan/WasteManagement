@@ -12,6 +12,34 @@ export function classifySample(
   compoundForms: ElementCompoundForm[],
   originToChapterLookup: Record<string, string>
 ): { hazard: HazardClassification; eal: EalAssignment; noDataWarning: boolean } {
+  // Real regulatory gap, not a bug: ristetest/kolonnetest (leaching test) results are governed
+  // by avfallsforskriften kap. 9 (landfill acceptance criteria — a different, delegated
+  // question), never by kap. 11's HP1-15 hazard classification, which requires total-content
+  // data. A document confirmed to carry ONLY leaching-test data cannot answer "is this
+  // hazardous waste" — classifyHazard is never called in that case; isHazardous is null, never
+  // a fabricated true/false. See docs/superpowers/specs/2026-09-05-leachate-hp-routing-design.md.
+  const leachingOnly =
+    (metadata.ristetestUtfort === true || metadata.kolonnetestUtfort === true) &&
+    metadata.totalinnholdUtfort === false;
+
+  if (leachingOnly) {
+    const hazard: HazardClassification = {
+      resultsByHp: {},
+      triggeringSubstancesByHp: {},
+      isHazardous: null,
+      triggeredHps: [],
+      confidenceFlags: [
+        "HP1-15 hazard classification not performed: this sample has leaching-test " +
+        "(ristetest/kolonnetest) data only, no total content data — leaching-test results are " +
+        "landfill-acceptance-criteria data (avfallsforskriften kap. 9), a different regulatory " +
+        "question from hazardous-waste classification (kap. 11), which requires total content. " +
+        "Manual review required.",
+      ],
+    };
+    const eal = assignEalCode(null, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
+    return { hazard, eal, noDataWarning: false };
+  }
+
   const normalized = normalizeSample(metadata, results, analyteRef);
   const noDataWarning = normalized.length === 0;
 
