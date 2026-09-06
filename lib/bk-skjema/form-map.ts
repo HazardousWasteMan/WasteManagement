@@ -86,7 +86,7 @@ export interface BkSource {
   isHazardous: boolean | null;
   /** Set only when isHazardous is null — the single-source explanation every indeterminate-state
    * note below must quote verbatim, never independently paraphrase. */
-  hazardConfidenceFlags: string[];
+  hazardConfidenceFlags?: string[];
   eal: EalAssignment;
   /** Per-metadata-key citations, keyed by the metadata field name above. */
   citations?: Record<string, BkCitation[]>;
@@ -117,7 +117,7 @@ export function buildDescription(s: BkSource): string {
     `Alle øvrige parametere under deteksjonsgrense.`,
     `Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014):`,
     s.isHazardous === null
-      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlags[0] ?? "kun utlekkingstest-data foreligger"}.`
+      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlags?.[0] ?? "kun utlekkingstest-data foreligger"}.`
       : s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
     s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidenceNo}.`,
     s.eal.code ? `Merk: ${s.eal.confidenceNo}.` : "",
@@ -188,7 +188,7 @@ export function buildBkFields(s: BkSource): BkField[] {
       check: s.isHazardous === null ? false : !s.isHazardous,
       // Same shared citation as Checkbox2/3 — see the comment on Checkbox3 below for why.
       legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
-      note: s.isHazardous === null ? s.hazardConfidenceFlags[0] : "CONSERVATIVE: inert cannot be claimed without a leaching test" },
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : "CONSERVATIVE: inert cannot be claimed without a leaching test" },
     { field: "Checkbox2", label: "Deponi for inert avfall", src: "derived", check: false,
       legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
       note: "requires ristetest/kolonnetest results, which a standard total-analysis report lacks" },
@@ -251,7 +251,7 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "TextField40", label: "Lukt (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField41", label: "Må deponiet treffe ekstra forhåndsregler?", src: "derived",
       value: s.isHazardous === null
-        ? `ikke bestemt — ${s.hazardConfidenceFlags[0] ?? "farestatus kunne ikke fastslås"}`
+        ? `Ikke bestemt — ${s.hazardConfidenceFlags?.[0] ?? "farestatus kunne ikke fastslås"}`
         : s.isHazardous ? "Ja — se analyserapport." : "Nei — ingen HP-kategori utløst." },
 
     // 5. Avfall som oppstår jevnlig

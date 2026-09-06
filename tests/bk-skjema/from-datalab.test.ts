@@ -265,7 +265,7 @@ describe("bkFromDatalab", () => {
     expect(checkbox4.check).toBe(false);
     expect(checkbox6.check).toBe(false);
     expect(checkbox1.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
-    expect(textField41.value).toContain("ikke bestemt");
+    expect(textField41.value).toContain("Ikke bestemt");
 
     // Single-source-of-truth: the note text must be the EXACT confidenceFlags string, not an
     // independently-paraphrased one.
