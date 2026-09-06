@@ -63,7 +63,14 @@ export function classifySample(
   // Deterministic fallback (see unitsIndicateLeachate above): units win, always — even overriding
   // an explicit totalinnholdUtfort: true from the extraction LLM. See
   // docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
-  const unitFlaggedLeachingOnly = unitsIndicateLeachate(results);
+  //
+  // Bypass for a genuinely liquid waste stream: mg/l is that sample's real, legitimate
+  // total-content basis, not evidence of a re-reported leachate/eluate table — the unit check
+  // exists to catch a SOLID sample's eluate data, not to gate a sample that IS liquid. This
+  // bypass does NOT apply to keywordFlaggedLeachingOnly above — a liquid sample can still
+  // genuinely have only leaching-test data (the LLM's own flags say so), which must still gate.
+  // See docs/superpowers/specs/2026-09-06-liquid-waste-stream-disambiguation-design.md.
+  const unitFlaggedLeachingOnly = metadata.physicalState === "liquid" ? false : unitsIndicateLeachate(results);
 
   const leachingOnly = keywordFlaggedLeachingOnly || unitFlaggedLeachingOnly;
 
@@ -142,7 +149,12 @@ export function classifySample(
   // total-content and liquid eluate) must classify off its real solid-basis row only; feeding the
   // liquid-basis row's raw number through normalizeSample would misread an eluate concentration
   // as a dry-basis percentage. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
-  const resultsForClassification = results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
+  //
+  // Same liquid-waste-stream bypass as above: a confirmed liquid sample's mg/l rows ARE its real
+  // total-content basis and must never be stripped from classification input.
+  const resultsForClassification = metadata.physicalState === "liquid"
+    ? results
+    : results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
   const normalized = normalizeSample(metadata, resultsForClassification, analyteRef);
   const noDataWarning = normalized.length === 0;
 
