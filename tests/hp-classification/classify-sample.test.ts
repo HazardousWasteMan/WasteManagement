@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { classifySample } from "@/lib/hp-classification/classify-sample";
+import { classifySample, unitsIndicateLeachate } from "@/lib/hp-classification/classify-sample";
 import type { SampleMetadata, SampleResult, AnalyteReference } from "@/lib/hp-classification/types";
 import type { ElementCompoundForm } from "@/lib/hp-classification/speciate";
 import analyteReferenceRaw from "@/lib/data/analyte-reference.json";
@@ -151,5 +151,94 @@ describe("classifySample", () => {
     };
     const result = classifySample(mixedMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBe(true);
+  });
+
+  it("gates via the unit check alone (overriding an explicit totalinnholdUtfort: true) and carries the distinct override message", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+      { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Cr",
+        resultValue: 0.059, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const metadataWithExplicitTotalContentClaim: SampleMetadata = {
+      ...baseMetadata, totalinnholdUtfort: true,
+    };
+    const result = classifySample(metadataWithExplicitTotalContentClaim, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).toContain("overriding the extraction's own totalinnhold_utfort flag");
+    expect(result.hazard.confidenceFlagsNo?.[0]).toContain("overstyrer ekstraksjonens eget totalinnhold_utfort-flagg");
+    expect(result.eal.code).toBeNull();
+  });
+});
+
+function result(overrides: Partial<SampleResult>): SampleResult {
+  return {
+    resultId: "r", sampleId: "t", analyteId: "x", rawAnalyteName: "x",
+    resultValue: 1, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS",
+    expressedOnDryBasis: true, method: null,
+    ...overrides,
+  };
+}
+
+describe("unitsIndicateLeachate", () => {
+  it("returns true for the real Test-1 leachate pattern (Ba/Cr/Mo/Cl in mg/l, pH unitless)", () => {
+    const results: SampleResult[] = [
+      result({ rawAnalyteName: "Ba", resultValue: 0.13, unitRaw: "mg/l" }),
+      result({ rawAnalyteName: "Cr", resultValue: 0.059, unitRaw: "mg/l" }),
+      result({ rawAnalyteName: "Mo", resultValue: 0.069, unitRaw: "mg/l" }),
+      result({ rawAnalyteName: "Cl", resultValue: 23, unitRaw: "mg/l" }),
+      result({ rawAnalyteName: "pH", resultValue: 12.5, unitRaw: "" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(true);
+  });
+
+  it("returns false for a normal total-content sample (mg/kg TS units)", () => {
+    const results: SampleResult[] = [
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(false);
+  });
+
+  it("returns false at exactly a 50/50 liquid/solid split (majority requires strictly more than half)", () => {
+    const results: SampleResult[] = [
+      result({ unitRaw: "mg/l" }),
+      result({ unitRaw: "mg/l" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(false);
+  });
+
+  it("returns false for a single stray liquid-unit row among mostly-solid rows", () => {
+    const results: SampleResult[] = [
+      result({ unitRaw: "mg/l" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+      result({ unitRaw: "mg/kg TS" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(false);
+  });
+
+  it("returns false when no rows have a recognized liquid or solid unit (absence of evidence is not evidence)", () => {
+    const results: SampleResult[] = [
+      result({ unitRaw: "%" }),
+      result({ unitRaw: "" }),
+      result({ unitRaw: "mg/m3" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(false);
+  });
+
+  it("recognizes µg/l and ng/l and g/l as liquid units, and mg/kg (no TS suffix) as solid", () => {
+    const results: SampleResult[] = [
+      result({ unitRaw: "µg/l" }),
+      result({ unitRaw: "ng/l" }),
+      result({ unitRaw: "g/l" }),
+      result({ unitRaw: "mg/kg" }),
+    ];
+    expect(unitsIndicateLeachate(results)).toBe(true); // 3 liquid / 1 solid = 75% > 50%
   });
 });
