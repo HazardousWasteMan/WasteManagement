@@ -16,6 +16,8 @@
 
 **1. Schema (`supabase/migrations/`):** a new migration adds `cited_field_key text not null` to `compliance_corrections`, plus an index on `(disputed_paragraph_id, cited_field_key)` (replacing/alongside the existing single-column paragraph index) to keep the now-two-column lookup fast.
 
+**Deployment order:** with the table empty and no default value on the new `NOT NULL` column, running the migration before `corrections.raise()` is updated to actually send `citedFieldKey` would make any `raise()` call in that window fail hard on the constraint. Low-risk in practice (the table has zero real traffic today), but the plan's seeding/migration task must run the migration and the code change as one deploy unit (same commit, same task) — not as separately-ordered CI/CD steps — so there is no window where a dispute cannot be raised at all.
+
 **2. `lib/compliance/corrections.ts`:**
 - `DisputeRecord` gains `citedFieldKey: string`.
 - `CorrectionStore.raise(...)` gains a required `citedFieldKey: string` argument.
@@ -32,7 +34,7 @@ legalCitationKey: checkbox1Key,
 ```
 The two single-key sites (Checkbox10 → `"eal-legal-basis"`, TextField38 → `"hp-methodology-basis"`) get a literal `legalCitationKey` string alongside their existing `legalCitation` line — no ternary needed.
 
-**5. Dispute API + UI (`app/api/compliance/disputes/route.ts`, `app/data-lab/page.tsx`'s `handleDispute`):** the request body gains a required `citedFieldKey` string, validated the same way `paragraphId`/`raisedBy`/`reason` already are (400 on missing/wrong-type). `handleDispute` already receives the full `BkField` at its call site (`FieldsPane`'s `onDispute={(reason, raisedBy) => onDispute(f, reason, raisedBy)}`, unchanged) — it reads `field.legalCitationKey` and includes it in the POST body. If `field.legalCitationKey` is somehow absent (a citation with no associated key — should not happen given every citation-bearing field now sets one, but defensively checked), the dispute is refused client-side with a clear error rather than posting an incomplete/guessed key.
+**5. Dispute API + UI (`app/api/compliance/disputes/route.ts`, `app/data-lab/page.tsx`'s `handleDispute`):** the request body gains a required `citedFieldKey` string, validated the same way `paragraphId`/`raisedBy`/`reason` already are (400 on missing/wrong-type) — AND additionally validated against the real set of known keys: `resolve-legal-citations.ts` exports `RESOLVED_FIELD_KEYS` (derived from `RESOLVED_FIELDS.map(f => f.key)`, not a second hand-maintained list), and the route 400s if `citedFieldKey` isn't in that set. Without this, an arbitrary/mistyped string would be stored without error and could never be matched by `hasUnresolved(paragraphId, fieldKey)` from any real field — a silent, undetectable orphaned dispute. `handleDispute` already receives the full `BkField` at its call site (`FieldsPane`'s `onDispute={(reason, raisedBy) => onDispute(f, reason, raisedBy)}`, unchanged) — it reads `field.legalCitationKey` and includes it in the POST body. If `field.legalCitationKey` is somehow absent (a citation with no associated key — should not happen given every citation-bearing field now sets one, but defensively checked), the dispute is refused client-side with a clear error rather than posting an incomplete/guessed key.
 
 ## Explicitly disclosed, not solved by this spec
 
@@ -44,5 +46,5 @@ The two single-key sites (Checkbox10 → `"eal-legal-basis"`, TextField38 → `"
 - `corrections.ts`: `hasUnresolved(paragraphId, fieldKey)` tested directly against a fake store — a dispute recorded under one field key does not affect a query for the same paragraph under a different field key; a dispute recorded under the same (paragraphId, fieldKey) pair is found.
 - `resolve-legal-citations.ts`: a real regression test proving two different `RESOLVED_FIELDS` keys citing the SAME paragraph resolve independently once one has an unresolved dispute scoped to the other key only — the undisputed key's citation shows `disputed: false`, the disputed key's shows `disputed: true`.
 - `form-map.ts`: each of the five citation-bearing fields (Checkbox1/3/4/6/10, TextField38) asserted to carry the correct `legalCitationKey` string alongside its existing `legalCitation`.
-- The dispute API route: a request missing `citedFieldKey` is rejected with 400, matching the existing validation pattern for the other three required fields.
+- The dispute API route: a request missing `citedFieldKey` is rejected with 400, matching the existing validation pattern for the other three required fields; a request with a `citedFieldKey` that isn't one of `RESOLVED_FIELD_KEYS` (e.g. a typo or an arbitrary string) is also rejected with 400, proving the server doesn't just trust the client to always send a real key.
 - Real migration verification: the new column and index confirmed present via direct SQL query against the live Supabase project, same as every prior schema change on this branch.
