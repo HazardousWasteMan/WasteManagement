@@ -7,3 +7,7 @@ alter table compliance_corrections
 
 create index compliance_corrections_paragraph_field_idx
   on compliance_corrections (disputed_paragraph_id, cited_field_key);
+
+-- The old single-column index is now redundant: hasUnresolved always filters on both columns,
+-- and the new composite index above already covers any query that only uses the leading column.
+drop index if exists compliance_corrections_paragraph_idx;
