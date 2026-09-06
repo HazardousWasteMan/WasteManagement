@@ -237,6 +237,26 @@ describe("bkFromDatalab", () => {
     expect(fields.find(f => f.field === "Checkbox2")!.legalCitationKey).toBe("deponi-category-basis");
   });
 
+  it("Checkbox9/Checkbox10 derive check from hasDetectedHazardousSubstance, tri-state", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+
+    const detected: BkSource = { ...source, hasDetectedHazardousSubstance: true };
+    const detectedFields = buildBkFields(detected);
+    expect(detectedFields.find(f => f.field === "Checkbox9")!.check).toBe(false);
+    expect(detectedFields.find(f => f.field === "Checkbox10")!.check).toBe(true);
+
+    const notDetected: BkSource = { ...source, hasDetectedHazardousSubstance: false };
+    const notDetectedFields = buildBkFields(notDetected);
+    expect(notDetectedFields.find(f => f.field === "Checkbox9")!.check).toBe(true);
+    expect(notDetectedFields.find(f => f.field === "Checkbox10")!.check).toBe(false);
+
+    const unknown: BkSource = { ...source, hasDetectedHazardousSubstance: null };
+    const unknownFields = buildBkFields(unknown);
+    expect(unknownFields.find(f => f.field === "Checkbox9")!.check).toBe(false);
+    expect(unknownFields.find(f => f.field === "Checkbox10")!.check).toBe(false);
+    expect(unknownFields.find(f => f.field === "Checkbox9")!.note).toContain("GAP");
+  });
+
   it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {
     const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
     const citation = {

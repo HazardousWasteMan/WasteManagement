@@ -88,6 +88,10 @@ export interface BkSource {
   };
   results: BkResultRow[];
   isHazardous: boolean | null;
+  /** Whether any detected result mapped to a real CLP hazard classification above LOQ — see
+   * HazardClassification.hasDetectedHazardousSubstance in lib/hp-classification/hazard.ts for
+   * the full explanation of why this is a narrower question than isHazardous. */
+  hasDetectedHazardousSubstance: boolean | null;
   /** Set only when isHazardous is null — the single-source explanation every indeterminate-state
    * note below must quote verbatim, never independently paraphrase. English — machine/reviewer-
    * facing (e.g. Checkbox1/3's note). */
@@ -223,8 +227,11 @@ export function buildBkFields(s: BkSource): BkField[] {
       note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox7", label: "Testpliktig: Nei", src: "derived", check: false },
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
-    { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
-    { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived", check: true,
+    { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived",
+      check: s.hasDetectedHazardousSubstance === false,
+      note: s.hasDetectedHazardousSubstance === null ? "GAP: classification could not run — see TextField38" : undefined },
+    { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived",
+      check: s.hasDetectedHazardousSubstance === true,
       // Compliance trust model: legalCitation is resolved server-side and passed in via
       // s.legalCitations["eal-legal-basis"]. LegalCitationView now carries a `citations` array
       // so multi-paragraph fields (e.g. Checkbox1/2/3) can share the same shape — Checkbox10 is

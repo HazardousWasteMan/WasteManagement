@@ -171,6 +171,7 @@ export function bkFromDatalab(
     },
     results: rows,
     isHazardous: classification.hazard.isHazardous,
+    hasDetectedHazardousSubstance: classification.hazard.hasDetectedHazardousSubstance ?? null,
     hazardConfidenceFlags: classification.hazard.confidenceFlags,
     hazardConfidenceFlagsNo: classification.hazard.confidenceFlagsNo,
     eal: classification.eal,
