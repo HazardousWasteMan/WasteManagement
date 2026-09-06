@@ -95,6 +95,37 @@ describe("bkFromDatalab", () => {
     expect(fields.filter(f => f.label.startsWith("EAL-kode siffer")).every(f => !f.value)).toBe(true);
   });
 
+  it("recognizes the Italian and Norwegian-noun physicalState terms this pipeline's own stated input languages call for", () => {
+    const italianLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Liquido" }), blocks, ORIGIN);
+    expect(italianLiquid.source.metadata.physicalState).toBe("liquid");
+
+    const italianPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Polvere fine" }), blocks, ORIGIN);
+    expect(italianPowder.source.metadata.physicalState).toBe("powder");
+
+    const norwegianNounLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Væske" }), blocks, ORIGIN);
+    expect(norwegianNounLiquid.source.metadata.physicalState).toBe("liquid");
+  });
+
+  it("still recognizes every previously-supported physicalState term (regression coverage)", () => {
+    const norwegianLiquidAdjective = bkFromDatalab(datalabPayload({ fysisk_form: "Flytende" }), blocks, ORIGIN);
+    expect(norwegianLiquidAdjective.source.metadata.physicalState).toBe("liquid");
+
+    const englishLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Liquid" }), blocks, ORIGIN);
+    expect(englishLiquid.source.metadata.physicalState).toBe("liquid");
+
+    const norwegianPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Pulver" }), blocks, ORIGIN);
+    expect(norwegianPowder.source.metadata.physicalState).toBe("powder");
+
+    const englishPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Powder" }), blocks, ORIGIN);
+    expect(englishPowder.source.metadata.physicalState).toBe("powder");
+
+    const solidDefault = bkFromDatalab(datalabPayload({ fysisk_form: "Fast" }), blocks, ORIGIN);
+    expect(solidDefault.source.metadata.physicalState).toBe("solid");
+
+    const unrecognizedDefaultsSolid = bkFromDatalab(datalabPayload({ fysisk_form: undefined }), blocks, ORIGIN);
+    expect(unrecognizedDefaultsSolid.source.metadata.physicalState).toBe("solid");
+  });
+
   it("ticks the waste type the matrix implies and cites it", () => {
     const { fields } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
     const betong = fields.find(f => f.label === "Avfallstype (materiale): Betong eller tegl")!;

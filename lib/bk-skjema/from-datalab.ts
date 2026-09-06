@@ -101,7 +101,8 @@ export function bkFromDatalab(
 
   const physical = (str(data.fysisk_form) ?? "").toLowerCase();
   const physicalState: SampleMetadata["physicalState"] =
-    /flyt|liquid/.test(physical) ? "liquid" : /pulver|powder/.test(physical) ? "powder" : "solid";
+    /flyt|liquid|liquido|væske/.test(physical) ? "liquid" :
+    /pulver|powder|polvere/.test(physical) ? "powder" : "solid";
 
   const metadata: SampleMetadata = {
     sampleId: "data-lab-1",
