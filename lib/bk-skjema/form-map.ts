@@ -236,7 +236,8 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "group3", label: "Kolonnetest", src: "derived", select: "Radio1", note: "Nei — no column test in the document" },
     { field: "TextField37", label: "Tilstandsklasse 1-5 (gravemasser/jord/sediment)", src: "n/a",
       note: `only applies to soil/sediment; matrix here is ${m.matrixType ?? "unknown"}` },
-    { field: "TextField38", label: "Beskriv avfallet og hvordan det oppstår", src: "derived", value: buildDescription(s) },
+    { field: "TextField38", label: "Beskriv avfallet og hvordan det oppstår", src: "derived", value: buildDescription(s),
+      legalCitation: s.legalCitations?.["hp-methodology-basis"] ?? null },
 
     // 4. Avfallets egenskaper
     ...[11, 12, 13, 14, 15, 16, 17, 18].map(n => ({

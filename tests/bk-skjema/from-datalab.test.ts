@@ -151,6 +151,36 @@ describe("bkFromDatalab", () => {
     expect(checkbox10.note).toContain("hazardous substances detected above LOQ");
   });
 
+  it("TextField38 carries the hp-methodology-basis legal citation unconditionally, regardless of isHazardous state", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const citation = {
+      citations: [{
+        paragraphId: "no-avfallsforskriften-11-2",
+        label: "Avfallsforskriften § 11-2",
+        sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-2",
+        verifiedAt: "2026-09-06T00:00:00.000Z",
+        disputed: false,
+        primary: true,
+      }],
+    };
+    for (const isHazardousOverride of [true, false, null]) {
+      const withCitation: BkSource = {
+        ...source, isHazardous: isHazardousOverride,
+        legalCitations: { "hp-methodology-basis": citation },
+      };
+      const fields = buildBkFields(withCitation);
+      const textField38 = fields.find(f => f.field === "TextField38")!;
+      expect(textField38.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-2");
+    }
+  });
+
+  it("TextField38 has no legalCitation when hp-methodology-basis wasn't resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    const textField38 = fields.find(f => f.field === "TextField38")!;
+    expect(textField38.legalCitation ?? null).toBeNull();
+  });
+
   it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {
     const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
     const citation = {
