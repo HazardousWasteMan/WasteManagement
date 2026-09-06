@@ -199,6 +199,28 @@ describe("classifySample", () => {
     expect(result.hazard.resultsByHp.HP7).not.toBe(true);
   });
 
+  it("leaves a traceable confidenceFlags note when a liquid-basis row was excluded from a non-gated classification", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+        resultValue: 10, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null },
+      { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBe(false); // real classification proceeded, not gated
+    expect(result.hazard.confidenceFlags.some(f => f.includes("excluded from HP classification") && f.includes("liquid/eluate"))).toBe(true);
+    expect(result.hazard.confidenceFlagsNo?.some(f => f.includes("utelatt fra HP-klassifiseringen") && f.includes("væske-/eluat"))).toBe(true);
+  });
+
+  it("does NOT add the exclusion note when no liquid-basis rows were present", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.confidenceFlags.some(f => f.includes("excluded from HP classification"))).toBe(false);
+  });
+
   it("uses the non-overclaiming unit-triggered message when totalinnholdUtfort was never claimed true (absent)", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",

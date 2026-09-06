@@ -194,5 +194,29 @@ export function classifySample(
   const hazard = classifyHazard(withClp, metadata, testResults);
   const eal = assignEalCode(hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
 
+  // Traceability for the exclusion above: when this sample proceeded to real classification
+  // (not gated), any liquid-basis row silently dropped from that classification must leave a
+  // visible trail, not a confident isHazardous with no record that some of the sample's own
+  // reported data was excluded — the same discipline the leaching-only gate itself follows for
+  // the case where a sample gates outright. Deliberately not the leaching-only gate's own flag
+  // wording: this is a narrower, additive note appended for a sample that WAS classified, not one
+  // that was gated to null.
+  if (resultsForClassification.length < results.length) {
+    hazard.confidenceFlags = [
+      ...hazard.confidenceFlags,
+      "One or more result rows were excluded from HP classification because they reported a " +
+      "liquid/eluate concentration unit (mg/l-class), which is never a valid input to a " +
+      "dry-basis total-content threshold — this classification reflects only the sample's " +
+      "solid-basis (total-content) results.",
+    ];
+    hazard.confidenceFlagsNo = [
+      ...(hazard.confidenceFlagsNo ?? []),
+      "Én eller flere resultatrader ble utelatt fra HP-klassifiseringen fordi de rapporterte en " +
+      "væske-/eluatkonsentrasjonsenhet (mg/l-basert), som aldri er gyldig input til en " +
+      "tørrstoffbasert totalinnhold-terskel — denne klassifiseringen reflekterer kun prøvens " +
+      "faste (totalinnhold-baserte) resultater.",
+    ];
+  }
+
   return { hazard, eal, noDataWarning };
 }
