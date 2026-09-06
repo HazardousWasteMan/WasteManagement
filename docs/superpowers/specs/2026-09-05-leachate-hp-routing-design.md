@@ -56,9 +56,33 @@ verdict. That's a real category error, confirmed against two independent sources
    correct, not something this fix has to build; it only has to not break it. Proven explicitly
    by a dedicated test case (see Testing).
 2. **`isHazardous` becomes `boolean | null`** in `HazardClassification` — `null` means
-   "cannot be determined from the data available," never a guessed `true`/`false`. Every
-   consumer (`assignEalCode`, `form-map.ts`'s Checkbox1/2/3/9/10 wiring, `buildDescription`)
-   must handle the `null` case explicitly rather than coercing it.
+   "cannot be determined from the data available," never a guessed `true`/`false`.
+
+   **Full consumer inventory, confirmed by grepping the whole tree (this is bigger than the
+   original draft of this spec estimated — every one of these needs an explicit decision, not
+   silent boolean coercion):**
+
+   | File | Current behavior | Required change |
+   |---|---|---|
+   | `lib/hp-classification/eal.ts` (`assignEalCode`) | `isHazardous: boolean` param | New `null` branch: `code: null`, explicit "cannot assign — hazard status indeterminate" message |
+   | `lib/bk-skjema/form-map.ts` (`BkSource.isHazardous`, Checkbox1/3/4/6, buildDescription) | `boolean` | `boolean \| null`; indeterminate → all four checkboxes unchecked + shared note (§ 9-6-grounded) |
+   | `lib/bk-skjema/from-datalab.ts` | passes `classification.hazard.isHazardous` straight through | passes the `boolean \| null` through unchanged, threads the three new extraction flags into `classifySample` |
+   | `lib/hp-classification/facility-match.ts` (`FacilityMatchInput.isHazardous`, `checkStoleheia`/`checkReturkraft`) | `boolean`; falsy branch currently *assumes non-hazardous* and describes an "ordinary/contaminated mass path" | **Safety-relevant**: `null` must NOT fall into the non-hazardous branch — route it to the existing `eligible: "insufficient data"` state (already used elsewhere in this file for a different gap) with a reason naming the indeterminate hazard status. Falling through to "assume non-hazardous" here would be the exact kind of fabrication this whole fix exists to prevent, just relocated to facility-matching instead of HP classification. |
+   | `app/api/facility-match/route.ts` | validates `typeof isHazardous !== "boolean"` → 400 | accept `isHazardous: boolean \| null` explicitly (reject only if neither) |
+   | `lib/projects.ts` (`WasteEntry.isHazardous`) | `boolean`, persisted (localStorage-based case data) | `boolean \| null` — a committed case entry can genuinely be indeterminate; this is real data, not a fixable default |
+   | `app/page.tsx`, `app/projects/[id]/page.tsx` (`hazardousEntryCount`) | `entries.filter(e => e.isHazardous).length` | add a SEPARATE `indeterminateEntryCount` stat, shown alongside — `null` naturally falls out of the existing filter (undercounts hazardous, never overcounts, safe by construction) but must not be silently invisible as its own count |
+   | `app/cases/[id]/page.tsx` (Chip) | `entry.isHazardous ? "Hazardous" : "Non-hazardous"` | third branch: `null` → "Indeterminate — manual review required" chip (distinct color, not reusing hazardous-red or non-hazardous-green) |
+   | `components/wizard/Wizard.tsx` (case-flow commit) | reads `hazard.isHazardous` off the SAME shared `classifySample()` — the older wizard pipeline is not a separate code path from this bug | must allow committing an indeterminate entry (don't block the workflow — matches this codebase's existing HP1-3/HP9/HP12/HP15 "case-specific, not-automatable" precedent of deferring to a human rather than blocking) |
+   | `components/wizard/ClassificationResultsStep.tsx`, `FacilityMatchStep.tsx` | `"Yes"/"No"` boolean display | third state: "Indeterminate" / matching Norwegian if applicable |
+   | `components/data-lab/SampleSwitcher.tsx` (tab label) | `isHazardous ? "farlig avfall" : ealCode` ternary | third branch for `null` |
+   | `components/dashboard/DepotMap.tsx` / `lib/depots.ts` (`depotIsLit`) | `analysisIsHazardous: boolean` param, already has a separate `isHazardous?: boolean` OPTIONAL prop upstream (used for "no filter" today) | `null` (indeterminate) → no depot lit, same as "no filter today," since this is a display convenience, not a routing decision — lower stakes than facility-match's actual eligibility logic |
+
+   This is a real, larger-than-originally-estimated blast radius, confirmed with the user before
+   planning (2026-09-06) — deliberately chosen over the narrower alternative (a separate,
+   additive `hazardDeterminable` flag with `isHazardous` staying a plain, conservatively-defaulted
+   boolean) specifically so the whole app — not just the BK-skjema output — is honest about an
+   indeterminate hazard status rather than silently defaulting it anywhere, including in
+   safety-relevant facility-matching.
 3. **Gating rule in `classifySample`**: when `(ristetestUtfort || kolonnetestUtfort) &&
    !totalinnholdUtfort`, skip substance-level HP triggering entirely and set `isHazardous: null`,
    with a `confidenceFlags` entry explaining why (leaching-test-only data, total content
