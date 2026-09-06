@@ -232,6 +232,9 @@ describe("bkFromDatalab", () => {
     const fields = buildBkFields(source);
     expect(fields.find(f => f.field === "Checkbox10")!.legalCitationKey).toBe("eal-legal-basis");
     expect(fields.find(f => f.field === "TextField38")!.legalCitationKey).toBe("hp-methodology-basis");
+    // Checkbox2 was missed by the original plan's site list (unconditional, no ternary, unlike
+    // Checkbox1/3/4/6) — it carries the same legalCitation as those, so it needs the same key.
+    expect(fields.find(f => f.field === "Checkbox2")!.legalCitationKey).toBe("deponi-category-basis");
   });
 
   it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {

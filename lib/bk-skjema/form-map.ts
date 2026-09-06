@@ -200,6 +200,7 @@ export function buildBkFields(s: BkSource): BkField[] {
       note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : "CONSERVATIVE: inert cannot be claimed without a leaching test" },
     { field: "Checkbox2", label: "Deponi for inert avfall", src: "derived", check: false,
       legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
+      legalCitationKey: "deponi-category-basis",
       note: "requires ristetest/kolonnetest results, which a standard total-analysis report lacks" },
     // Checkbox1/2/3 are mutually exclusive outcomes of ONE classification decision (which
     // landfill category this waste belongs in), so they share ONE resolved citation
