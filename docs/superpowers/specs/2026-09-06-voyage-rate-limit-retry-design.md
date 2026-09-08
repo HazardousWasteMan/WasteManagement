@@ -1,6 +1,11 @@
 # Voyage Rate-Limit Retry — Design
 
-**Status:** Approved for planning
+**Status:** SUPERSEDED — not implemented. The user correctly pointed out this account is on
+Voyage's free plan, capped by a usage quota (request/token count over a window), not a plain
+requests-per-second throttle — retrying with a fixed delay assumes the wrong kind of limit and
+could just fail repeatedly (or waste quota) rather than actually help. Tracked instead as a known
+issue at `docs/ISSUES.md`, to be revisited once the real limit shape is confirmed. Kept here only
+as a record of the retry-shaped approach that was considered and rejected.
 **Branch:** `vedlegg-citation-and-followups` (third of three follow-on items this cycle — RLS done, Checkbox9/10 done, this last one — from PR #1's disclosed follow-ups)
 **Builds on:** `lib/compliance/embeddings.ts`'s `embedText`, which every real seeding step on this branch (including this cycle's own § 11-2 and Vedlegg 2 seeding) has called against the live Voyage API.
 
