@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { BkField } from "@/lib/bk-skjema/form-map";
 import geometry from "@/lib/data/bk-skjema-field-geometry.json";
 
+export type FieldAttention = { status: "complete" | "derived" | "needs_input" | "cannot_determine" | "not_applicable"; label: string };
+
 interface Widget { field: string; export: string | null; page: number; x: number; y: number; w: number; h: number }
 
 const WIDGETS = geometry.widgets as Widget[];
@@ -30,11 +32,13 @@ export function FormPane({
   fields,
   selected,
   onSelect,
+  attention,
 }: {
   pdf: Blob;
   fields: BkField[];
   selected: string | null;
   onSelect: (field: BkField) => void;
+  attention?: Record<string, FieldAttention>;
 }) {
   const [error, setError] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
@@ -44,7 +48,7 @@ export function FormPane({
   // Reading order: page, then row, then column — so arrow keys walk the form the way it is read.
   const markers = useMemo(() => {
     return fields
-      .filter(isFilled)
+      .filter(f => isFilled(f) || attention?.[f.field]?.status === "needs_input" || attention?.[f.field]?.status === "cannot_determine")
       .map(f => ({ field: f, widget: widgetFor(f) }))
       .filter((m): m is { field: BkField; widget: Widget } => Boolean(m.widget))
       .sort((a, b) =>
@@ -52,7 +56,7 @@ export function FormPane({
         Math.round(a.widget.y / 6) - Math.round(b.widget.y / 6) ||
         a.widget.x - b.widget.x
       );
-  }, [fields]);
+  }, [fields, attention]);
 
   useEffect(() => {
     let cancelled = false;
@@ -97,6 +101,7 @@ export function FormPane({
   }, [markers, selected, onSelect]);
 
   function onKeyDown(e: React.KeyboardEvent) {
+    if (!markers.length) return;
     const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
     if (e.key in keys) { e.preventDefault(); move(keys[e.key]); return; }
     if (e.key === "Home") { e.preventDefault(); onSelect(markers[0].field); buttonRefs.current.get(markers[0].field.field)?.focus(); }
@@ -119,14 +124,14 @@ export function FormPane({
     // on one of the child buttons, so their keydown events bubble to here.
     <div className="flex flex-col gap-4" onKeyDown={onKeyDown} role="group" aria-label="Filled basiskarakterisering form">
       <p className="text-xs text-forest/50">
-        {markers.length} filled fields · click a marker, or use the arrow keys, to see where the value came from
+        {attention ? "Green: completed · dashed amber: needs you · slate: cannot determine. Select a marker to open Evidence." : `${markers.length} filled fields · click a marker, or use the arrow keys, to see where the value came from`}
       </p>
       {!ready && <p className="text-sm text-forest/50">Rendering the filled form…</p>}
 
       {PAGES.map(p => (
         <div key={p.page} className="flex flex-col gap-1">
           <p className="font-mono text-[11px] uppercase tracking-wider text-forest/40">Skjema side {p.page + 1}</p>
-          <div className="relative overflow-hidden rounded-xl border border-forest/15 bg-white shadow-sm">
+          <div className="relative overflow-hidden rounded-xl border border-forest/15 bg-white shadow-sm" style={{ aspectRatio: `${p.width} / ${p.height}` }}>
             <canvas
               ref={el => { if (el) canvasRefs.current.set(p.page, el); }}
               className="block w-full"
@@ -136,6 +141,7 @@ export function FormPane({
               if (m.widget.page !== p.page) return null;
               const isSelected = m.field.field === selected;
               const hasSource = (m.field.citations ?? []).some(c => c.bbox);
+              const task = attention?.[m.field.field];
               return (
                 <button
                   key={m.field.field}
@@ -143,7 +149,9 @@ export function FormPane({
                   type="button"
                   tabIndex={i === activeIndex ? 0 : -1}
                   onClick={() => onSelect(m.field)}
-                  aria-label={`${m.field.label}${hasSource ? ", show source in the report" : ", no source to show"}`}
+                  aria-label={task ? `${task.label}: ${task.status.replaceAll("_", " ")}` : `${m.field.label}${hasSource ? ", show source in the report" : ", no source to show"}`}
+                  data-field={m.field.field}
+                  data-status={task?.status}
                   aria-pressed={isSelected}
                   style={{
                     left: `${(m.widget.x / p.width) * 100}%`,
@@ -152,7 +160,11 @@ export function FormPane({
                     height: `${(m.widget.h / p.height) * 100}%`,
                   }}
                   className={`absolute rounded-[3px] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest ${
-                    isSelected
+                    task?.status === "needs_input"
+                      ? `border-2 border-dashed border-amber-600 bg-amber-100/20 ${isSelected ? "ring-2 ring-forest" : ""}`
+                      : task?.status === "cannot_determine"
+                        ? `border-2 border-slate-500 bg-slate-200/30 ${isSelected ? "ring-2 ring-forest" : ""}`
+                      : isSelected
                       ? "bg-lime/45 ring-2 ring-forest"
                       : hasSource
                         ? "bg-lime/15 ring-2 ring-lime hover:bg-lime/35"

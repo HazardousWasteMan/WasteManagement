@@ -25,6 +25,13 @@ export interface SampleMetadata {
 }
 
 export interface SampleResult {
+  /** Stable evidence identity when reclassifying an already persisted measurement. */
+  measurementId?: string;
+  rawValueText?: string | null;
+  censoring?: import("./measurement").CensoringState;
+  analyticalContext?: string | null;
+  concentrationBasis?: import("./measurement").ConcentrationBasis;
+  source?: import("./measurement").MeasurementSource[];
   resultId: string;
   sampleId: string;
   analyteId: string | null;
@@ -54,6 +61,7 @@ export interface AnalyteReference {
 }
 
 export interface NormalizedResult {
+  measurementId?: string;
   analyteId: string;
   resultDryBasisPct: number;
   isBelowLoq: boolean;

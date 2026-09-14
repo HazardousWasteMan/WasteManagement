@@ -72,14 +72,13 @@ describe("validateExtractionResponse", () => {
 });
 
 describe("hasUsableText", () => {
-  it("returns false for the real Italian sample PDF's page-marker-only extraction (verified garbage: 729 chars, 0 words of 4+ letters)", () => {
-    const realGarbage = "\n\n-- 1 of 41 --\n\n\n\n-- 2 of 41 --\n\n\n\n-- 3 of 41 --\n\n\n\n-- 4 of 41 --\n\n\n\n-- 5 of 41 --\n\n\n\n-- 6 of 41 --\n\n\n\n-- 7 of 41 --\n\n\n\n-- 8 of 41 --\n\n\n\n-- 9 of 41 --\n\n\n\n-- 10 of 41 --\n\n\n\n-- 11 of 41 --\n\n\n\n-- 12 of 41 --\n\n\n\n-- 13 of 41 --\n\n\n\n-- 14 of 41 --\n\n\n\n-- 15 of 41 --\n\n\n\n-- 16 of 41 --\n\n\n\n-- 17 of 41 --\n\n\n\n-- 18 of 41 --\n\n\n\n-- 19 of 41 --\n\n\n\n-- 20 of 41 --\n\n\n\n-- 21 of 41 --\n\n\n\n-- 22 of 41 --\n\n\n\n-- 23 of 41 --\n\n\n\n-- 24 of 41 --\n\n\n\n-- 25 of 41 --\n\n\n\n-- 26 of 41 --\n\n\n\n-- 27 of 41 --\n\n\n\n-- 28 of 41 --\n\n\n\n-- 29 of 41 --\n\n\n\n-- 30 of 41 --\n\n\n\n-- 31 of 41 --\n\n\n\n-- 32 of 41 --\n\n\n\n-- 33 of 41 --\n\n\n\n-- 34 of 41 --\n\n\n\n-- 35 of 41 --\n\n\n\n-- 36 of 41 --\n\n\n\n-- 37 of 41 --\n\n\n\n-- 38 of 41 --\n\n\n\n-- 39 of 41 --\n\n\n\n-- 40 of 41 --\n\n\n\n-- 41 of 41 --\n\n";
-    expect(hasUsableText(realGarbage)).toBe(false);
+  it("returns false for synthetic page-marker-only extraction", () => {
+    const markerOnly = Array.from({length:41},(_,index)=>`-- ${index+1} of 41 --`).join("\n\n");
+    expect(hasUsableText(markerOnly)).toBe(false);
   });
 
-  it("returns false for the real Eurofins sample PDF's whitespace-noise extraction (verified garbage: mostly tabs/newlines, 0 words of 4+ letters)", () => {
-    const realGarbage = "\n\n\n\n\n\n\n\n\n\n\n\n\n \t\n\n\n \t\n\n\n\n\n\t\n\n\t\n\t \t\n \t \t \t\n\t \t \t\t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t\t\n \t \t\t \t";
-    expect(hasUsableText(realGarbage)).toBe(false);
+  it("returns false for synthetic whitespace noise", () => {
+    expect(hasUsableText("\n\t \n \t\t\n".repeat(30))).toBe(false);
   });
 
   it("returns false for an empty string", () => {
@@ -156,17 +155,17 @@ describe("buildMessageContent", () => {
   });
 
   it("includes a scoping instruction when a sampleIdentifier is provided", () => {
-    const content = buildMessageContent("Some report text with enough real words to pass the usable-text check for sure", smallPdfBuffer, analyteRef, "ENAT-BØF1-BO9OB1");
+    const content = buildMessageContent("Some report text with enough invented words to pass the usable-text check for sure", smallPdfBuffer, analyteRef, "TEST-SAMPLE-A");
     expect(content[0].type).toBe("text");
     const text = (content[0] as { type: "text"; text: string }).text;
-    expect(text).toContain("ENAT-BØF1-BO9OB1");
+    expect(text).toContain("TEST-SAMPLE-A");
     expect(text.toLowerCase()).toContain("only");
   });
 
   it("has no scoping instruction when sampleIdentifier is null", () => {
     const content = buildMessageContent("Some report text with enough real words to pass the usable-text check for sure", smallPdfBuffer, analyteRef, null);
     const text = (content[0] as { type: "text"; text: string }).text;
-    expect(text).not.toContain("ENAT-BØF1-BO9OB1");
+    expect(text).not.toContain("TEST-SAMPLE-A");
   });
 
   it("includes the real origin/process option list so Claude can pick from it", () => {
@@ -195,11 +194,11 @@ describe("buildMessageContent", () => {
     expect(text.toLowerCase()).toContain("never guess or infer a location");
   });
 
-  it("instructs the LLM to skip QA/methodology parameters and calculated sum rows, as a general rule (not a hardcoded list)", () => {
+  it("instructs the LLM to preserve context for shared measurement eligibility", () => {
     const content = buildMessageContent("some real report text with enough real words to count as usable, definitely", Buffer.from(""), analyteRef, null);
     const text = (content[0] as { type: "text"; text: string }).text;
-    expect(text.toLowerCase()).toContain("quality-control/methodology parameter");
-    expect(text.toLowerCase()).toContain("pre-calculated aggregate sum");
+    expect(text).toContain("analyticalContext");
+    expect(text).toContain("rawValueText");
     // The rule must be phrased generally — it must NOT hardcode this one report's exact
     // Norwegian labels, so it generalizes to any report's phrasing/language.
     expect(text).not.toContain("Tørrstoff");
@@ -211,16 +210,16 @@ describe("validateListSamplesResponse", () => {
   it("accepts a well-formed single-sample array", () => {
     expect(
       validateListSamplesResponse([
-        { sampleIdentifier: "ENAT-BØF1-BO9OB1", matrixType: "Betong", parentSampleIdentifier: null },
+        { sampleIdentifier: "TEST-SAMPLE-A", matrixType: "Concrete", parentSampleIdentifier: null },
       ])
     ).toBe(true);
   });
 
   it("accepts a well-formed multi-sample array", () => {
     const samples = [
-      { sampleIdentifier: "AR-25-MM-120316-01", matrixType: null, parentSampleIdentifier: null },
-      { sampleIdentifier: "AR-25-MM-118438-01", matrixType: "Betong", parentSampleIdentifier: null },
-      { sampleIdentifier: "AR-25-MM-118439-01", matrixType: "Betong", parentSampleIdentifier: null },
+      { sampleIdentifier: "TEST-SAMPLE-A", matrixType: null, parentSampleIdentifier: null },
+      { sampleIdentifier: "TEST-SAMPLE-B", matrixType: "Concrete", parentSampleIdentifier: null },
+      { sampleIdentifier: "TEST-SAMPLE-C", matrixType: "Concrete", parentSampleIdentifier: null },
     ];
     expect(validateListSamplesResponse(samples)).toBe(true);
   });
@@ -421,6 +420,8 @@ describe("extractSampleData — page batching for large scanned documents", () =
     // Merged results get fresh sequential ids, not each batch's own colliding "r1".
     expect(result.results.map(r => r.resultId)).toEqual(["r1", "r2", "r3"]);
     expect(result.sourceType).toBe("document");
+    expect(result.results.every(r=>r.source?.[0].documentRef?.startsWith("sha256:"))).toBe(true);
+    expect(new Set(result.results.map(r=>r.source?.[0].reference)).size).toBe(3);
   });
 
   it("returns a partial merged result when one batch fails but others succeed", async () => {

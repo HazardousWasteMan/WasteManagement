@@ -7,6 +7,8 @@
 // Deliberately independent of any one extraction backend: callers normalize whatever their
 // provider returns into BkSource, so the Anthropic pipeline and Datalab both feed the same code.
 import type { EalAssignment } from "../hp-classification/eal";
+import { effectiveEal } from "../hp-classification/eal";
+import type { LandfillAcceptanceState } from "../hp-classification/landfill-acceptance";
 import type { LegalCitationView } from "../compliance/citation-view";
 
 /** Where a field's value comes from — the whole point of the coverage exercise. */
@@ -19,6 +21,8 @@ export type BkSrc =
 
 /** A citation back into the source document, so the UI can show the original text. */
 export interface BkCitation {
+  /** Immutable source identity, normally sha256:<digest>; used to select the correct PDF. */
+  documentRef?: string;
   blockId: string | null;
   page: number | null;
   text: string | null;
@@ -58,6 +62,7 @@ export interface BkResultRow {
   isBelowLoq: boolean;
   loqValue: number | null;
   unitRaw: string;
+  analyticalRole?: "total_content" | "leaching_batch" | "leaching_column" | "physical_or_composition" | "unknown";
   citations?: BkCitation[];
 }
 
@@ -100,6 +105,7 @@ export interface BkSource {
    * buildDescription). Never substitute hazardConfidenceFlags into those two fields. */
   hazardConfidenceFlagsNo?: string[];
   eal: EalAssignment;
+  landfillAcceptance?: LandfillAcceptanceState;
   /** Per-metadata-key citations, keyed by the metadata field name above. */
   citations?: Record<string, BkCitation[]>;
   /** Per-metadata-key confidence scores, keyed the same way. */
@@ -116,25 +122,25 @@ const cite = (s: BkSource, key: string): Pick<BkField, "citations" | "score"> =>
 /** Builds the human-readable free-text description for TextField38. */
 export function buildDescription(s: BkSource): string {
   const m = s.metadata;
-  const detected = s.results.filter(
-    r => !r.isBelowLoq && r.resultValue !== null && !/t[øe]rrstoff/i.test(r.rawAnalyteName)
-  );
-  const top = detected.slice(0, 8).map(r => `${r.rawAnalyteName} ${r.resultValue} ${r.unitRaw}`).join("; ");
+  const total = s.results.filter(r=>r.analyticalRole==="total_content");
+  const detectedTotal = total.filter(r=>!r.isBelowLoq&&r.resultValue!==null&&!/t[øe]rrstoff/i.test(r.rawAnalyteName));
+  const top=detectedTotal.slice(0,8).map(r=>`${r.rawAnalyteName} ${r.resultValue} ${r.unitRaw}`).join("; ");
+  const roles=[...new Set(s.results.map(r=>r.analyticalRole??"unknown"))].join(", ");
+  const effective=effectiveEal({decisions:[s.eal],persistedCode:s.eal.code});
+  const eal=effective.code
+    ? `EAL: valgt kode ${effective.code} (${effective.status === "reviewed" ? "menneskelig gjennomgått" : "maskinelt løst"}).`
+    : `EAL: ikke endelig valgt. Status ${s.eal.resolutionStatus}; forslag ${s.eal.suggestedCode??"ingen"}. ${s.eal.reasonNo}`;
+  const landfill=s.landfillAcceptance??{status:"not_evaluated" as const,reason:"Landfill acceptance has not been evaluated."};
+  const landfillLabel={not_evaluated:"ikke vurdert",evidence_available:"analysegrunnlag tilgjengelig",requires_review:"krever gjennomgang",resolved:"vurdert"}[landfill.status];
   return [
-    `${m.matrixType ?? "Ukjent masse"} fra ${m.customerName ?? m.producerName ?? "ukjent produsent"}.`,
-    `Prøve ${m.sampleMarking ?? "uten merking"}, analysert av ${m.labName ?? "ukjent laboratorium"}, rapport ${m.externalReportNo ?? "uten nummer"}`,
-    `(prøvetatt ${m.samplingDate ?? "ukjent dato"}, mottatt ${m.receiptDate ?? "ukjent dato"}).`,
-    `Kjemisk analyse omfatter ${s.results.length} analyseparametere.`,
-    detected.length > 0 ? `Påviste verdier over LOQ: ${top}.` : `Ingen parametere påvist over LOQ.`,
-    `Alle øvrige parametere under deteksjonsgrense.`,
-    `Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014):`,
-    s.isHazardous === null
-      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlagsNo?.[0] ?? "kun utlekkingstest-data foreligger"}.`
-      : s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
-    s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidenceNo}.`,
-    s.eal.code ? `Merk: ${s.eal.confidenceNo}.` : "",
-    `Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.`,
-  ].filter(Boolean).join(" ");
+    `A. Avfall og opprinnelse: ${m.matrixType??"Ukjent masse"}; prøve ${m.sampleMarking??"uten merking"}. Opprinnelsesprosessen må vurderes sammen med prosjektopplysningene.`,
+    `B. Analyser: ${s.results.length} rapporterte analyseparametere fra ${m.labName??"ukjent laboratorium"}, rapport ${m.externalReportNo??"uten nummer"}. Registrerte analytiske roller: ${roles||"ukjent"}.`,
+    `C. Relevant totalinnhold: ${detectedTotal.length?`rapporterte påvisninger over LOQ omfatter ${top}`:"ingen sikre påvisninger kan oppsummeres fra rader identifisert som totalinnhold"}. Ikke viste eller utelatte resultater er ikke tolket som under deteksjonsgrensen.`,
+    `D. HP/fare: ${s.isHazardous===null?`ikke bestemt. ${(s.hazardConfidenceFlagsNo??[]).join(" ")||"Tilgjengelig evidens er utilstrekkelig."}`:s.isHazardous?"minst én HP-egenskap er bekreftet utløst; avfallet er farlig avfall.":"strukturert HP-vurdering støtter ikke-farlig konklusjon."}`,
+    `E. ${eal}`,
+    `F. Deponimottak: ${landfillLabel}. ${landfill.reason} Farestatus eller EAL-kode er ikke i seg selv en vurdering av mottakskriterier.`,
+    `G. Manglende opplysninger/gjennomgang: ${[s.isHazardous===null?"HP-status":"",s.eal.resolutionStatus!=="resolved"?"EAL-valg":"",landfill.status!=="resolved"?"deponimottak":""].filter(Boolean).join(", ")||"ingen registrert i disse tre beslutningene"}.`,
+  ].join("\n");
 }
 
 /**
@@ -143,7 +149,7 @@ export function buildDescription(s: BkSource): string {
  */
 export function buildBkFields(s: BkSource): BkField[] {
   const m = s.metadata;
-  const ealDigits = (s.eal.code ?? "").replace(/\D/g, "");
+  const ealDigits = (effectiveEal({decisions:[s.eal],persistedCode:s.eal.code}).code ?? "").replace(/\D/g, "");
 
   const fields: BkField[] = [
     { field: "group1", label: "Skjemaet gjelder: En enkelt leveranse", src: "human", select: "Radio1",
@@ -187,7 +193,7 @@ export function buildBkFields(s: BkSource): BkField[] {
       label: `EAL-kode siffer ${i + 1}`,
       src: "derived" as BkSrc,
       value: ealDigits[i],
-      note: s.eal.code ? undefined : `EAL not assigned: ${s.eal.confidence}`,
+      note: s.eal.selectedCode ? undefined : `EAL not selected: ${s.eal.reason}`,
     })),
     ...[23, 24, 25, 26].map(n => ({
       field: `TextField${n}`, label: "Avfallsstoffnummer NS 9431", src: "human" as BkSrc,
@@ -197,36 +203,32 @@ export function buildBkFields(s: BkSource): BkField[] {
     ...[30, 31, 32, 33, 34].map(n => ({ field: `TextField${n}`, label: "Kommune", src: "human" as BkSrc, note: "administrative code, not analysis data" })),
 
     { field: "Checkbox1", label: "Deponi for ordinært avfall", src: "derived",
-      check: s.isHazardous === null ? false : !s.isHazardous,
-      // Same shared citation as Checkbox2/3 — see the comment on Checkbox3 below for why.
-      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
-      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "deponi-category-basis",
-      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : "CONSERVATIVE: inert cannot be claimed without a leaching test" },
+      check: false,
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
+      legalCitationKey: "deponi-category-basis",
+      note: s.landfillAcceptance?.reason ?? "Landfill acceptance not evaluated" },
     { field: "Checkbox2", label: "Deponi for inert avfall", src: "derived", check: false,
       legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
       legalCitationKey: "deponi-category-basis",
       note: "requires ristetest/kolonnetest results, which a standard total-analysis report lacks" },
-    // Checkbox1/2/3 are mutually exclusive outcomes of ONE classification decision (which
-    // landfill category this waste belongs in), so they share ONE resolved citation
-    // ("deponi-category-basis", § 9-5 + § 9-6) rather than each having its own — the citation
-    // grounds the decision, not any one checkbox's specific state. All three carry it (not just
-    // whichever is checked) so a reviewer can see the same basis regardless of which outcome the
-    // classifier landed on, and dispute the classification itself if they think it landed wrong.
-    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous === true,
-      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
-      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "deponi-category-basis" },
+    // Checkbox1/2/3 are the separate landfill-acceptance decision. They stay unticked until a
+    // real evaluator resolves that decision and carry only the landfill-category legal basis.
+    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: false,
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
+      legalCitationKey: "deponi-category-basis",
+      note: s.landfillAcceptance?.reason ?? "Landfill acceptance not evaluated" },
     { field: "Checkbox4", label: "Avfallstype: Ordinært avfall", src: "derived",
       check: s.isHazardous === null ? false : !s.isHazardous,
-      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
-      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "deponi-category-basis",
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["hp-methodology-basis"] ?? null),
+      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "hp-methodology-basis",
       note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox5", label: "Avfallstype: Inert avfall", src: "derived", check: false },
     { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous === true,
-      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
-      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "deponi-category-basis",
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["hp-methodology-basis"] ?? null),
+      legalCitationKey: s.isHazardous === null ? "hazard-indeterminate-basis" : "hp-methodology-basis",
       note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
-    { field: "Checkbox7", label: "Testpliktig: Nei", src: "derived", check: false },
-    { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
+    { field: "Checkbox7", label: "Testpliktig: Nei", src: "derived", check: false, note: "Testing obligation not evaluated" },
+    { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: false, note: "An analysis report does not by itself establish a testing obligation" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived",
       check: s.hasDetectedHazardousSubstance === false,
       note: s.hasDetectedHazardousSubstance === null ? "GAP: classification could not run — see TextField38" : undefined },
@@ -277,9 +279,7 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "TextField39", label: "Farge (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField40", label: "Lukt (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField41", label: "Må deponiet treffe ekstra forhåndsregler?", src: "derived",
-      value: s.isHazardous === null
-        ? `Ikke bestemt — ${s.hazardConfidenceFlagsNo?.[0] ?? "farestatus kunne ikke fastslås"}`
-        : s.isHazardous ? "Ja — se analyserapport." : "Nei — ingen HP-kategori utløst." },
+      value: `Krever gjennomgang — mottakskriterier og nødvendige forholdsregler er ikke evaluert${s.isHazardous===true?"; HP-vurderingen viser farlig avfall":""}.` },
 
     // 5. Avfall som oppstår jevnlig
     { field: "group6", label: "Oppstår avfallet jevnlig?", src: "human", select: "Radio1",

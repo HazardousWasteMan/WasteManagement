@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const { raw, blocks, originProcess } = body as {
-    raw?: unknown; blocks?: unknown; originProcess?: unknown;
+  const { raw, blocks, originProcess, evidenceContext } = body as {
+    raw?: unknown; blocks?: unknown; originProcess?: unknown; evidenceContext?: {sampleId?: unknown; documentRef?: unknown};
   };
   if (!raw || typeof raw !== "object") {
     return NextResponse.json({ error: "raw extraction data is required" }, { status: 400 });
@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
     raw as Record<string, unknown>,
     blocks as Record<string, DatalabBlock>,
     (originProcess as string | null) ?? null,
-    legalCitations
+    legalCitations,
+    evidenceContext && typeof evidenceContext.sampleId === "string" && typeof evidenceContext.documentRef === "string" ? {sampleId:evidenceContext.sampleId,documentRef:evidenceContext.documentRef} : undefined
   );
   return NextResponse.json({
     fields: result.fields,

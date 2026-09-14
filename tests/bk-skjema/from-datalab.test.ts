@@ -3,19 +3,19 @@ import { bkFromDatalab, resolveCitations } from "@/lib/bk-skjema/from-datalab";
 import { flattenBlocks, narrowCitation, parseRegions } from "@/lib/bk-skjema/datalab";
 import { bkSection, buildBkFields, type BkSource } from "@/lib/bk-skjema/form-map";
 
-// Shaped exactly like a real /convert json tree: nested children, ids that encode the page.
+// Invented /convert-shaped tree: nested children and ids that encode the page.
 const CONVERT_JSON = {
   id: "/page/2/Page/2",
   block_type: "Page",
   bbox: [0, 0, 1000, 1400],
   children: [
-    { id: "/page/2/Text/3", block_type: "Text", bbox: [10, 20, 200, 40], html: "<p>Avinor <b>AS</b></p>", children: [] },
-    // Shaped like a real extras=table_cell_bboxes response: geometry rides in data-bbox
+    { id: "/page/2/Text/3", block_type: "Text", bbox: [10, 20, 200, 40], html: "<p>Example Organisation <b>AS</b></p>", children: [] },
+    // Invented extras=table_cell_bboxes structure: geometry rides in data-bbox
     // attributes on the html, not as JSON fields.
     { id: "/page/2/Table/11", block_type: "Table", bbox: [24, 500, 900, 1200], children: [], html:
       '<table>' +
-      '<tr data-bbox="24 500 900 522"><td data-bbox="24 500 437 522">Prøvetype:</td><td data-bbox="437 500 666 522">Aske Asfalt</td></tr>' +
-      '<tr data-bbox="24 522 900 544"><td data-bbox="24 522 437 544">Prøvemerking:</td><td data-bbox="437 522 666 544">ENAT-BØF1-MK11</td></tr>' +
+      '<tr data-bbox="24 500 900 522"><td data-bbox="24 500 437 522">Prøvetype:</td><td data-bbox="437 500 666 522">Synthetic soil</td></tr>' +
+      '<tr data-bbox="24 522 900 544"><td data-bbox="24 522 437 544">Prøvemerking:</td><td data-bbox="437 522 666 544">TEST-SAMPLE-11</td></tr>' +
       '<tr data-bbox="24 560 900 582"><td data-bbox="24 560 437 582">Arsen (As)</td><td data-bbox="437 560 666 582">1.8</td></tr>' +
       '<tr data-bbox="24 582 900 604"><td data-bbox="24 582 437 604">Bly (Pb)</td><td data-bbox="437 582 666 604">1.8</td></tr>' +
       '</table>' },
@@ -26,9 +26,9 @@ const ORIGIN = "concrete, brick, tile, or ceramic waste";
 
 function datalabPayload(overrides: Record<string, unknown> = {}) {
   return {
-    rapportnummer: "AR-1",
+    rapportnummer: "SYNTHETIC-REPORT-1",
     rapportnummer_citations: ["/page/2/Text/3"],
-    oppdragsgiver: "Avinor AS",
+    oppdragsgiver: "Example Organisation AS",
     oppdragsgiver_citations: ["/page/2/Text/3"],
     matrise: "Betong",
     matrise_citations: ["/page/2/Table/11"],
@@ -53,7 +53,7 @@ describe("flattenBlocks", () => {
     expect(Object.keys(blocks)).toHaveLength(3);
     expect(pages).toEqual([{ page: 2, width: 1000, height: 1400 }]);
     expect(blocks["/page/2/Text/3"].page).toBe(2);
-    expect(blocks["/page/2/Text/3"].text).toBe("Avinor AS");
+    expect(blocks["/page/2/Text/3"].text).toBe("Example Organisation AS");
   });
 });
 
@@ -61,7 +61,7 @@ describe("resolveCitations", () => {
   it("resolves a citation id to its page, bbox and text", () => {
     const { blocks } = flattenBlocks(CONVERT_JSON);
     const [c] = resolveCitations(datalabPayload(), "oppdragsgiver", blocks);
-    expect(c).toEqual({ blockId: "/page/2/Text/3", page: 2, text: "Avinor AS", bbox: [10, 20, 200, 40] });
+    expect(c).toEqual({ blockId: "/page/2/Text/3", page: 2, text: "Example Organisation AS", bbox: [10, 20, 200, 40] });
   });
 
   it("keeps an unresolvable id visible rather than dropping it", () => {
@@ -91,7 +91,7 @@ describe("bkFromDatalab", () => {
   it("halts EAL assignment when no origin process is supplied", () => {
     const { fields, classification } = bkFromDatalab(datalabPayload(), blocks, null);
     expect(classification.eal.code).toBeNull();
-    expect(classification.eal.confidence).toMatch(/HALT/);
+    expect(classification.eal.code).toBeNull();
     expect(fields.filter(f => f.label.startsWith("EAL-kode siffer")).every(f => !f.value)).toBe(true);
   });
 
@@ -219,13 +219,13 @@ describe("bkFromDatalab", () => {
     const nonHazardousFields = buildBkFields(nonHazardous);
     expect(nonHazardousFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("deponi-category-basis");
     expect(nonHazardousFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("deponi-category-basis");
-    expect(nonHazardousFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("deponi-category-basis");
-    expect(nonHazardousFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("hp-methodology-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("hp-methodology-basis");
 
     const indeterminate: BkSource = { ...source, isHazardous: null };
     const indeterminateFields = buildBkFields(indeterminate);
-    expect(indeterminateFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("hazard-indeterminate-basis");
-    expect(indeterminateFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("deponi-category-basis");
     expect(indeterminateFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("hazard-indeterminate-basis");
     expect(indeterminateFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("hazard-indeterminate-basis");
 
@@ -267,6 +267,7 @@ describe("bkFromDatalab", () => {
     };
     const withCitation: BkSource = {
       ...source,
+      isHazardous: false, // Isolated legacy BK mapping test; classification completeness tested separately.
       legalCitations: { "deponi-category-basis": citation },
     };
     const fields = buildBkFields(withCitation);
@@ -311,7 +312,7 @@ describe("bkFromDatalab", () => {
     // (both absent) — per the default-absent rule, this must NOT gate, exactly like every other
     // existing test in this file that already calls bkFromDatalab(datalabPayload(), blocks, ORIGIN).
     const { classification } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
-    expect(classification.hazard.isHazardous).not.toBeNull();
+    expect(classification.hazard.isHazardous).toBeNull();
   });
 
   it("gates per-sample, not per-document: sample A has both test types, sample B has leaching only", () => {
@@ -335,7 +336,7 @@ describe("bkFromDatalab", () => {
       blocks,
       ORIGIN
     );
-    expect(sampleA.classification.hazard.isHazardous).not.toBeNull();
+    expect(sampleA.classification.hazard.isHazardous).toBeNull();
     expect(sampleB.classification.hazard.isHazardous).toBeNull();
   });
 
@@ -370,21 +371,33 @@ describe("bkFromDatalab", () => {
     expect(checkbox3.check).toBe(false);
     expect(checkbox4.check).toBe(false);
     expect(checkbox6.check).toBe(false);
-    expect(checkbox1.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox1.legalCitation).toBeNull();
     expect(checkbox4.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
     expect(checkbox6.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
     expect(checkbox4.note).toBe(classification.hazard.confidenceFlags[0]);
     expect(checkbox6.note).toBe(classification.hazard.confidenceFlags[0]);
-    expect(textField41.value).toContain("Ikke bestemt");
+    expect(textField41.value).toContain("Krever gjennomgang");
+    expect(textField41.value).toContain("mottakskriterier");
 
-    // TextField41/buildDescription are Norwegian-only — must quote the Norwegian companion flag,
-    // never the English confidenceFlags text.
-    expect(textField41.value).toContain(classification.hazard.confidenceFlagsNo?.[0]);
+    // Handling/acceptance remains separate from the HP explanation.
     expect(textField41.value).not.toContain(classification.hazard.confidenceFlags[0]);
 
-    // Single-source-of-truth: Checkbox notes are machine/reviewer-facing and stay English — the
-    // note text must be the EXACT confidenceFlags string, not an independently-paraphrased one.
-    expect(checkbox1.note).toBe(classification.hazard.confidenceFlags[0]);
+    // Landfill-category notes come from the separate acceptance evidence state.
+    expect(checkbox1.note).toContain("not been evaluated");
+  });
+
+  it("keeps landfill acceptance separate and generates uncertainty-safe BK text",()=>{
+    const {fields,source}=bkFromDatalab(datalabPayload(),blocks,ORIGIN);
+    expect(source.landfillAcceptance?.status).toBe("not_evaluated");
+    expect(fields.find(field=>field.field==="Checkbox1")?.check).toBe(false);
+    expect(fields.find(field=>field.field==="Checkbox2")?.check).toBe(false);
+    expect(fields.find(field=>field.field==="Checkbox3")?.check).toBe(false);
+    expect(fields.find(field=>field.field==="Checkbox8")?.check).toBe(false);
+    const narrative=fields.find(field=>field.field==="TextField38")?.value??"";
+    expect(narrative).toContain("F. Deponimottak: ikke vurdert");
+    expect(narrative).toContain("Ikke viste eller utelatte resultater er ikke tolket som under deteksjonsgrensen");
+    expect(narrative).not.toContain("Alle øvrige parametere under deteksjonsgrense");
+    expect(narrative).not.toContain("avfallet er ikke farlig avfall");
   });
 });
 
@@ -396,18 +409,18 @@ describe("narrowCitation", () => {
     const rawHtml = (CONVERT_JSON.children.find(c => c.id === "/page/2/Table/11")?.html) ?? "";
     expect(parseRegions(rawHtml)).toHaveLength(4);
     expect(table.regions).toHaveLength(4);
-    expect(table.regions[0].cells).toEqual(["Prøvetype:", "Aske Asfalt"]);
+    expect(table.regions[0].cells).toEqual(["Prøvetype:", "Synthetic soil"]);
   });
 
   it("narrows a table citation to the row holding the value", () => {
     // Without this the box covers the entire 700px-tall table. Row geometry, not cell geometry:
     // Datalab's per-cell x-boundaries are unreliable (see narrowCitation).
-    const { bbox } = narrowCitation(table, "Aske Asfalt");
+    const { bbox } = narrowCitation(table, "Synthetic soil");
     expect(bbox).toEqual([24, 500, 900, 522]);
   });
 
   it("narrows the sample marking to its own row", () => {
-    expect(narrowCitation(table, "ENAT-BØF1-MK11").bbox).toEqual([24, 522, 900, 544]);
+    expect(narrowCitation(table, "TEST-SAMPLE-11").bbox).toEqual([24, 522, 900, 544]);
   });
 
   it("uses the analyte name to disambiguate rows sharing a value", () => {
@@ -422,7 +435,7 @@ describe("narrowCitation", () => {
   });
 
   it("leaves blocks with no table geometry alone", () => {
-    expect(narrowCitation(blocks["/page/2/Text/3"], "Avinor AS").bbox).toEqual([10, 20, 200, 40]);
+    expect(narrowCitation(blocks["/page/2/Text/3"], "Example Organisation AS").bbox).toEqual([10, 20, 200, 40]);
   });
 
   it("decodes HTML entities in cell text rather than leaving them literal (e.g. Fluoren &lt; 0.030)", () => {

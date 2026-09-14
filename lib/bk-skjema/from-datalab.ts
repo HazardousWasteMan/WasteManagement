@@ -4,7 +4,7 @@ import { narrowCitation, type DatalabBlock } from "./datalab";
 import type { BkCitation, BkField, BkResultRow, BkSource } from "./form-map";
 import type { LegalCitationView } from "../compliance/citation-view";
 import { buildBkFields } from "./form-map";
-import { classifySample } from "../hp-classification/classify-sample";
+import { classifySample, type ClassificationTrace } from "../hp-classification/classify-sample";
 import { ORIGIN_OPTIONS } from "../hp-classification/origin-options";
 import type { AnalyteReference, SampleMetadata, SampleResult } from "../hp-classification/types";
 import type { ElementCompoundForm } from "../hp-classification/speciate";
@@ -22,7 +22,8 @@ export function resolveCitations(
   container: Record<string, unknown>,
   field: string,
   blocks: Record<string, DatalabBlock>,
-  match: string | null = null
+  match: string | null = null,
+  documentRef?: string,
 ): BkCitation[] {
   const raw = container[`${field}_citations`];
   if (!Array.isArray(raw)) return [];
@@ -30,9 +31,9 @@ export function resolveCitations(
     .filter((id): id is string => typeof id === "string")
     .map(id => {
       const b = blocks[id];
-      if (!b) return { blockId: id, page: null, text: null, bbox: null };
+      if (!b) return { blockId: id, page: null, text: null, bbox: null, documentRef };
       const narrowed = narrowCitation(b, match);
-      return { blockId: id, page: b.page, text: narrowed.text, bbox: narrowed.bbox };
+      return { blockId: id, page: b.page, text: narrowed.text, bbox: narrowed.bbox, documentRef };
     });
 }
 
@@ -44,6 +45,7 @@ const bool = (v: unknown): boolean | null => (typeof v === "boolean" ? v : null)
 const isDryBasis = (unit: string): boolean => /\b(ts|t[øo]rrstoff|dw)\b/i.test(unit);
 
 export interface DataLabBkResult {
+  normalizationTrace?: ClassificationTrace;
   fields: BkField[];
   source: BkSource;
   classification: ReturnType<typeof classifySample>;
@@ -65,7 +67,8 @@ export function bkFromDatalab(
   data: Record<string, unknown>,
   blocks: Record<string, DatalabBlock>,
   originProcess: string | null,
-  legalCitations?: Record<string, LegalCitationView | null>
+  legalCitations?: Record<string, LegalCitationView | null>,
+  evidenceContext?: { documentRef: string; sampleId: string; originSharedAcrossSamples?: boolean },
 ): DataLabBkResult {
   const analyteRef = analyteReferenceRaw as AnalyteReference[];
   const knownIds = new Set(analyteRef.map(a => a.analyteId));
@@ -75,8 +78,8 @@ export function bkFromDatalab(
 
   const rows: BkResultRow[] = rawRows.map((r, i) => {
     const row = (r ?? {}) as Record<string, unknown>;
-    const name = str(row.parameter) ?? `rad ${i + 1}`;
-    const unit = str(row.enhet) ?? "";
+    const name = typeof row.parameter === "string" ? row.parameter : `rad ${i + 1}`;
+    const unit = typeof row.enhet === "string" ? row.enhet : "";
     const belowLoq = row.under_loq === true;
     const loq = num(row.loq);
     // Datalab reports a below-LOQ result by putting the LOQ itself in `verdi`, so the measured
@@ -95,7 +98,7 @@ export function bkFromDatalab(
       unitRaw: unit,
       // Narrow on the analyte name, not the value: a bare "1.8" occurs in many cells, while the
       // parameter name identifies exactly one row.
-      citations: resolveCitations(row, "verdi", blocks, name),
+      citations: resolveCitations(row, "verdi", blocks, name, evidenceContext?.documentRef),
     };
   });
 
@@ -105,7 +108,7 @@ export function bkFromDatalab(
     /pulver|powder|polvere/.test(physical) ? "powder" : "solid";
 
   const metadata: SampleMetadata = {
-    sampleId: "data-lab-1",
+    sampleId: evidenceContext?.sampleId ?? `${str(data.rapportnummer) ?? "unresolved-report"}/${str(data.provenummer) ?? str(data.provemerking) ?? "unresolved-sample"}`,
     externalReportNo: str(data.rapportnummer) ?? "",
     labName: str(data.laboratorium) ?? "",
     customerName: str(data.oppdragsgiver) ?? "",
@@ -135,19 +138,31 @@ export function bkFromDatalab(
     loqValue: r.loqValue,
     unitRaw: r.unitRaw,
     expressedOnDryBasis: isDryBasis(r.unitRaw),
-    method: null,
+    rawValueText: typeof (rawRows[i] as Record<string, unknown>)?.raw_value_text === "string" ? (rawRows[i] as Record<string, unknown>).raw_value_text as string : null,
+    analyticalContext: str((rawRows[i] as Record<string, unknown>)?.analytical_context),
+    concentrationBasis: ["dry", "as_received", "liquid_volume", "unknown"].includes(String((rawRows[i] as Record<string, unknown>)?.concentration_basis)) ? (rawRows[i] as Record<string, unknown>).concentration_basis as SampleResult["concentrationBasis"] : undefined,
+    method: str((rawRows[i] as Record<string, unknown>)?.method),
+    source: (r.citations?.length ? r.citations : [{blockId: null, page: null, bbox: null}]).map(c => ({ reference: c.blockId ?? `${metadata.sampleId}/r${i+1}`, documentRef: evidenceContext?.documentRef, page: c.page, region: c.bbox, blockId: c.blockId })),
   }));
 
+  let normalizationTrace: ClassificationTrace | undefined;
   const classification = classifySample(
     metadata,
     sampleResults,
     [], // Datalab's schema carries no HP1-3 physical test results; those stay "not tested"
     analyteRef,
     compoundFormsRaw as ElementCompoundForm[],
-    Object.fromEntries(ORIGIN_OPTIONS.map(o => [o.value, o.chapter]))
+    Object.fromEntries(ORIGIN_OPTIONS.map(o => [o.value, o.chapter])),
+    trace => { normalizationTrace = trace; }
   );
+  if(evidenceContext?.originSharedAcrossSamples) classification.eal.originEvidence.push({value:originProcess,source:"origin_process",reason:"The origin/process value was supplied once for the document bundle and is not sample-specific evidence."});
 
-  const citationsFor = (field: string, match: string | null = null) => resolveCitations(data, field, blocks, match);
+  const classifiedRows = rows.map((row, index) => ({
+    ...row,
+    analyticalRole: classification.measurementBoundary.measurements[index]?.analyticalRole ?? "unknown" as const,
+  }));
+
+  const citationsFor = (field: string, match: string | null = null) => resolveCitations(data, field, blocks, match, evidenceContext?.documentRef);
   const source: BkSource = {
     metadata: {
       externalReportNo: metadata.externalReportNo,
@@ -169,12 +184,13 @@ export function bkFromDatalab(
       tocPct: num(data.toc_prosent),
       glodetapPct: num(data.glodetap_prosent),
     },
-    results: rows,
+    results: classifiedRows,
     isHazardous: classification.hazard.isHazardous,
     hasDetectedHazardousSubstance: classification.hazard.hasDetectedHazardousSubstance ?? null,
     hazardConfidenceFlags: classification.hazard.confidenceFlags,
     hazardConfidenceFlagsNo: classification.hazard.confidenceFlagsNo,
     eal: classification.eal,
+    landfillAcceptance: classification.landfillAcceptance,
     citations: {
       externalReportNo: citationsFor("rapportnummer", metadata.externalReportNo),
       labName: citationsFor("laboratorium", metadata.labName),
@@ -209,5 +225,5 @@ export function bkFromDatalab(
     }
   }
 
-  return { fields, source, classification, unmatchedAnalytes, blocks };
+  return { fields, source, classification, unmatchedAnalytes, blocks, normalizationTrace };
 }

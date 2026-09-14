@@ -1,296 +1,165 @@
 import hpThresholds from "../data/hp-thresholds.json";
 import type { SampleMetadata } from "./types";
-
+import { aggregateHp, HP_CODES, HP_RULE_VERSION, normalizeHStatement, type AggregateHazard, type HpCode, type HpIssue, type HpOutcome, type LegacyHpOutcome, type RuleCalculation } from "./hp-outcome";
 export interface NormalizedResultWithClp {
-  substanceName: string;
-  resultPct: number;
-  hStatement: string;
-  hazardClass: string;
-  mFactorAcute: number | null;
-  mFactorChronic: number | null;
+  measurementId?: string; inputId?: string; substanceName: string; resultPct: number;
+  hStatement: string; hazardClass: string; mFactorAcute: number | null; mFactorChronic: number | null;
+  censoring?: "<" | "<=" | "non-detect" | "detected" | "missing";
+  /** Alternative forms of ONE measurement are mutually exclusive, never simultaneous mass. */
+  alternativeGroup?: string; scenarioId?: string; assumedSpecies?: boolean;
 }
-
 export interface TestResult {
   testName: "flammability" | "skin_corrosion" | "skin_irritation";
-  result: string;
-  isPositive: boolean; // true if the test result indicates the hazard IS present
+  result: string; isPositive: boolean;
 }
-
-type HpOutcome = boolean | "not tested — assumed not applicable" | "requires case-specific assessment — not automatable from lab data alone" | "superseded by HP8";
-
+/** Historical snapshots remain readable; new calculations return CurrentHazardClassification. */
 export interface HazardClassification {
-  resultsByHp: Record<string, HpOutcome>;
-  // Real substance names that contributed to an HP being triggered (true), keyed by HP code.
-  // Only present for HPs whose true outcome derives from substance-level result data (HP4, HP5,
-  // HP6, HP7, HP8, HP10, HP11, HP13, HP14) — omitted entirely when an HP wasn't triggered, was
-  // determined by a lab test rather than substance data, or is one of the case-specific/
-  // not-automatable HPs (HP1-3, HP9, HP12, HP15), since there's nothing real to attribute.
-  triggeringSubstancesByHp: Record<string, string[]>;
-  /** null means "cannot be determined from the data available" — never a guessed true/false. */
-  isHazardous: boolean | null;
-  triggeredHps: string[];
-  /** Internal/machine-facing flags — kept in English, matching this file's other note/log text. */
-  confidenceFlags: string[];
-  /** Same flags, in Norwegian — for Norwegian-only document text (BK-skjema TextField41,
-   * buildDescription's "Merk:" sentence), which must never mix languages. NOT index-aligned with
-   * confidenceFlags in general — classifyHazard's own internal flags (e.g. the HP6
-   * no-threshold-row note) never populate this array, since those only ever accompany a real
-   * true/false isHazardous. Only the leaching-only gate in classify-sample.ts populates both
-   * arrays together today. Any future producer of isHazardous: null must populate both. */
-  confidenceFlagsNo?: string[];
-  /** Whether any detected result mapped to a real CLP hazard classification (elementSymbol,
-   * hStatement, or hStatements on its AnalyteReference entry) above LOQ — a narrower question
-   * than isHazardous (which asks whether the whole waste crosses an HP1-15 threshold). Optional
-   * because classifyHazard's own return statements never set this — classify-sample.ts computes
-   * and attaches it afterward, since classifyHazard's signature/logic must stay untouched. null
-   * means the classification never ran at all (the sample was gated before this could be
-   * determined) — never a guessed true/false. */
-  hasDetectedHazardousSubstance?: boolean | null;
+  resultsByHp: Record<string, HpOutcome | LegacyHpOutcome>;
+  aggregate?: AggregateHazard; outcomeVersion?: string;
+  triggeringSubstancesByHp: Record<string,string[]>;
+  isHazardous: boolean | null; triggeredHps: string[]; confidenceFlags: string[];
+  confidenceFlagsNo?: string[]; hasDetectedHazardousSubstance?: boolean | null;
 }
-
-function sumForHStatement(results: NormalizedResultWithClp[], hStatement: string): number {
-  return results.filter(r => r.hStatement === hStatement).reduce((sum, r) => sum + r.resultPct, 0);
+export interface CurrentHazardClassification extends HazardClassification {
+  resultsByHp: Record<HpCode,HpOutcome>; aggregate: AggregateHazard; outcomeVersion: string;
 }
-
-function thresholdFor(hpCode: string, hStatement: string, hazardClass?: string): number | null {
-  const row = hazardClass
-    ? hpThresholds.find(t => t.hpCode === hpCode && t.hStatement === hStatement && t.hazardClass === hazardClass)
-    : hpThresholds.find(t => t.hpCode === hpCode && t.hStatement === hStatement);
-  return row?.concentrationLimitPct ?? null;
-}
-
-export function classifyHazard(
-  results: NormalizedResultWithClp[],
-  metadata: SampleMetadata,
-  testResults: TestResult[]
-): HazardClassification {
-  const resultsByHp: Record<string, HpOutcome> = {};
-  const triggeringSubstancesByHp: Record<string, string[]> = {};
-  const confidenceFlags: string[] = [];
-
-  // Records the real, de-duplicated substance names that contributed to `hp` being triggered.
-  // No-op when `substances` is empty — an HP with no contributing substances (test-based,
-  // untriggered, or case-specific) gets no key at all, never an empty array.
-  function setTriggering(hp: string, substances: NormalizedResultWithClp[]) {
-    if (substances.length === 0) return;
-    triggeringSubstancesByHp[hp] = Array.from(new Set(substances.map(r => r.substanceName)));
+export type HpEvidenceContext = { issues?: HpIssue[] };
+type Input = NormalizedResultWithClp & { code: string; id: string; measurement: string };
+export function classifyHazard(results: NormalizedResultWithClp[], metadata: SampleMetadata, tests: TestResult[], context: HpEvidenceContext = {}): CurrentHazardClassification {
+  const issues: HpIssue[] = [...context.issues ?? []];
+  const inputs: Input[]=[];
+  const seen=new Set<string>();
+  results.forEach((r,index)=>{
+    const measurement=r.measurementId ?? `input-${index+1}`;
+    const code=normalizeHStatement(r.hStatement);
+    if(!code || !Number.isFinite(r.resultPct) || r.resultPct<0 || r.censoring==="missing") {
+      issues.push({code:"invalid_hp_input",measurementIds:[measurement],reason:"Invalid concentration, censoring or H-statement"});return;
+    }
+    const id=r.inputId ?? `${measurement}/${r.scenarioId ?? r.substanceName}/${code}`;
+    const key=JSON.stringify([measurement,r.scenarioId,r.substanceName,code,r.hazardClass]);
+    if(seen.has(key))return;seen.add(key);
+    inputs.push({...r,code,id,measurement});
+  });
+  const outcomes={} as Record<HpCode,HpOutcome>;
+  const outcome=(hp:HpCode):HpOutcome=>outcomes[hp]??=( {hp,status:"not_assessable",coverage:"screening_only",reason:"No sufficient property evidence",measurementIds:[],inputIds:[],ruleVersion:HP_RULE_VERSION,calculations:[],issues:[],conservativeAssumption:false} );
+  for(const hp of HP_CODES)outcome(hp);
+  const uncertain=(r:Input)=>r.assumedSpecies===true || r.alternativeGroup!==undefined || (r.censoring!==undefined && r.censoring!=="detected");
+  // For each equation, sum contributions within each alternative, then take at most ONE
+  // alternative per elemental measurement. The lower bound contains confirmed inputs only.
+  function evaluate(hp:HpCode, rule:string, formula:string, threshold:number, coefficients:Record<string,number>, cutoffs:Record<string,number>={}, individual=false, filter:(r:Input)=>boolean=()=>true) {
+    const relevant=inputs.filter(r=>coefficients[r.code]!==undefined&&filter(r));
+    function bound(lower:boolean) {
+      const groups=new Map<string,Map<string,{value:number;inclusive:boolean}>>();
+      const used:Input[]=[];
+      for(const r of relevant) {
+        const c=lower&&uncertain(r)?0:r.resultPct;
+        if(c<(cutoffs[r.code]??0)||c===0||(!lower&&r.censoring==="<"&&c===(cutoffs[r.code]??0)))continue;
+        const value=c*coefficients[r.code];used.push(r);
+        const group=r.alternativeGroup ?? r.measurement;
+        const scenario=r.scenarioId ?? "reported";
+        const variants=groups.get(group)??new Map<string,{value:number;inclusive:boolean}>();
+        const prior=variants.get(scenario)??{value:0,inclusive:true};
+        const inclusive=lower||r.censoring!=="<";
+        variants.set(scenario,individual ? (value>prior.value?{value,inclusive}:value===prior.value?{value,inclusive:inclusive||prior.inclusive}:prior) : {value:prior.value+value,inclusive:prior.inclusive&&inclusive});groups.set(group,variants);
+      }
+      const scenarios: {measurementGroup:string;scenarioId:string;contribution:number}[]=[];
+      const values=[...groups.entries()].map(([measurementGroup,g])=>{
+        const max=Math.max(...[...g.values()].map(v=>v.value));
+        const selected=[...g.entries()].find(([,v])=>v.value===max&&v.inclusive)??[...g.entries()].find(([,v])=>v.value===max)!;
+        scenarios.push({measurementGroup,scenarioId:selected[0],contribution:max});
+        return {value:max,inclusive:[...g.values()].some(v=>v.value===max&&v.inclusive)};
+      });
+      const value=individual?Math.max(0,...values.map(v=>v.value)):values.reduce((a,b)=>a+b.value,0);
+      return {value,inclusive:individual?values.some(v=>v.value===value&&v.inclusive):values.every(v=>v.inclusive),used,scenarios};
+    }
+    const lower=bound(true),upper=bound(false),o=outcome(hp);
+    const calculation:RuleCalculation={rule,formula,thresholdPct:threshold,lower:lower.value,upper:upper.value,upperInclusive:upper.inclusive,scenarios:upper.scenarios,cutoffPct:cutoffs,inputIds:upper.used.map(r=>r.id)};
+    o.calculations.push(calculation);
+    o.inputIds=[...new Set([...o.inputIds,...upper.used.map(r=>r.id)])];
+    o.measurementIds=[...new Set([...o.measurementIds,...upper.used.map(r=>r.measurement)])];
+    if(relevant.some(uncertain))o.conservativeAssumption=true;
+    if(lower.value>=threshold){o.status="triggered";o.coverage="property_assessed";o.reason=`Confirmed concentration meets ${rule}`;}
+    else if((upper.value>threshold||(upper.value===threshold&&upper.inclusive))&&o.status!=="triggered") {
+      o.status="requires_manual_assessment";o.reason="Only the conservative upper bound reaches a legal threshold";
+      o.issues.push({code:"upper_bound_crossing",measurementIds:upper.used.filter(uncertain).map(r=>r.measurement),reason:`${rule}: censoring or alternative species can change the conclusion`});
+    }else if(o.status==="not_assessable") {o.status="not_triggered";o.reason="No threshold reached by eligible inputs; this is not a complete waste assessment";}
   }
-
-  // HP1-HP3: test-only, never substance-attributable
-  for (const hp of ["HP1", "HP2", "HP3"]) {
-    const testName = hp === "HP3" ? "flammability" : null;
-    const test = testName ? testResults.find(t => t.testName === testName) : undefined;
-    resultsByHp[hp] = test ? test.isPositive : "not tested — assumed not applicable";
+  const individual=(hp:HpCode,h:string,t:number)=>evaluate(hp,`${hp}:${h}`,`individual c(${h}) >= ${t}%`,t,{[h]:1},{},true);
+  evaluate("HP8","HP8:H314","sum H314 >= 5%",5,{H314:1},{H314:1});
+  evaluate("HP4","HP4:SkinCorr1A","sum Skin Corr. 1A H314 >= 1%",1,{H314:1},{H314:1},false,r=>/^Skin\s*Corr\.?\s*1A$/i.test(r.hazardClass.trim()));
+  evaluate("HP4","HP4:H318","sum H318 >= 10%",10,{H318:1},{H318:1});
+  evaluate("HP4","HP4:H315+H319","sum H315 + sum H319 >= 20%",20,{H315:1,H319:1},{H315:1,H319:1});
+  if(inputs.some(r=>r.code==="H314"&&!/^Skin\s*Corr\.?\s*1[ABC]$/i.test(r.hazardClass.trim()))) {
+    outcome("HP4").issues.push({code:"unknown_h314_subclass",measurementIds:inputs.filter(r=>r.code==="H314").map(r=>r.measurement),reason:"HP4 requires an established Skin Corr. 1A subclass"});
   }
-
-  // HP4/HP8: test overrides calculation; HP8 supersedes HP4 on the corrosive overlap
-  const corrosionTest = testResults.find(t => t.testName === "skin_corrosion");
-  const irritationTest = testResults.find(t => t.testName === "skin_irritation");
-  const h314Substances = results.filter(r => r.hStatement === "H314");
-
-  let hp8Triggered: boolean;
-  if (corrosionTest) {
-    hp8Triggered = corrosionTest.isPositive; // test-based — no substance attribution
-  } else {
-    const h314Sum = sumForHStatement(results, "H314");
-    const h314Threshold = thresholdFor("HP8", "H314") ?? 5;
-    hp8Triggered = h314Sum >= h314Threshold;
-    if (hp8Triggered) setTriggering("HP8", h314Substances);
+  for(const [h,t] of [["H335",20],["H370",1],["H371",10],["H372",1],["H373",10]] as const)individual("HP5",h,t);
+  if(metadata.physicalState==="liquid"&&metadata.viscosity40cMm2s!==null&&Number.isFinite(metadata.viscosity40cMm2s)&&metadata.viscosity40cMm2s>=0&&metadata.viscosity40cMm2s<=20.5)evaluate("HP5","HP5:H304","sum H304 >= 10%, viscosity <= 20.5 mm2/s",10,{H304:1});
+  else if(inputs.some(r=>r.code==="H304")&&metadata.physicalState==="liquid"&&(metadata.viscosity40cMm2s===null||!Number.isFinite(metadata.viscosity40cMm2s)||metadata.viscosity40cMm2s<0))outcome("HP5").issues.push({code:"missing_viscosity",measurementIds:inputs.filter(r=>r.code==="H304").map(r=>r.measurement),reason:"Liquid aspiration assessment needs viscosity"});
+  for(const t of hpThresholds.filter(t=>t.hpCode==="HP6")) {
+    if(!t.hStatement||t.concentrationLimitPct===null)continue;
+    const cutoff=/Acute Tox\. [123] /.test(t.hazardClass??"")?0.1:1;
+    evaluate("HP6",`HP6:${t.hazardClass}`,`sum ${t.hazardClass} >= ${t.concentrationLimitPct}%`,t.concentrationLimitPct,{[t.hStatement]:1},{[t.hStatement]:cutoff},false,r=>r.hazardClass===t.hazardClass);
   }
-  resultsByHp.HP8 = hp8Triggered;
-
-  if (hp8Triggered) {
-    resultsByHp.HP4 = "superseded by HP8";
-  } else if (irritationTest) {
-    resultsByHp.HP4 = irritationTest.isPositive; // test-based — no substance attribution
-  } else {
-    const h314Sum = sumForHStatement(results, "H314");
-    const h314Threshold = thresholdFor("HP4", "H314") ?? 1;
-    const h315Substances = results.filter(r => r.hStatement === "H315");
-    const h319Substances = results.filter(r => r.hStatement === "H319");
-    const h315h319Sum = sumForHStatement(results, "H315") + sumForHStatement(results, "H319");
-    const h315h319Threshold = thresholdFor("HP4", "H315") ?? 20;
-    const h318Substances = results.filter(r => r.hStatement === "H318");
-    const h318Sum = sumForHStatement(results, "H318");
-    const h318Threshold = thresholdFor("HP4", "H318") ?? 10;
-    resultsByHp.HP4 = h314Sum >= h314Threshold || h315h319Sum >= h315h319Threshold || h318Sum >= h318Threshold;
-    if (resultsByHp.HP4 === true) {
-      const contributing: NormalizedResultWithClp[] = [];
-      if (h314Sum >= h314Threshold) contributing.push(...h314Substances);
-      if (h315h319Sum >= h315h319Threshold) contributing.push(...h315Substances, ...h319Substances);
-      if (h318Sum >= h318Threshold) contributing.push(...h318Substances);
-      setTriggering("HP4", contributing);
+  for(const r of inputs.filter(r=>/^H3(?:0[012]|1[012]|3[012])$/.test(r.code)))if(!hpThresholds.some(t=>t.hpCode==="HP6"&&t.hStatement===r.code&&t.hazardClass===r.hazardClass))outcome("HP6").issues.push({code:"unknown_acute_category",measurementIds:[r.measurement],reason:"No established HP6 category/route threshold"});
+  individual("HP7","H350",0.1);individual("HP7","H351",1);
+  individual("HP10","H360",0.3);individual("HP10","H361",3);
+  individual("HP11","H340",0.1);individual("HP11","H341",1);
+  individual("HP13","H317",10);individual("HP13","H334",10);
+  individual("HP14","H420",0.1);
+  evaluate("HP14","2017/997:acute","sum H400 >= 25%",25,{H400:1},{H400:0.1});
+  evaluate("HP14","2017/997:weighted-chronic","100 sum H410 + 10 sum H411 + sum H412 >= 25%",25,{H410:100,H411:10,H412:1},{H410:0.1,H411:1,H412:1});
+  evaluate("HP14","2017/997:chronic","sum H410 + H411 + H412 + H413 >= 25%",25,{H410:1,H411:1,H412:1,H413:1},{H410:0.1,H411:1,H412:1,H413:1});
+  // Existing test schema does not establish full HP3 (flash point, pyrophoric, water-reactive,
+  // etc.) or accredited scope. A positive is useful evidence; a negative covers only its test.
+  for(const [hp,name] of [["HP3","flammability"],["HP8","skin_corrosion"],["HP4","skin_irritation"]] as const) {
+    const matching=tests.filter(t=>t.testName===name&&typeof t.isPositive==="boolean");
+    if(matching.some(t=>t.isPositive)) {const o=outcome(hp);o.status="triggered";o.coverage="property_assessed";o.reason=`Positive reported ${name} test`;o.inputIds.push(`test:${name}`);}
+    else if(matching.length) {
+      const o=outcome(hp);
+      if(o.status==="triggered") {o.status="requires_manual_assessment";o.coverage="screening_only";o.reason="Negative test conflicts with the calculation; test scope needs verification";}
+      o.issues.push({code:"test_scope_unverified",measurementIds:[],reason:`Negative ${name} does not establish complete property/test applicability`});
     }
   }
-
-  // HP5: Asp. Tox 1 carve-out + independent no-sum checks
-  const asp1Applicable = metadata.physicalState === "liquid" && (metadata.viscosity40cMm2s ?? Infinity) <= 20.5;
-  const h304Substances = results.filter(r => r.hStatement === "H304");
-  const h304Sum = sumForHStatement(results, "H304");
-  const h304Threshold = thresholdFor("HP5", "H304") ?? 10;
-  const hp5AspTriggered = asp1Applicable && h304Sum >= h304Threshold;
-
-  function hp5SubstancesFor(hStatement: string, defaultThreshold: number): NormalizedResultWithClp[] {
-    const threshold = thresholdFor("HP5", hStatement) ?? defaultThreshold;
-    return results.filter(r => r.hStatement === hStatement && r.resultPct >= threshold);
+  for(const hp of ["HP1","HP2","HP3","HP9","HP12","HP15"] as const) {
+    const o=outcome(hp);if(o.status==="triggered")continue;
+    o.status=["HP9","HP12","HP15"].includes(hp)?"requires_manual_assessment":"not_assessable";
+    const indicatorCodes: Partial<Record<HpCode,string[]>> = {
+      HP1:["H200","H201","H202","H203","H204","H240","H241"],
+      HP2:["H270","H271","H272"],
+      HP3:["H220","H221","H222","H223","H224","H225","H226","H228","H242","H250","H251","H252","H260","H261"],
+    };
+    const indicators=inputs.filter(r=>indicatorCodes[hp]?.includes(r.code));
+    if(indicators.length) {o.status="requires_manual_assessment";o.measurementIds=indicators.map(r=>r.measurement);o.inputIds=indicators.map(r=>r.id);o.conservativeAssumption=indicators.some(uncertain);}
+    o.reason="Requires scoped test, process/context or qualified assessment evidence";
+    o.issues.push({code:"property_evidence_required",measurementIds:o.measurementIds,reason:o.reason});
   }
-  const hp5H335 = hp5SubstancesFor("H335", 20);
-  const hp5H370 = hp5SubstancesFor("H370", 1);
-  const hp5H371 = hp5SubstancesFor("H371", 10);
-  const hp5H372 = hp5SubstancesFor("H372", 1);
-  const hp5H373 = hp5SubstancesFor("H373", 10);
-  resultsByHp.HP5 =
-    hp5AspTriggered ||
-    hp5H335.length > 0 ||
-    hp5H370.length > 0 ||
-    hp5H371.length > 0 ||
-    hp5H372.length > 0 ||
-    hp5H373.length > 0;
-  if (resultsByHp.HP5) {
-    const contributing: NormalizedResultWithClp[] = [];
-    if (hp5AspTriggered) contributing.push(...h304Substances);
-    contributing.push(...hp5H335, ...hp5H370, ...hp5H371, ...hp5H372, ...hp5H373);
-    setTriggering("HP5", contributing);
-  }
-
-  // HP6: sum within category — the "category" is the specific hazard class (e.g. "Acute Tox. 2 (Oral)"),
-  // not the H-statement alone, since multiple hazard classes can share one H-statement (H300 covers both
-  // Acute Tox. 1 and Acute Tox. 2, at different thresholds).
-  const hp6HStatements = new Set(hpThresholds.filter(t => t.hpCode === "HP6").map(t => t.hStatement));
-  for (const r of results) {
-    if (
-      hp6HStatements.has(r.hStatement) &&
-      !hpThresholds.some(t => t.hpCode === "HP6" && t.hStatement === r.hStatement && t.hazardClass === r.hazardClass)
-    ) {
-      confidenceFlags.push(
-        `HP6: substance '${r.substanceName}' with hStatement ${r.hStatement}/hazardClass '${r.hazardClass}' has no matching threshold row — excluded from HP6 evaluation`
-      );
+  // Norwegian Annex 2: confirmed EUH029/031/032 presence invokes HP12 unless tests
+  // establish absence of the hazardous property. HP15 codes require the form exception
+  // to be evidenced; no blanket "not applicable" inference is made here.
+  for(const [hp,codes] of [["HP12",["EUH029","EUH031","EUH032"]],["HP15",["H205","EUH001","EUH019","EUH044"]]] as const) {
+    const relevant=inputs.filter(r=>(codes as readonly string[]).includes(r.code)&&r.resultPct>0);
+    if(relevant.length) {
+      const o=outcome(hp);o.inputIds=relevant.map(r=>r.id);o.measurementIds=relevant.map(r=>r.measurement);o.conservativeAssumption=relevant.some(uncertain);
+      if(relevant.some(r=>!uncertain(r))) {o.status="triggered";o.coverage="property_assessed";o.reason="Confirmed substance presence invokes Annex 2; no evidenced exception supplied";o.issues=[];}
+      else {o.status="requires_manual_assessment";o.reason="Hazard indication depends on censored concentration or assumed species";}
     }
   }
-  const hp6Categories = new Set(
-    results
-      .filter(r => hpThresholds.some(t => t.hpCode === "HP6" && t.hStatement === r.hStatement && t.hazardClass === r.hazardClass))
-      .map(r => `${r.hStatement}::${r.hazardClass}`)
-  );
-  const hp6TriggeringCategories = Array.from(hp6Categories).filter(key => {
-    const [hStatement, hazardClass] = key.split("::");
-    const sum = results
-      .filter(r => r.hStatement === hStatement && r.hazardClass === hazardClass)
-      .reduce((s, r) => s + r.resultPct, 0);
-    const threshold = thresholdFor("HP6", hStatement, hazardClass);
-    return threshold !== null && sum >= threshold;
-  });
-  resultsByHp.HP6 = hp6TriggeringCategories.length > 0;
-  if (resultsByHp.HP6) {
-    const contributing: NormalizedResultWithClp[] = [];
-    for (const key of hp6TriggeringCategories) {
-      const [hStatement, hazardClass] = key.split("::");
-      contributing.push(...results.filter(r => r.hStatement === hStatement && r.hazardClass === hazardClass));
+  for(const hp of HP_CODES) {
+    const o=outcome(hp);
+    if(o.status==="not_triggered"&&(o.issues.length||issues.length||inputs.length===0)) {o.status="not_assessable";o.reason="Evidence gaps prevent a negative conclusion";}
+    if(inputs.some(r=>r.assumedSpecies)&&o.status==="not_triggered") {
+      o.status="not_assessable";o.issues.push({code:"species_set_unverified",measurementIds:inputs.filter(r=>r.assumedSpecies).map(r=>r.measurement),reason:"Enumerated forms are screening alternatives, not a proven exhaustive composition"});
     }
-    setTriggering("HP6", contributing);
   }
-
-  // HP7: individual substance, never summed
-  const hp7Substances = results.filter(r => {
-    if (r.hStatement !== "H350" && r.hStatement !== "H351") return false;
-    const threshold = thresholdFor("HP7", r.hStatement);
-    return threshold !== null && r.resultPct >= threshold;
-  });
-  resultsByHp.HP7 = hp7Substances.length > 0;
-  setTriggering("HP7", hp7Substances);
-
-  // HP9: case-specific
-  resultsByHp.HP9 = "requires case-specific assessment — not automatable from lab data alone";
-
-  // HP10: sum (H360 and H361 are separate sums)
-  const h360Substances = results.filter(r => r.hStatement === "H360");
-  const h360Sum = sumForHStatement(results, "H360");
-  const h360Threshold = thresholdFor("HP10", "H360") ?? 0.3;
-  const h361Substances = results.filter(r => r.hStatement === "H361");
-  const h361Sum = sumForHStatement(results, "H361");
-  const h361Threshold = thresholdFor("HP10", "H361") ?? 3;
-  resultsByHp.HP10 = h360Sum >= h360Threshold || h361Sum >= h361Threshold;
-  if (resultsByHp.HP10) {
-    const contributing: NormalizedResultWithClp[] = [];
-    if (h360Sum >= h360Threshold) contributing.push(...h360Substances);
-    if (h361Sum >= h361Threshold) contributing.push(...h361Substances);
-    setTriggering("HP10", contributing);
+  if(outcome("HP8").status==="triggered")Object.assign(outcome("HP4"),{status:"not_applicable",coverage:"property_assessed",reason:"HP4 is superseded by confirmed HP8",supersededBy:"HP8",issues:[]});
+  const aggregate=aggregateHp(outcomes,issues);
+  const triggeredHps=HP_CODES.filter(hp=>outcomes[hp].status==="triggered");
+  const triggeringSubstancesByHp:Record<string,string[]>={};
+  for(const hp of triggeredHps) {
+    const ids=outcomes[hp].calculations.filter(c=>c.lower>=c.thresholdPct).flatMap(c=>c.inputIds);
+    const names=[...new Set(inputs.filter(r=>ids.includes(r.id)&&!uncertain(r)).map(r=>r.substanceName))];
+    if(names.length)triggeringSubstancesByHp[hp]=names;
   }
-
-  // HP11: individual substance, never summed
-  const hp11Substances = results.filter(r => {
-    if (r.hStatement !== "H340" && r.hStatement !== "H341") return false;
-    const threshold = thresholdFor("HP11", r.hStatement);
-    return threshold !== null && r.resultPct >= threshold;
-  });
-  resultsByHp.HP11 = hp11Substances.length > 0;
-  setTriggering("HP11", hp11Substances);
-
-  // HP12: case-specific
-  resultsByHp.HP12 = "requires case-specific assessment — not automatable from lab data alone";
-
-  // HP13: no-sum, independent per substance
-  const hp13Substances = results.filter(r => {
-    if (r.hStatement !== "H317" && r.hStatement !== "H334") return false;
-    const threshold = thresholdFor("HP13", r.hStatement);
-    return threshold !== null && r.resultPct >= threshold;
-  });
-  resultsByHp.HP13 = hp13Substances.length > 0;
-  setTriggering("HP13", hp13Substances);
-
-  // HP14: M-factor-weighted cascade (Aquatic Acute 1 -> Chronic 1 -> Chronic 2 -> Chronic 3 -> Chronic 4),
-  // evaluated top-to-bottom, stopping at the first threshold met. A substance with no registered
-  // M-factor defaults to M-factor 1 (the CLP baseline for a non-specially-potent substance), never excluded.
-  function mWeightedSum(hStatement: string, mFactorKey: "mFactorAcute" | "mFactorChronic"): number {
-    return results
-      .filter(r => r.hStatement === hStatement)
-      .reduce((sum, r) => sum + r.resultPct * (r[mFactorKey] ?? 1), 0);
-  }
-
-  const acute1Substances = results.filter(r => r.hStatement === "H400");
-  const chronic1Substances = results.filter(r => r.hStatement === "H410");
-  const chronic2Substances = results.filter(r => r.hStatement === "H411");
-  const chronic3Substances = results.filter(r => r.hStatement === "H412");
-  const chronic4Substances = results.filter(r => r.hStatement === "H413");
-
-  const acute1Sum = mWeightedSum("H400", "mFactorAcute");
-  const chronic1Sum = mWeightedSum("H410", "mFactorChronic");
-  const chronic1RawSum = sumForHStatement(results, "H410");
-  const chronic2RawSum = sumForHStatement(results, "H411");
-  const chronic3RawSum = sumForHStatement(results, "H412");
-  const chronic4RawSum = sumForHStatement(results, "H413");
-
-  if (acute1Sum >= 25) {
-    resultsByHp.HP14 = true;
-    setTriggering("HP14", acute1Substances);
-  } else if (chronic1Sum >= 25) {
-    resultsByHp.HP14 = true;
-    setTriggering("HP14", chronic1Substances);
-  } else if (0.1 * chronic1Sum + chronic2RawSum >= 25) {
-    resultsByHp.HP14 = true;
-    setTriggering("HP14", [...chronic1Substances, ...chronic2Substances]);
-  } else if (0.01 * chronic1Sum + 0.1 * chronic2RawSum + chronic3RawSum >= 25) {
-    resultsByHp.HP14 = true;
-    setTriggering("HP14", [...chronic1Substances, ...chronic2Substances, ...chronic3Substances]);
-  } else if (chronic1RawSum + chronic2RawSum + chronic3RawSum + chronic4RawSum >= 25) {
-    resultsByHp.HP14 = true;
-    setTriggering("HP14", [...chronic1Substances, ...chronic2Substances, ...chronic3Substances, ...chronic4Substances]);
-  } else {
-    resultsByHp.HP14 = false;
-  }
-
-  // HP15: case-specific
-  resultsByHp.HP15 = "requires case-specific assessment — not automatable from lab data alone";
-
-  const triggeredHps = Object.entries(resultsByHp)
-    .filter(([, v]) => v === true)
-    .map(([hp]) => hp);
-
-  return {
-    resultsByHp,
-    triggeringSubstancesByHp,
-    isHazardous: triggeredHps.length > 0,
-    triggeredHps,
-    confidenceFlags,
-  };
+  return {resultsByHp:outcomes,aggregate,outcomeVersion:HP_RULE_VERSION,triggeringSubstancesByHp,isHazardous:aggregate.status==="hazardous"?true:aggregate.status==="non_hazardous"?false:null,triggeredHps,
+    confidenceFlags:aggregate.issues.map(i=>`${i.code}: ${i.reason}`),confidenceFlagsNo:aggregate.status==="indeterminate"?["HP-vurderingen er ufullstendig eller usikker. Farlig avfall kan ikke utelukkes."]:[]};
 }

@@ -91,10 +91,10 @@ describe("mergeExtractionResults", () => {
 
   it("merges metadata field-by-field, first non-null value wins", () => {
     const fragmentA = baseResult({ metadata: { customerName: "Real Customer AS", labName: undefined } });
-    const fragmentB = baseResult({ metadata: { customerName: undefined, labName: "Eurofins" } });
+    const fragmentB = baseResult({ metadata: { customerName: undefined, labName: "ExampleLab" } });
     const merged = mergeExtractionResults([fragmentA, fragmentB]);
     expect(merged.metadata.customerName).toBe("Real Customer AS");
-    expect(merged.metadata.labName).toBe("Eurofins");
+    expect(merged.metadata.labName).toBe("ExampleLab");
   });
 
   it("de-duplicates testResults and unmatchedAnalytes the same way", () => {

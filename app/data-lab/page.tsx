@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { sourceHighlights } from "@/lib/bk-skjema/evidence";
 import { DocumentPane, type Highlight } from "@/components/data-lab/DocumentPane";
 import { FieldsPane } from "@/components/data-lab/FieldsPane";
 import { FormPane, isFilled } from "@/components/data-lab/FormPane";
@@ -129,12 +130,7 @@ export default function DataLabPage() {
     return () => { cancelled = true; };
   }, [sample, fields, editKey, filledForms]);
 
-  const highlights: Highlight[] = useMemo(() => {
-    if (!selected?.citations) return [];
-    return selected.citations
-      .filter(c => c.bbox && c.page !== null)
-      .map(c => ({ page: c.page!, bbox: c.bbox!, blockId: c.blockId }));
-  }, [selected]);
+  const highlights: Highlight[] = useMemo(() => sourceHighlights(selected), [selected]);
 
   // Only the pages belonging to the test on screen, so the right pane is that sub-report.
   const visiblePages = useMemo(() => {
@@ -233,7 +229,7 @@ export default function DataLabPage() {
         const res = await fetch("/api/data-lab/reclassify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ raw: s.raw, blocks: bundle.blocks, originProcess: nextOrigin || null }),
+          body: JSON.stringify({ raw: s.raw, blocks: bundle.blocks, originProcess: nextOrigin || null, evidenceContext: { sampleId: s.classification.measurementBoundary?.measurements[0]?.sampleId, documentRef: s.classification.measurementBoundary?.measurements[0]?.source[0]?.documentRef } }),
         });
         if (!res.ok) return s;
         const json = await res.json();

@@ -31,6 +31,7 @@ export function LegalCitationBadge({
   const [reason, setReason] = useState("");
   const [raisedBy, setRaisedBy] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [justDisputed, setJustDisputed] = useState(false);
 
   const disputed = citation.citations.some(c => c.disputed) || justDisputed;
@@ -39,10 +40,13 @@ export function LegalCitationBadge({
   async function submit() {
     if (!canSubmitDispute(reason, raisedBy)) return;
     setSubmitting(true);
+    setError("");
     try {
       await onDispute(reason.trim(), raisedBy.trim());
       setJustDisputed(true);
       setOpen(false);
+    } catch {
+      setError("The dispute could not be saved. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -87,6 +91,7 @@ export function LegalCitationBadge({
         </button>
       )}
 
+      {error && <p role="alert" className="text-red-800">{error}</p>}
       {open && (
         <div className="flex flex-col gap-1 rounded-lg border border-forest/15 bg-white/60 p-2">
           <input

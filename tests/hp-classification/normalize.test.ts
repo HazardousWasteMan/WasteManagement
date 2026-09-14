@@ -3,6 +3,7 @@ import { normalizeSample } from "@/lib/hp-classification/normalize";
 import type { SampleMetadata, SampleResult, AnalyteReference } from "@/lib/hp-classification/types";
 
 const baseMetadata: SampleMetadata = {
+  totalinnholdUtfort: true,
   sampleId: "test-1",
   externalReportNo: "TEST-1",
   labName: "TestLab",
@@ -48,7 +49,7 @@ describe("normalizeSample", () => {
     ];
     const normalized = normalizeSample(baseMetadata, results, analyteRef);
     expect(normalized).toEqual([
-      { analyteId: "arsenic", resultDryBasisPct: 5.17, isBelowLoq: false, confidenceFlags: [] },
+      expect.objectContaining({ analyteId: "arsenic", resultDryBasisPct: 5.17, isBelowLoq: false, confidenceFlags: [] }),
     ]);
   });
 
@@ -86,10 +87,8 @@ describe("normalizeSample", () => {
     expect(normalized).toEqual([]);
   });
 
-  it("strips the dry-basis marker real labs write into the unit (mg/kg TS)", () => {
-    // Regression: live extraction of the Eurofins concrete report emits "mg/kg TS", which used
-    // to fall through to the unrecognized-unit path and be read as a percentage — 1.8 mg/kg
-    // arsenic became 1.8%, tripping 8 HP categories on a clean sample.
+  it("strips the supported dry-basis marker from mg/kg TS", () => {
+    // Synthetic regression: a supported concentration must not fall through to percent.
     const out = normalizeSample(baseMetadata, [{
       resultId: "r1", sampleId: "s1", analyteId: "arsenic", rawAnalyteName: "Arsen (As)",
       resultValue: 1.8, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS",

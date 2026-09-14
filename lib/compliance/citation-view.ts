@@ -1,6 +1,8 @@
 import type { LegalParagraph } from "@/lib/compliance/types";
 
 export interface SingleCitation {
+  /** Copy captured when resolved, never reloaded from the mutable cache at finalization. */
+  paragraphSnapshot?: LegalParagraph;
   paragraphId: string;
   label: string;
   sourceLink: string;
@@ -31,6 +33,7 @@ function buildSingleCitation(paragraph: LegalParagraph, primary: boolean, disput
     ? `${docLabel} kap. ${paragraph.article} Vedlegg ${paragraph.paragraph.slice("vedlegg-".length)}`
     : `${docLabel} § ${paragraph.article}-${paragraph.paragraph}`;
   return {
+    paragraphSnapshot: structuredClone(paragraph),
     paragraphId: paragraph.id,
     label,
     sourceLink: paragraph.sourceLink,

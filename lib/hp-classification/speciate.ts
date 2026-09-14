@@ -9,6 +9,9 @@ export interface ElementCompoundForm {
 }
 
 export interface CompoundResult {
+  /** Candidate conversions are mutually exclusive, not measured species. */
+  assumption: "alternative_species";
+  scenarioId: string;
   compoundName: string;
   casNumber: string | null;
   resultPct: number;
@@ -25,10 +28,11 @@ export function speciateElement(
     .map(f => {
       if (f.molecularWeightCompound === null || f.atomsOfElement === null || f.atomicWeightElement === null) {
         // generic residual category — no compound-form conversion, use raw element %
-        return { compoundName: f.compoundName, casNumber: f.casNumber, resultPct: elementPct, clpClassifications: f.clpClassifications };
+        return { assumption: "alternative_species", scenarioId: f.compoundName, compoundName: f.compoundName, casNumber: f.casNumber, resultPct: elementPct, clpClassifications: f.clpClassifications };
       }
       const elementMassFraction = (f.atomsOfElement * f.atomicWeightElement) / f.molecularWeightCompound;
       return {
+        assumption: "alternative_species", scenarioId: f.compoundName,
         compoundName: f.compoundName,
         casNumber: f.casNumber,
         resultPct: elementPct / elementMassFraction,

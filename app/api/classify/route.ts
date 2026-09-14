@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object" || Array.isArray(body)) return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   const { metadata, results, testResults, customChapter } = body as {
     metadata?: SampleMetadata;
     results?: SampleResult[];
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
   try {
     const effectiveLookup = withCustomOrigin(ORIGIN_TO_CHAPTER_LOOKUP, metadata.originProcess, customChapter ?? null);
 
-    const { hazard, eal, noDataWarning } = classifySample(
+    const { hazard, eal, noDataWarning, measurementBoundary } = classifySample(
       metadata,
       results,
       testResults ?? [],
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       effectiveLookup
     );
 
-    return NextResponse.json({ hazard, eal, noDataWarning });
+    return NextResponse.json({ hazard, eal, noDataWarning, measurementBoundary });
   } catch {
     return NextResponse.json({ error: "Classification failed due to an internal error" }, { status: 500 });
   }
