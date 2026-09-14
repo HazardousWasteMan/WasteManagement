@@ -7,7 +7,7 @@ type HpOutcome = boolean | "not tested — assumed not applicable" | "requires c
 interface HazardClassification {
   resultsByHp: Record<string, HpOutcome>;
   triggeringSubstancesByHp: Record<string, string[]>;
-  isHazardous: boolean;
+  isHazardous: boolean | null;
   triggeredHps: string[];
   confidenceFlags: string[];
 }
@@ -52,7 +52,7 @@ export function ClassificationResultsStep({ hazard, eal, noDataWarning, onContin
 
       <StatCard label="Confidence" value={eal.confidence} valueClassName="text-sm break-words" />
 
-      <StatCard label="Hazardous waste" value={hazard.isHazardous ? "Yes" : "No"} />
+      <StatCard label="Hazardous waste" value={hazard.isHazardous === null ? "Indeterminate" : hazard.isHazardous ? "Yes" : "No"} />
 
       <Card>
         <Card.Content className="flex flex-col gap-2 py-4">

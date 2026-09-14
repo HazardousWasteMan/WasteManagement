@@ -1,6 +1,7 @@
 # ponytail: unrs-resolver's postinstall only speeds up eslint-import resolution;
 # denied so CI installs don't fail on undecided build scripts. Flip to true if lint slows.
 allowBuilds:
+  esbuild: false
   unrs-resolver: false
 # Flat npm-style node_modules; Vercel's function packager fails on the
 # symlinked .pnpm layout when tracing externalized packages.

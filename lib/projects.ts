@@ -9,7 +9,9 @@ export interface Project {
 export interface WasteEntry {
   id: string;
   sampleLabel: string;
-  isHazardous: boolean;
+  /** null means "could not be determined" (e.g. leaching-test-only data) — a real, committed
+   * state, not a placeholder to resolve before saving. */
+  isHazardous: boolean | null;
   ealCode: string | null;
   avfallsstoffnr: string | null; // Norwegian waste code; drives depot matching on the map
   summary: string;

@@ -8,7 +8,8 @@
     "build": "node scripts/copy-pdf-worker.mjs && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "seed:lovdata": "tsx scripts/seed-lovdata.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
@@ -16,6 +17,7 @@
     "@heroui/styles": "^3.2.4",
     "@napi-rs/canvas": "0.1.80",
     "@react-pdf/renderer": "^4.6.0",
+    "@supabase/supabase-js": "^2.114.0",
     "@types/leaflet": "^1.9.22",
     "framer-motion": "^13.1.0",
     "leaflet": "^1.9.4",
@@ -35,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5",
     "vitest": "^4.1.10"
   }

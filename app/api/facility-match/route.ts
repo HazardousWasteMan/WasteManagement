@@ -10,13 +10,13 @@ export async function POST(request: NextRequest) {
   }
 
   const { isHazardous, ealCode, matrixType } = body as {
-    isHazardous?: boolean;
+    isHazardous?: boolean | null;
     ealCode?: string;
     matrixType?: string | null;
   };
 
-  if (typeof isHazardous !== "boolean") {
-    return NextResponse.json({ error: "isHazardous must be a boolean" }, { status: 400 });
+  if (typeof isHazardous !== "boolean" && isHazardous !== null) {
+    return NextResponse.json({ error: "isHazardous must be a boolean or null" }, { status: 400 });
   }
   if (typeof ealCode !== "string" || ealCode.trim() === "") {
     return NextResponse.json({ error: "ealCode is required" }, { status: 400 });

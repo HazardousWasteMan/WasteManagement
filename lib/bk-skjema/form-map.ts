@@ -7,6 +7,7 @@
 // Deliberately independent of any one extraction backend: callers normalize whatever their
 // provider returns into BkSource, so the Anthropic pipeline and Datalab both feed the same code.
 import type { EalAssignment } from "../hp-classification/eal";
+import type { LegalCitationView } from "../compliance/citation-view";
 
 /** Where a field's value comes from — the whole point of the coverage exercise. */
 export type BkSrc =
@@ -42,6 +43,8 @@ export interface BkField {
   citations?: BkCitation[];
   /** Provider confidence, 1-5, when the provider reports one. */
   score?: number | null;
+  /** A live-verified legal citation grounding this field, when one has been resolved. */
+  legalCitation?: LegalCitationView | null;
 }
 
 export interface BkResultRow {
@@ -80,12 +83,21 @@ export interface BkSource {
     glodetapPct?: number | null;
   };
   results: BkResultRow[];
-  isHazardous: boolean;
+  isHazardous: boolean | null;
+  /** Set only when isHazardous is null — the single-source explanation every indeterminate-state
+   * note below must quote verbatim, never independently paraphrase. English — machine/reviewer-
+   * facing (e.g. Checkbox1/3's note). */
+  hazardConfidenceFlags?: string[];
+  /** Same as hazardConfidenceFlags, in Norwegian — for Norwegian-only document text (TextField41,
+   * buildDescription). Never substitute hazardConfidenceFlags into those two fields. */
+  hazardConfidenceFlagsNo?: string[];
   eal: EalAssignment;
   /** Per-metadata-key citations, keyed by the metadata field name above. */
   citations?: Record<string, BkCitation[]>;
   /** Per-metadata-key confidence scores, keyed the same way. */
   scores?: Record<string, number | null>;
+  /** Per-field resolved legal citations, keyed by a stable field identifier (e.g. "eal-legal-basis"). */
+  legalCitations?: Record<string, LegalCitationView | null>;
 }
 
 const cite = (s: BkSource, key: string): Pick<BkField, "citations" | "score"> => ({
@@ -108,9 +120,11 @@ export function buildDescription(s: BkSource): string {
     detected.length > 0 ? `Påviste verdier over LOQ: ${top}.` : `Ingen parametere påvist over LOQ.`,
     `Alle øvrige parametere under deteksjonsgrense.`,
     `Vurdert mot HP1-HP15 (avfallsforskriften kap. 11 / forordning 1357/2014):`,
-    s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
-    s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidence}.`,
-    s.eal.code ? `Merk: ${s.eal.confidence}.` : "",
+    s.isHazardous === null
+      ? `HP-vurdering ikke mulig: ${s.hazardConfidenceFlagsNo?.[0] ?? "kun utlekkingstest-data foreligger"}.`
+      : s.isHazardous ? `avfallet er farlig avfall.` : `ingen HP-kategori utløst, avfallet er ikke farlig avfall.`,
+    s.eal.code ? `Tildelt EAL-kode ${s.eal.code}.` : `EAL-kode ikke tildelt: ${s.eal.confidenceNo}.`,
+    s.eal.code ? `Merk: ${s.eal.confidenceNo}.` : "",
     `Sammenstilte analyseresultater og analyserapport fra laboratoriet vedlegges.`,
   ].filter(Boolean).join(" ");
 }
@@ -174,19 +188,44 @@ export function buildBkFields(s: BkSource): BkField[] {
     ...[27, 28, 29].map(n => ({ field: `TextField${n}`, label: "Næring", src: "human" as BkSrc, note: "administrative code, not analysis data" })),
     ...[30, 31, 32, 33, 34].map(n => ({ field: `TextField${n}`, label: "Kommune", src: "human" as BkSrc, note: "administrative code, not analysis data" })),
 
-    { field: "Checkbox1", label: "Deponi for ordinært avfall", src: "derived", check: !s.isHazardous,
-      note: "CONSERVATIVE: inert cannot be claimed without a leaching test" },
+    { field: "Checkbox1", label: "Deponi for ordinært avfall", src: "derived",
+      check: s.isHazardous === null ? false : !s.isHazardous,
+      // Same shared citation as Checkbox2/3 — see the comment on Checkbox3 below for why.
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : "CONSERVATIVE: inert cannot be claimed without a leaching test" },
     { field: "Checkbox2", label: "Deponi for inert avfall", src: "derived", check: false,
+      legalCitation: s.legalCitations?.["deponi-category-basis"] ?? null,
       note: "requires ristetest/kolonnetest results, which a standard total-analysis report lacks" },
-    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous },
-    { field: "Checkbox4", label: "Avfallstype: Ordinært avfall", src: "derived", check: !s.isHazardous },
+    // Checkbox1/2/3 are mutually exclusive outcomes of ONE classification decision (which
+    // landfill category this waste belongs in), so they share ONE resolved citation
+    // ("deponi-category-basis", § 9-5 + § 9-6) rather than each having its own — the citation
+    // grounds the decision, not any one checkbox's specific state. All three carry it (not just
+    // whichever is checked) so a reviewer can see the same basis regardless of which outcome the
+    // classifier landed on, and dispute the classification itself if they think it landed wrong.
+    { field: "Checkbox3", label: "Deponi for farlig avfall", src: "derived", check: s.isHazardous === true,
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null) },
+    { field: "Checkbox4", label: "Avfallstype: Ordinært avfall", src: "derived",
+      check: s.isHazardous === null ? false : !s.isHazardous,
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox5", label: "Avfallstype: Inert avfall", src: "derived", check: false },
-    { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous },
+    { field: "Checkbox6", label: "Avfallstype: Farlig avfall", src: "derived", check: s.isHazardous === true,
+      legalCitation: s.isHazardous === null ? (s.legalCitations?.["hazard-indeterminate-basis"] ?? null) : (s.legalCitations?.["deponi-category-basis"] ?? null),
+      note: s.isHazardous === null ? s.hazardConfidenceFlags?.[0] : undefined },
     { field: "Checkbox7", label: "Testpliktig: Nei", src: "derived", check: false },
     { field: "Checkbox8", label: "Testpliktig: Ja", src: "derived", check: true, note: "chemical analysis exists and is attached" },
     { field: "Checkbox9", label: "Innhold av farlige stoffer: Nei", src: "derived", check: false },
     { field: "Checkbox10", label: "Innhold av farlige stoffer: Ja", src: "derived", check: true,
-      note: "hazardous substances detected above LOQ, though all below HP thresholds" },
+      // Compliance trust model: legalCitation is resolved server-side and passed in via
+      // s.legalCitations["eal-legal-basis"]. LegalCitationView now carries a `citations` array
+      // so multi-paragraph fields (e.g. Checkbox1/2/3) can share the same shape — Checkbox10 is
+      // a one-element case. The note stays truthful either way: it names the real primary
+      // citation when one was resolved this time, and falls back to the plain classification
+      // note when it wasn't — never claims a citation that isn't attached.
+      legalCitation: s.legalCitations?.["eal-legal-basis"] ?? null,
+      note: s.legalCitations?.["eal-legal-basis"]?.citations[0]
+        ? `hazardous substances detected above LOQ, though all below HP thresholds. Rettslig grunnlag: ${s.legalCitations["eal-legal-basis"]!.citations[0].label}.`
+        : "hazardous substances detected above LOQ, though all below HP thresholds" },
     { field: "TextField35", label: "TOC %", src: m.tocPct != null ? "extracted" : "human",
       value: m.tocPct != null ? String(m.tocPct) : undefined, ...cite(s, "tocPct"),
       note: m.tocPct != null ? undefined : "GAP: TOC not measured, but required for deponi for ordinært avfall" },
@@ -197,7 +236,8 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "group3", label: "Kolonnetest", src: "derived", select: "Radio1", note: "Nei — no column test in the document" },
     { field: "TextField37", label: "Tilstandsklasse 1-5 (gravemasser/jord/sediment)", src: "n/a",
       note: `only applies to soil/sediment; matrix here is ${m.matrixType ?? "unknown"}` },
-    { field: "TextField38", label: "Beskriv avfallet og hvordan det oppstår", src: "derived", value: buildDescription(s) },
+    { field: "TextField38", label: "Beskriv avfallet og hvordan det oppstår", src: "derived", value: buildDescription(s),
+      legalCitation: s.legalCitations?.["hp-methodology-basis"] ?? null },
 
     // 4. Avfallets egenskaper
     ...[11, 12, 13, 14, 15, 16, 17, 18].map(n => ({
@@ -219,7 +259,9 @@ export function buildBkFields(s: BkSource): BkField[] {
     { field: "TextField39", label: "Farge (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField40", label: "Lukt (beskriv)", src: "human", note: "GAP: visual observation, not in a lab report" },
     { field: "TextField41", label: "Må deponiet treffe ekstra forhåndsregler?", src: "derived",
-      value: s.isHazardous ? "Ja — se analyserapport." : "Nei — ingen HP-kategori utløst." },
+      value: s.isHazardous === null
+        ? `Ikke bestemt — ${s.hazardConfidenceFlagsNo?.[0] ?? "farestatus kunne ikke fastslås"}`
+        : s.isHazardous ? "Ja — se analyserapport." : "Nei — ingen HP-kategori utløst." },
 
     // 5. Avfall som oppstår jevnlig
     { field: "group6", label: "Oppstår avfallet jevnlig?", src: "human", select: "Radio1",

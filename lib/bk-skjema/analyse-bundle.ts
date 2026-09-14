@@ -8,6 +8,7 @@ import { bkFromDatalab } from "./from-datalab";
 import { detectSubReports, type SubReport } from "./segment";
 import type { BkField, BkResultRow, BkSource } from "./form-map";
 import type { classifySample } from "../hp-classification/classify-sample";
+import type { LegalCitationView } from "../compliance/citation-view";
 
 /** Datalab tolerates concurrent jobs; their own reference script uses four workers. */
 const MAX_CONCURRENT_EXTRACTS = 4;
@@ -63,10 +64,18 @@ export function citedBlocks(
 export async function analyseBundle(
   pdf: Buffer,
   filename: string,
-  opts: { originProcess?: string | null; pageRange?: string; onEvent?: (e: BundleEvent) => void } = {}
+  opts: {
+    originProcess?: string | null;
+    pageRange?: string;
+    onEvent?: (e: BundleEvent) => void;
+    /** Per-field resolved legal citations, resolved once by the caller before this runs and
+     *  threaded into every sub-report's bkFromDatalab call — same citation for every sample. */
+    legalCitations?: Record<string, LegalCitationView | null>;
+  } = {}
 ): Promise<BundleAnalysis> {
   const emit = opts.onEvent ?? (() => {});
   const originProcess = opts.originProcess ?? null;
+  const legalCitations = opts.legalCitations;
 
   emit({ phase: "converting" });
   const converted = await convertDocument(pdf, filename, { pageRange: opts.pageRange });
@@ -102,7 +111,7 @@ export async function analyseBundle(
           converted.checkpointId ? { checkpointId: converted.checkpointId } : { pdf, filename },
           { pageRange: subReport.pageRange }
         );
-        const result = bkFromDatalab(extracted.data, converted.blocks, originProcess);
+        const result = bkFromDatalab(extracted.data, converted.blocks, originProcess, legalCitations);
         const sample: AnalysedSample = {
           subReport,
           fields: result.fields,

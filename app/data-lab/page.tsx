@@ -248,6 +248,35 @@ export default function DataLabPage() {
     }
   }
 
+  async function handleDispute(field: BkField, reason: string, raisedBy: string) {
+    if (!field.legalCitation) return;
+    const primary = field.legalCitation.citations.find(c => c.primary) ?? field.legalCitation.citations[0];
+    if (!primary) return;
+    let res: Response;
+    try {
+      res = await fetch("/api/compliance/disputes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paragraphId: primary.paragraphId,
+          freezeId: null, // this call site disputes at fill time, before any freeze exists
+          raisedBy,
+          reason,
+        }),
+      });
+    } catch {
+      const message = "Could not reach the compliance service. Check your connection and try again.";
+      setError(message);
+      throw new Error(message);
+    }
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      const message = json.error ?? `The request failed (${res.status}).`;
+      setError(message);
+      throw new Error(message);
+    }
+  }
+
   function downloadFilledForm() {
     if (!filledPdf || !sample) return;
     const url = URL.createObjectURL(filledPdf);
@@ -361,7 +390,7 @@ export default function DataLabPage() {
               ["Classified", String(coverage.classified)],
               ["Still blank", String(coverage.stillBlank)],
               ["EAL", sample.classification.eal.code ?? "not assigned"],
-              ["Hazardous", sample.classification.hazard.isHazardous ? "yes" : "no"],
+              ["Hazardous", sample.classification.hazard.isHazardous === null ? "indeterminate" : sample.classification.hazard.isHazardous ? "yes" : "no"],
               ["Datalab cost", `${(bundle.costCents / 100).toFixed(2)} USD`],
             ].map(([label, value]) => (
               <div key={label} className="flex items-baseline gap-2">
@@ -434,6 +463,7 @@ export default function DataLabPage() {
                 onSelect={setSelected}
                 onlyFilled={onlyFilled}
                 onEdit={applyEdit}
+                onDispute={handleDispute}
               />
             </div>
           </details>

@@ -2,6 +2,7 @@
 // classification engine's inputs, and (c) the 103 BK-skjema fields.
 import { narrowCitation, type DatalabBlock } from "./datalab";
 import type { BkCitation, BkField, BkResultRow, BkSource } from "./form-map";
+import type { LegalCitationView } from "../compliance/citation-view";
 import { buildBkFields } from "./form-map";
 import { classifySample } from "../hp-classification/classify-sample";
 import { ORIGIN_OPTIONS } from "../hp-classification/origin-options";
@@ -37,6 +38,7 @@ export function resolveCitations(
 
 const num = (v: unknown): number | null => (typeof v === "number" && Number.isFinite(v) ? v : null);
 const str = (v: unknown): string | null => (typeof v === "string" && v.trim() ? v.trim() : null);
+const bool = (v: unknown): boolean | null => (typeof v === "boolean" ? v : null);
 
 /** "mg/kg TS", "% TS", "µg/kg tørrstoff" all mean the value is already on a dry-matter basis. */
 const isDryBasis = (unit: string): boolean => /\b(ts|t[øo]rrstoff|dw)\b/i.test(unit);
@@ -54,11 +56,16 @@ export interface DataLabBkResult {
 /**
  * @param originProcess The one field no lab report contains. Without it assignEalCode halts, so
  *                      the UI collects it from the user and passes it back through.
+ * @param legalCitations Per-field resolved legal citations (e.g. "eal-legal-basis"), resolved
+ *                        once per request by the caller and threaded through so BkSource carries
+ *                        it before buildBkFields runs — form-map.ts's own branch then produces
+ *                        the citation-grounded note, with no post-hoc field mutation anywhere.
  */
 export function bkFromDatalab(
   data: Record<string, unknown>,
   blocks: Record<string, DatalabBlock>,
-  originProcess: string | null
+  originProcess: string | null,
+  legalCitations?: Record<string, LegalCitationView | null>
 ): DataLabBkResult {
   const analyteRef = analyteReferenceRaw as AnalyteReference[];
   const knownIds = new Set(analyteRef.map(a => a.analyteId));
@@ -112,6 +119,9 @@ export function bkFromDatalab(
     ph: num(data.ph),
     labClassificationGiven: false,
     labStatedEalCode: null,
+    ristetestUtfort: bool(data.ristetest_utfort) ?? undefined,
+    kolonnetestUtfort: bool(data.kolonnetest_utfort) ?? undefined,
+    totalinnholdUtfort: bool(data.totalinnhold_utfort),
   };
 
   const sampleResults: SampleResult[] = rows.map((r, i) => ({
@@ -160,6 +170,8 @@ export function bkFromDatalab(
     },
     results: rows,
     isHazardous: classification.hazard.isHazardous,
+    hazardConfidenceFlags: classification.hazard.confidenceFlags,
+    hazardConfidenceFlagsNo: classification.hazard.confidenceFlagsNo,
     eal: classification.eal,
     citations: {
       externalReportNo: citationsFor("rapportnummer", metadata.externalReportNo),
@@ -180,6 +192,7 @@ export function bkFromDatalab(
       tocPct: citationsFor("toc_prosent", num(data.toc_prosent)?.toString() ?? null),
       glodetapPct: citationsFor("glodetap_prosent", num(data.glodetap_prosent)?.toString() ?? null),
     },
+    legalCitations,
   };
 
   const fields = buildBkFields(source);

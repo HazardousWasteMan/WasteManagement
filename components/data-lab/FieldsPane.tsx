@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { BK_SECTIONS, bkSection, type BkField, type BkSrc } from "@/lib/bk-skjema/form-map";
+import { LegalCitationBadge } from "./LegalCitationBadge";
 
 const SRC_LABEL: Record<BkSrc, string> = {
   extracted: "From the document",
@@ -54,6 +55,7 @@ export function FieldsPane({
   onSelect,
   onlyFilled,
   onEdit,
+  onDispute,
 }: {
   fields: BkField[];
   selected: string | null;
@@ -61,6 +63,8 @@ export function FieldsPane({
   onlyFilled: boolean;
   /** Called when a person fills in or clears a field. */
   onEdit?: (field: BkField, value: string | boolean) => void;
+  /** Called when a person disputes a field's legal citation. */
+  onDispute?: (field: BkField, reason: string, raisedBy: string) => Promise<void>;
 }) {
   return (
     <div className="flex flex-col gap-6">
@@ -143,6 +147,23 @@ export function FieldsPane({
                       <p className={`mt-1 text-[11px] leading-snug ${isSelected ? "text-cream/70" : "text-forest/45"}`}>
                         {f.note}
                       </p>
+                    )}
+
+                    {f.legalCitation && onDispute && (
+                      <LegalCitationBadge
+                        citation={f.legalCitation}
+                        onDispute={(reason, raisedBy) => onDispute(f, reason, raisedBy)}
+                        // Collapse only when this field's citation is genuinely shared with
+                        // another field (same resolved object, e.g. Checkbox1/2/3 all reading
+                        // "deponi-category-basis") AND this one isn't the checked outcome —
+                        // never collapse a citation nothing else shares (e.g. Checkbox10), or
+                        // "same legal basis as..." would be a lie rather than a summary.
+                        variant={
+                          fields.filter(other => other.legalCitation === f.legalCitation).length > 1 && !valueOf(f)
+                            ? "collapsed"
+                            : "full"
+                        }
+                      />
                     )}
 
                     {isSelected && citations.length > 0 && (

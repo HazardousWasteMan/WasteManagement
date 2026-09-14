@@ -14,6 +14,14 @@ export interface SampleMetadata {
   ph: number | null;
   labClassificationGiven: boolean;
   labStatedEalCode: string | null;
+  /** True only if the report contains ristetest (shake test) results. Absent = unknown/false. */
+  ristetestUtfort?: boolean;
+  /** True only if the report contains kolonnetest (column test) results. Absent = unknown/false. */
+  kolonnetestUtfort?: boolean;
+  /** True only if the report contains total-content (bulk) analysis results. Absent/null =
+   * assume present (today's existing behavior) — HP classification is only gated when this is
+   * explicitly false alongside a leaching flag. Never treat "absent" as "confirmed absent." */
+  totalinnholdUtfort?: boolean | null;
 }
 
 export interface SampleResult {

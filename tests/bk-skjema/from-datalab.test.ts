@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { bkFromDatalab, resolveCitations } from "@/lib/bk-skjema/from-datalab";
 import { flattenBlocks, narrowCitation, parseRegions } from "@/lib/bk-skjema/datalab";
-import { bkSection } from "@/lib/bk-skjema/form-map";
+import { bkSection, buildBkFields, type BkSource } from "@/lib/bk-skjema/form-map";
 
 // Shaped exactly like a real /convert json tree: nested children, ids that encode the page.
 const CONVERT_JSON = {
@@ -119,6 +119,197 @@ describe("bkFromDatalab", () => {
       expect(f.citations, `${f.field} has nothing to cite`).not.toHaveLength(0);
     }
   });
+
+  it("Checkbox10's note includes the real legal citation when one is supplied via legalCitations", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const withCitation: BkSource = {
+      ...source,
+      legalCitations: {
+        "eal-legal-basis": {
+          citations: [{
+            paragraphId: "no-avfallsforskriften-11-4",
+            label: "Avfallsforskriften § 11-4",
+            sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-4",
+            verifiedAt: "2026-09-03T19:26:14.030Z",
+            disputed: false,
+            primary: true,
+          }],
+        },
+      },
+    };
+    const fields = buildBkFields(withCitation);
+    const checkbox10 = fields.find(f => f.field === "Checkbox10")!;
+    expect(checkbox10.note).toContain("Avfallsforskriften § 11-4");
+    expect(checkbox10.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-4");
+  });
+
+  it("Checkbox10 has no legalCitation and a plain note when legalCitations is absent", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    const checkbox10 = fields.find(f => f.field === "Checkbox10")!;
+    expect(checkbox10.legalCitation ?? null).toBeNull();
+    expect(checkbox10.note).toContain("hazardous substances detected above LOQ");
+  });
+
+  it("TextField38 carries the hp-methodology-basis legal citation unconditionally, regardless of isHazardous state", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const citation = {
+      citations: [{
+        paragraphId: "no-avfallsforskriften-11-2",
+        label: "Avfallsforskriften § 11-2",
+        sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-2",
+        verifiedAt: "2026-09-06T00:00:00.000Z",
+        disputed: false,
+        primary: true,
+      }],
+    };
+    for (const isHazardousOverride of [true, false, null]) {
+      const withCitation: BkSource = {
+        ...source, isHazardous: isHazardousOverride,
+        legalCitations: { "hp-methodology-basis": citation },
+      };
+      const fields = buildBkFields(withCitation);
+      const textField38 = fields.find(f => f.field === "TextField38")!;
+      expect(textField38.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-11-2");
+    }
+  });
+
+  it("TextField38 has no legalCitation when hp-methodology-basis wasn't resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    const textField38 = fields.find(f => f.field === "TextField38")!;
+    expect(textField38.legalCitation ?? null).toBeNull();
+  });
+
+  it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const citation = {
+      citations: [
+        { paragraphId: "no-avfallsforskriften-9-5", label: "Avfallsforskriften § 9-5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5", verifiedAt: "2026-09-04T00:00:00.000Z", disputed: false, primary: false },
+        { paragraphId: "no-avfallsforskriften-9-6", label: "Avfallsforskriften § 9-6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6", verifiedAt: "2026-09-04T00:00:00.000Z", disputed: false, primary: true },
+      ],
+    };
+    const withCitation: BkSource = {
+      ...source,
+      legalCitations: { "deponi-category-basis": citation },
+    };
+    const fields = buildBkFields(withCitation);
+    const checkbox1 = fields.find(f => f.field === "Checkbox1")!;
+    const checkbox2 = fields.find(f => f.field === "Checkbox2")!;
+    const checkbox3 = fields.find(f => f.field === "Checkbox3")!;
+    expect(checkbox1.legalCitation?.citations).toHaveLength(2);
+    expect(checkbox2.legalCitation?.citations).toHaveLength(2);
+    expect(checkbox3.legalCitation?.citations).toHaveLength(2);
+  });
+
+  it("Checkbox1/2/3 have no legalCitation when deponi-category-basis wasn't resolved", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    const fields = buildBkFields(source);
+    expect(fields.find(f => f.field === "Checkbox1")!.legalCitation ?? null).toBeNull();
+    expect(fields.find(f => f.field === "Checkbox2")!.legalCitation ?? null).toBeNull();
+    expect(fields.find(f => f.field === "Checkbox3")!.legalCitation ?? null).toBeNull();
+  });
+
+  it("gates to isHazardous: null for a leaching-test-only sample (ristetest metals, no total content)", () => {
+    const { classification, source } = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        kolonnetest_utfort: false,
+        totalinnhold_utfort: false,
+        analyseresultater: [
+          { parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" },
+          { parameter: "Kadmium (Cd)", analyte_id: "cadmium-oxide", verdi: 0.189, under_loq: false, loq: 0.05, enhet: "mg/kg TS" },
+        ],
+      }),
+      blocks,
+      ORIGIN
+    );
+    expect(classification.hazard.isHazardous).toBeNull();
+    expect(source.isHazardous).toBeNull();
+    expect(classification.eal.code).toBeNull();
+  });
+
+  it("does not gate a normal total-content report — regression, using this file's default fixture", () => {
+    // datalabPayload() with NO overrides has no ristetest_utfort/totalinnhold_utfort at all
+    // (both absent) — per the default-absent rule, this must NOT gate, exactly like every other
+    // existing test in this file that already calls bkFromDatalab(datalabPayload(), blocks, ORIGIN).
+    const { classification } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+    expect(classification.hazard.isHazardous).not.toBeNull();
+  });
+
+  it("gates per-sample, not per-document: sample A has both test types, sample B has leaching only", () => {
+    const sampleA = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: true,
+        analyseresultater: [{ parameter: "Benzo[a]pyren", analyte_id: "benzo-a-pyrene", verdi: 2.5, under_loq: false, loq: 0.1, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN
+    );
+    const sampleB = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: false,
+        analyseresultater: [{ parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN
+    );
+    expect(sampleA.classification.hazard.isHazardous).not.toBeNull();
+    expect(sampleB.classification.hazard.isHazardous).toBeNull();
+  });
+
+  it("Checkbox1/3/4/6 and TextField41 render an indeterminate state, grounded in § 9-6, when isHazardous is null", () => {
+    const legalCitations = {
+      "hazard-indeterminate-basis": {
+        citations: [{
+          paragraphId: "no-avfallsforskriften-9-6", label: "Avfallsforskriften § 9-6",
+          sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6",
+          verifiedAt: "2026-09-06T00:00:00.000Z", disputed: false, primary: true,
+        }],
+      },
+    };
+    const { fields, classification } = bkFromDatalab(
+      datalabPayload({
+        matrise: "Jord",
+        ristetest_utfort: true,
+        totalinnhold_utfort: false,
+        analyseresultater: [{ parameter: "Arsen (As)", analyte_id: "arsenic", verdi: 1.17, under_loq: false, loq: 0.5, enhet: "mg/kg TS" }],
+      }),
+      blocks,
+      ORIGIN,
+      legalCitations
+    );
+    const checkbox1 = fields.find(f => f.field === "Checkbox1")!;
+    const checkbox3 = fields.find(f => f.field === "Checkbox3")!;
+    const checkbox4 = fields.find(f => f.field === "Checkbox4")!;
+    const checkbox6 = fields.find(f => f.field === "Checkbox6")!;
+    const textField41 = fields.find(f => f.field === "TextField41")!;
+
+    expect(checkbox1.check).toBe(false);
+    expect(checkbox3.check).toBe(false);
+    expect(checkbox4.check).toBe(false);
+    expect(checkbox6.check).toBe(false);
+    expect(checkbox1.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox4.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox6.legalCitation?.citations[0]?.paragraphId).toBe("no-avfallsforskriften-9-6");
+    expect(checkbox4.note).toBe(classification.hazard.confidenceFlags[0]);
+    expect(checkbox6.note).toBe(classification.hazard.confidenceFlags[0]);
+    expect(textField41.value).toContain("Ikke bestemt");
+
+    // TextField41/buildDescription are Norwegian-only — must quote the Norwegian companion flag,
+    // never the English confidenceFlags text.
+    expect(textField41.value).toContain(classification.hazard.confidenceFlagsNo?.[0]);
+    expect(textField41.value).not.toContain(classification.hazard.confidenceFlags[0]);
+
+    // Single-source-of-truth: Checkbox notes are machine/reviewer-facing and stay English — the
+    // note text must be the EXACT confidenceFlags string, not an independently-paraphrased one.
+    expect(checkbox1.note).toBe(classification.hazard.confidenceFlags[0]);
+  });
 });
 
 describe("narrowCitation", () => {
@@ -156,6 +347,13 @@ describe("narrowCitation", () => {
 
   it("leaves blocks with no table geometry alone", () => {
     expect(narrowCitation(blocks["/page/2/Text/3"], "Avinor AS").bbox).toEqual([10, 20, 200, 40]);
+  });
+
+  it("decodes HTML entities in cell text rather than leaving them literal (e.g. Fluoren &lt; 0.030)", () => {
+    const rawHtml = `<tr data-bbox="24 700 900 722"><td>Fluoren</td><td>&lt; 0.030 mg/kg TS</td></tr>`;
+    const regions = parseRegions(rawHtml);
+    expect(regions).toHaveLength(1);
+    expect(regions[0].cells).toEqual(["Fluoren", "< 0.030 mg/kg TS"]);
   });
 });
 

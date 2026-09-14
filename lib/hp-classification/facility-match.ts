@@ -3,7 +3,7 @@ import facilityReturkraft from "../data/facility-returkraft.json";
 import crosswalk from "../data/avfallsstoffnummer-eal-crosswalk.json";
 
 export interface FacilityMatchInput {
-  isHazardous: boolean;
+  isHazardous: boolean | null;
   ealCode: string;
   matrixType: string | null;
 }
@@ -18,6 +18,16 @@ export interface FacilityMatchResult {
 }
 
 function checkStoleheia(input: FacilityMatchInput): FacilityMatchResult {
+  if (input.isHazardous === null) {
+    return {
+      facilityId: "stoleheia",
+      eligible: "insufficient data",
+      route: "cannot route — hazard status indeterminate",
+      reason:
+        "Hazard status could not be determined (leaching-test data only, no total content) — resolve manually before facility matching.",
+    };
+  }
+
   if (input.isHazardous) {
     const fixedMatch = facilityStoleheia.fixedHazardousEalLines.find(line => line.ealCode === input.ealCode);
     if (fixedMatch) {

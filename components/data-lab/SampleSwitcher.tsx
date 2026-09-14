@@ -5,7 +5,7 @@ import { subReportLabel, type SubReport } from "@/lib/bk-skjema/segment";
 export interface SampleTab {
   subReport: SubReport;
   ealCode: string | null;
-  isHazardous: boolean;
+  isHazardous: boolean | null;
 }
 
 /**
@@ -68,7 +68,7 @@ export function SampleSwitcher({
                   ? `p${tab.subReport.firstPage + 1}`
                   : `p${tab.subReport.firstPage + 1}–${tab.subReport.lastPage + 1}`}
                 {" · "}
-                {tab.isHazardous ? "farlig avfall" : tab.ealCode ?? "no EAL"}
+                {tab.isHazardous === null ? "ikke bestemt" : tab.isHazardous ? "farlig avfall" : tab.ealCode ?? "no EAL"}
               </span>
             </button>
           );

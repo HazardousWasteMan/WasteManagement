@@ -8,6 +8,7 @@ describe("assignEalCode", () => {
     const result = assignEalCode(true, null, null, originLookup);
     expect(result.code).toBeNull();
     expect(result.confidence).toBe("HALT — missing origin/process metadata, cannot select EAL chapter");
+    expect(result.confidenceNo).toBe("STANS — mangler informasjon om opprinnelse/prosess, kan ikke velge EAL-kapittel");
   });
 
   it("assigns the hazardous mirror code (17 05 03*) for hazardous soil with no lab cross-check, flagging ambiguity since chapter 1705 hazardous has multiple candidates", () => {
@@ -24,11 +25,13 @@ describe("assignEalCode", () => {
   it("reports high confidence when the engine agrees with the lab's own stated code", () => {
     const result = assignEalCode(true, "escavo terre e rocce", "17 05 03*", originLookup);
     expect(result.confidence).toBe("high — engine agrees with lab's own classification");
+    expect(result.confidenceNo).toBe("høy — motoren er enig med laboratoriets egen klassifisering");
   });
 
   it("reports a flag-for-review when the engine disagrees with the lab's own stated code", () => {
     const result = assignEalCode(false, "escavo terre e rocce", "17 05 03*", originLookup);
     expect(result.confidence).toBe("FLAG FOR REVIEW — engine disagrees with lab, do not auto-proceed");
+    expect(result.confidenceNo).toBe("FLAGG FOR GJENNOMGANG — motoren er uenig med laboratoriet, ikke fortsett automatisk");
   });
 
   it("halts when originProcess has no entry in the lookup table", () => {
@@ -45,6 +48,9 @@ describe("assignEalCode", () => {
     expect(result.confidence).toContain("170505");
     expect(result.confidence).toContain("170507");
     expect(result.confidence).toContain("manual review recommended");
+    expect(result.confidenceNo).toContain("TVETYDIG");
+    expect(result.confidenceNo).toContain("170503");
+    expect(result.confidenceNo).toContain("manuell gjennomgang anbefales");
   });
 
   it("prefers the lab-agreement message over the ambiguity note when both would apply", () => {
@@ -107,5 +113,12 @@ describe("assignEalCode", () => {
     expect(result.description).toBe(
       "Oljebasert borevæske (enhver borevæske som inneholder olje eller oljeemulsjon av mineralopprinnelse)"
     );
+  });
+
+  it("returns no code and a clear message when isHazardous is null (indeterminate)", () => {
+    const result = assignEalCode(null, "escavo terre e rocce", null, originLookup);
+    expect(result.code).toBeNull();
+    expect(result.confidence).toContain("indeterminate");
+    expect(result.confidenceNo).toContain("ikke bestemt");
   });
 });

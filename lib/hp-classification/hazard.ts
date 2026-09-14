@@ -26,9 +26,18 @@ export interface HazardClassification {
   // determined by a lab test rather than substance data, or is one of the case-specific/
   // not-automatable HPs (HP1-3, HP9, HP12, HP15), since there's nothing real to attribute.
   triggeringSubstancesByHp: Record<string, string[]>;
-  isHazardous: boolean;
+  /** null means "cannot be determined from the data available" — never a guessed true/false. */
+  isHazardous: boolean | null;
   triggeredHps: string[];
+  /** Internal/machine-facing flags — kept in English, matching this file's other note/log text. */
   confidenceFlags: string[];
+  /** Same flags, in Norwegian — for Norwegian-only document text (BK-skjema TextField41,
+   * buildDescription's "Merk:" sentence), which must never mix languages. NOT index-aligned with
+   * confidenceFlags in general — classifyHazard's own internal flags (e.g. the HP6
+   * no-threshold-row note) never populate this array, since those only ever accompany a real
+   * true/false isHazardous. Only the leaching-only gate in classify-sample.ts populates both
+   * arrays together today. Any future producer of isHazardous: null must populate both. */
+  confidenceFlagsNo?: string[];
 }
 
 function sumForHStatement(results: NormalizedResultWithClp[], hStatement: string): number {
