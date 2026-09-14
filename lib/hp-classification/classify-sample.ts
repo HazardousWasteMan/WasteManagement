@@ -61,8 +61,11 @@ export function classifySample(
     metadata.totalinnholdUtfort === false;
 
   // Deterministic fallback (see unitsIndicateLeachate above): units win, always — even overriding
-  // an explicit totalinnholdUtfort: true from the extraction LLM. See
-  // docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
+  // an explicit totalinnholdUtfort: true from the extraction LLM, and regardless of the sample's
+  // declared physicalState. There is no exception here: normalizeSample has no mg/l conversion
+  // path, so a liquid sample's mg/l rows must gate the same as any other sample's — the
+  // physicalState only changes which message is shown below when the sample gates, never whether
+  // it gates. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
   const unitFlaggedLeachingOnly = unitsIndicateLeachate(results);
 
   const leachingOnly = keywordFlaggedLeachingOnly || unitFlaggedLeachingOnly;
@@ -73,7 +76,17 @@ export function classifySample(
     // reader must be able to tell, from confidenceFlags alone, why a sample with e.g.
     // totalinnholdUtfort: true still ended up isHazardous: null. When both signals agree, reuse
     // the plain keyword-gate message unchanged.
-    const confidenceFlags = keywordFlaggedLeachingOnly
+    const confidenceFlags = metadata.physicalState === "liquid"
+      ? [
+          "HP1-15 hazard classification not performed: this sample is a liquid waste stream " +
+          "(not a leaching/eluate test of a solid) reporting its own total-content basis in a " +
+          "liquid-concentration unit (mg/l-class). This system does not yet support converting " +
+          "a liquid stream's own concentration data into the dry-basis percentage HP1-15 " +
+          "thresholds are defined on — classifying it would require a real, disclosed density " +
+          "or basis-conversion assumption this codebase does not currently make. Manual review " +
+          "required.",
+        ]
+      : keywordFlaggedLeachingOnly
       ? [
           "HP1-15 hazard classification not performed: this sample has leaching-test " +
           "(ristetest/kolonnetest) data only, no total content data — leaching-test results are " +
@@ -98,7 +111,17 @@ export function classifySample(
           "a different regulatory question from hazardous-waste classification (kap. 11), which " +
           "requires total content. Manual review required.",
         ];
-    const confidenceFlagsNo = keywordFlaggedLeachingOnly
+    const confidenceFlagsNo = metadata.physicalState === "liquid"
+      ? [
+          "HP1-15-klassifisering ikke utført: denne prøven er en flytende avfallsstrøm (ikke en " +
+          "utlekkings-/eluat-test av et fast stoff) som rapporterer sitt eget totalinnhold i en " +
+          "væskekonsentrasjonsenhet (mg/l-basert). Dette systemet støtter foreløpig ikke å " +
+          "konvertere en flytende strøms egen konsentrasjonsdata til den tørrstoffbaserte " +
+          "prosentandelen HP1-15-tersklene er definert på — å klassifisere den ville kreve en " +
+          "reell, opplyst tetthets- eller basisantakelse dette systemet i dag ikke gjør. " +
+          "Manuell gjennomgang kreves.",
+        ]
+      : keywordFlaggedLeachingOnly
       ? [
           "HP1-15-klassifisering ikke utført: denne prøven har kun utlekkingstest-data " +
           "(ristetest/kolonnetest), ingen totalinnhold-data — utlekkingstest-resultater er " +
@@ -131,6 +154,7 @@ export function classifySample(
       triggeredHps: [],
       confidenceFlags,
       confidenceFlagsNo,
+      hasDetectedHazardousSubstance: null,
     };
     const eal = assignEalCode(null, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
     return { hazard, eal, noDataWarning: false };
@@ -142,11 +166,27 @@ export function classifySample(
   // total-content and liquid eluate) must classify off its real solid-basis row only; feeding the
   // liquid-basis row's raw number through normalizeSample would misread an eluate concentration
   // as a dry-basis percentage. See docs/superpowers/specs/2026-09-06-hp-methodology-citation-and-unit-detection-design.md.
+  //
+  // Liquid-unit rows are ALWAYS excluded here, regardless of physicalState — normalizeSample has
+  // no mg/l-to-dry-basis-percent conversion path, so letting a liquid-unit row reach it (for any
+  // sample, "liquid" declared or not) would have normalizeSample fall into its "unrecognized
+  // unit" branch and use the raw mg/l number as-is as a percentage, overstating concentration by
+  // ~10,000x. A genuinely liquid waste stream reporting its own data in mg/l gates out above
+  // (unitFlaggedLeachingOnly) before this line is even reached in practice; this filter is the
+  // second line of defense for any mixed-report shape that still has liquid-unit rows.
   const resultsForClassification = results.filter(r => !LIQUID_UNIT_PATTERN.test(r.unitRaw));
   const normalized = normalizeSample(metadata, resultsForClassification, analyteRef);
   const noDataWarning = normalized.length === 0;
 
   const withClp: NormalizedResultWithClp[] = [];
+  // Tracks, separately from withClp's own contents, whether any entry pushed into withClp came
+  // from a genuinely detected (non-below-LOQ) row. withClp itself must keep including below-LOQ
+  // rows — normalizeSample substitutes the LOQ value as a conservative stand-in for HP-threshold
+  // summation, which is correct for classifyHazard's purposes — but "was a hazardous substance
+  // actually detected?" is a different question, and a sample where every hazardous-mapped
+  // analyte is a non-detect must not answer that question true. See bug fix: exclude below-LOQ
+  // non-detects from hasDetectedHazardousSubstance.
+  let hasAboveLoqHazardousSubstance = false;
   for (const n of normalized) {
     const ref = analyteRef.find(a => a.analyteId === n.analyteId);
     if (!ref) continue; // no reference entry — skip, never guess (should already be filtered by normalizeSample, defensive here too)
@@ -163,6 +203,7 @@ export function classifySample(
             mFactorAcute: clp.hStatement === "H400" ? clp.mFactorAcute : null,
             mFactorChronic: clp.hStatement === "H410" ? clp.mFactorChronic : null,
           });
+          if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
         }
       }
     } else if (ref.hStatement && ref.hazardClass) {
@@ -174,6 +215,7 @@ export function classifySample(
         mFactorAcute: null,
         mFactorChronic: ref.mFactorChronic,
       });
+      if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
     } else if (ref.hStatements) {
       for (const h of ref.hStatements) {
         withClp.push({
@@ -184,6 +226,7 @@ export function classifySample(
           mFactorAcute: null,
           mFactorChronic: ref.mFactorChronic,
         });
+        if (!n.isBelowLoq) hasAboveLoqHazardousSubstance = true;
       }
     }
     // an AnalyteReference entry with none of elementSymbol/hStatement/hStatements set has no known
@@ -193,6 +236,8 @@ export function classifySample(
 
   const hazard = classifyHazard(withClp, metadata, testResults);
   const eal = assignEalCode(hazard.isHazardous, metadata.originProcess, metadata.labStatedEalCode, originToChapterLookup);
+
+  hazard.hasDetectedHazardousSubstance = hasAboveLoqHazardousSubstance;
 
   // Traceability for the exclusion above: when this sample proceeded to real classification
   // (not gated), any liquid-basis row silently dropped from that classification must leave a

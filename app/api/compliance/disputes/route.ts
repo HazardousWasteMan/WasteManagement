@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { createSupabaseCorrectionStore } from "@/lib/compliance/corrections";
+import { RESOLVED_FIELD_KEYS } from "@/lib/compliance/resolve-legal-citations";
 
 interface DisputeRequest {
   paragraphId?: unknown;
+  citedFieldKey?: unknown;
   freezeId?: unknown;
   raisedBy?: unknown;
   reason?: unknown;
@@ -16,9 +18,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { paragraphId, freezeId, raisedBy, reason } = body;
+  const { paragraphId, citedFieldKey, freezeId, raisedBy, reason } = body;
   if (typeof paragraphId !== "string" || !paragraphId) {
     return NextResponse.json({ error: "paragraphId is required" }, { status: 400 });
+  }
+  if (typeof citedFieldKey !== "string" || !citedFieldKey) {
+    return NextResponse.json({ error: "citedFieldKey is required" }, { status: 400 });
+  }
+  if (!RESOLVED_FIELD_KEYS.includes(citedFieldKey)) {
+    return NextResponse.json({ error: `citedFieldKey "${citedFieldKey}" is not a recognized field key` }, { status: 400 });
   }
   if (typeof raisedBy !== "string" || !raisedBy.trim()) {
     return NextResponse.json({ error: "raisedBy is required" }, { status: 400 });
@@ -34,6 +42,7 @@ export async function POST(request: Request) {
     const store = createSupabaseCorrectionStore();
     const record = await store.raise({
       disputedParagraphId: paragraphId,
+      citedFieldKey,
       freezeId: (freezeId as string | undefined) ?? null,
       raisedBy: raisedBy.trim(),
       reason: reason.trim(),

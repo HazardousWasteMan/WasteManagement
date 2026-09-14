@@ -19,6 +19,7 @@ const p11_4: LegalParagraph = {
 const p9_5: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-5", article: "9", paragraph: "5", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-5" };
 const p9_6: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-9-6", article: "9", paragraph: "6", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6" };
 const p11_2: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-11-2", article: "11", paragraph: "2", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§11-2" };
+const pVedlegg2: LegalParagraph = { ...p11_4, id: "no-avfallsforskriften-11-vedlegg-2", article: "11", paragraph: "vedlegg-2", sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/KAPITTEL_14-2" };
 
 function fakeStore(rows: LegalParagraph[]): ParagraphStore {
   return {
@@ -61,18 +62,46 @@ describe("resolveLegalCitations", () => {
     expect(result["deponi-category-basis"]).toBeNull();
   });
 
-  it("checks dispute status independently per paragraph within a multi-location field", async () => {
+  it("checks dispute status independently per (paragraph, field key) within a multi-location field", async () => {
     const store = fakeStore([p11_4, p9_5, p9_6]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
     const corrections: CorrectionStore = {
       raise: vi.fn(),
-      hasUnresolved: vi.fn().mockImplementation(async (id: string) => id === "no-avfallsforskriften-9-6"),
+      hasUnresolved: vi.fn().mockImplementation(
+        async (paragraphId: string, fieldKey: string) =>
+          paragraphId === "no-avfallsforskriften-9-6" && fieldKey === "deponi-category-basis"
+      ),
     };
 
     const result = await resolveLegalCitations(store, source, corrections);
     const citations = result["deponi-category-basis"]?.citations ?? [];
     expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-5")?.disputed).toBe(false);
     expect(citations.find(c => c.paragraphId === "no-avfallsforskriften-9-6")?.disputed).toBe(true);
+  });
+
+  it("the SAME paragraph disputed under one field key does not affect its citation under a DIFFERENT field key", async () => {
+    const store = fakeStore([p9_6]);
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
+    const corrections: CorrectionStore = {
+      raise: vi.fn(),
+      // § 9-6 is disputed as "deponi-category-basis" ONLY — its "hazard-indeterminate-basis" use
+      // (a different RESOLVED_FIELDS key reusing the same paragraph) must show disputed: false.
+      hasUnresolved: vi.fn().mockImplementation(
+        async (paragraphId: string, fieldKey: string) =>
+          paragraphId === "no-avfallsforskriften-9-6" && fieldKey === "deponi-category-basis"
+      ),
+    };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hazard-indeterminate-basis"]?.citations[0]?.disputed).toBe(false);
+  });
+
+  it("exports RESOLVED_FIELD_KEYS matching every real RESOLVED_FIELDS entry, as the single source of truth", async () => {
+    const { RESOLVED_FIELD_KEYS } = await import("@/lib/compliance/resolve-legal-citations");
+    expect(RESOLVED_FIELD_KEYS).toEqual(
+      expect.arrayContaining(["eal-legal-basis", "deponi-category-basis", "hazard-indeterminate-basis", "hp-methodology-basis"])
+    );
+    expect(RESOLVED_FIELD_KEYS).toHaveLength(4);
   });
 
   it("resolves hazard-indeterminate-basis to § 9-6 alone (reusing the already-seeded paragraph, no new location)", async () => {
@@ -86,15 +115,24 @@ describe("resolveLegalCitations", () => {
     expect(result["hazard-indeterminate-basis"]?.citations[0].primary).toBe(true);
   });
 
-  it("resolves hp-methodology-basis (§ 11-2, single location) to a one-element citations array, primary true", async () => {
-    const store = fakeStore([p11_2]);
+  it("resolves hp-methodology-basis (§ 11-2 + Vedlegg 2) to a two-element citations array, § 11-2 primary", async () => {
+    const store = fakeStore([p11_2, pVedlegg2]);
     const source: LegalSource = { source: "no", fetchParagraph: vi.fn() };
     const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
 
     const result = await resolveLegalCitations(store, source, corrections);
-    expect(result["hp-methodology-basis"]?.citations).toHaveLength(1);
-    expect(result["hp-methodology-basis"]?.citations[0].paragraphId).toBe("no-avfallsforskriften-11-2");
-    expect(result["hp-methodology-basis"]?.citations[0].primary).toBe(true);
+    expect(result["hp-methodology-basis"]?.citations).toHaveLength(2);
+    const primary = result["hp-methodology-basis"]?.citations.find(c => c.primary);
+    expect(primary?.paragraphId).toBe("no-avfallsforskriften-11-2");
+  });
+
+  it("hp-methodology-basis is null when only one of § 11-2 / Vedlegg 2 is cached (all-or-nothing)", async () => {
+    const store = fakeStore([p11_2]); // Vedlegg 2 missing
+    const source: LegalSource = { source: "no", fetchParagraph: vi.fn().mockResolvedValue(null) };
+    const corrections: CorrectionStore = { raise: vi.fn(), hasUnresolved: vi.fn().mockResolvedValue(false) };
+
+    const result = await resolveLegalCitations(store, source, corrections);
+    expect(result["hp-methodology-basis"]).toBeNull();
   });
 
   it("hp-methodology-basis is null when § 11-2 is not cached", async () => {

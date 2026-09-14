@@ -28,6 +28,7 @@ test("fill the BK-skjema from the Anthropic extraction", async () => {
     },
     results: dump.extraction.results,
     isHazardous: cls.withOrigin.hazard.isHazardous,
+    hasDetectedHazardousSubstance: cls.withOrigin.hazard.hasDetectedHazardousSubstance ?? null,
     eal: cls.withOrigin.eal,
   };
 

@@ -101,7 +101,8 @@ export function bkFromDatalab(
 
   const physical = (str(data.fysisk_form) ?? "").toLowerCase();
   const physicalState: SampleMetadata["physicalState"] =
-    /flyt|liquid/.test(physical) ? "liquid" : /pulver|powder/.test(physical) ? "powder" : "solid";
+    /flyt|liquid|liquido|væske/.test(physical) ? "liquid" :
+    /pulver|powder|polvere/.test(physical) ? "powder" : "solid";
 
   const metadata: SampleMetadata = {
     sampleId: "data-lab-1",
@@ -170,6 +171,7 @@ export function bkFromDatalab(
     },
     results: rows,
     isHazardous: classification.hazard.isHazardous,
+    hasDetectedHazardousSubstance: classification.hazard.hasDetectedHazardousSubstance ?? null,
     hazardConfidenceFlags: classification.hazard.confidenceFlags,
     hazardConfidenceFlagsNo: classification.hazard.confidenceFlagsNo,
     eal: classification.eal,

@@ -95,6 +95,37 @@ describe("bkFromDatalab", () => {
     expect(fields.filter(f => f.label.startsWith("EAL-kode siffer")).every(f => !f.value)).toBe(true);
   });
 
+  it("recognizes the Italian and Norwegian-noun physicalState terms this pipeline's own stated input languages call for", () => {
+    const italianLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Liquido" }), blocks, ORIGIN);
+    expect(italianLiquid.source.metadata.physicalState).toBe("liquid");
+
+    const italianPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Polvere fine" }), blocks, ORIGIN);
+    expect(italianPowder.source.metadata.physicalState).toBe("powder");
+
+    const norwegianNounLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Væske" }), blocks, ORIGIN);
+    expect(norwegianNounLiquid.source.metadata.physicalState).toBe("liquid");
+  });
+
+  it("still recognizes every previously-supported physicalState term (regression coverage)", () => {
+    const norwegianLiquidAdjective = bkFromDatalab(datalabPayload({ fysisk_form: "Flytende" }), blocks, ORIGIN);
+    expect(norwegianLiquidAdjective.source.metadata.physicalState).toBe("liquid");
+
+    const englishLiquid = bkFromDatalab(datalabPayload({ fysisk_form: "Liquid" }), blocks, ORIGIN);
+    expect(englishLiquid.source.metadata.physicalState).toBe("liquid");
+
+    const norwegianPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Pulver" }), blocks, ORIGIN);
+    expect(norwegianPowder.source.metadata.physicalState).toBe("powder");
+
+    const englishPowder = bkFromDatalab(datalabPayload({ fysisk_form: "Powder" }), blocks, ORIGIN);
+    expect(englishPowder.source.metadata.physicalState).toBe("powder");
+
+    const solidDefault = bkFromDatalab(datalabPayload({ fysisk_form: "Fast" }), blocks, ORIGIN);
+    expect(solidDefault.source.metadata.physicalState).toBe("solid");
+
+    const unrecognizedDefaultsSolid = bkFromDatalab(datalabPayload({ fysisk_form: undefined }), blocks, ORIGIN);
+    expect(unrecognizedDefaultsSolid.source.metadata.physicalState).toBe("solid");
+  });
+
   it("ticks the waste type the matrix implies and cites it", () => {
     const { fields } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
     const betong = fields.find(f => f.label === "Avfallstype (materiale): Betong eller tegl")!;
@@ -179,6 +210,51 @@ describe("bkFromDatalab", () => {
     const fields = buildBkFields(source);
     const textField38 = fields.find(f => f.field === "TextField38")!;
     expect(textField38.legalCitation ?? null).toBeNull();
+  });
+
+  it("every citation-bearing field carries the correct legalCitationKey alongside its legalCitation", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+
+    const nonHazardous: BkSource = { ...source, isHazardous: false };
+    const nonHazardousFields = buildBkFields(nonHazardous);
+    expect(nonHazardousFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("deponi-category-basis");
+    expect(nonHazardousFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("deponi-category-basis");
+
+    const indeterminate: BkSource = { ...source, isHazardous: null };
+    const indeterminateFields = buildBkFields(indeterminate);
+    expect(indeterminateFields.find(f => f.field === "Checkbox1")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox3")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox4")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+    expect(indeterminateFields.find(f => f.field === "Checkbox6")!.legalCitationKey).toBe("hazard-indeterminate-basis");
+
+    const fields = buildBkFields(source);
+    expect(fields.find(f => f.field === "Checkbox10")!.legalCitationKey).toBe("eal-legal-basis");
+    expect(fields.find(f => f.field === "TextField38")!.legalCitationKey).toBe("hp-methodology-basis");
+    // Checkbox2 was missed by the original plan's site list (unconditional, no ternary, unlike
+    // Checkbox1/3/4/6) — it carries the same legalCitation as those, so it needs the same key.
+    expect(fields.find(f => f.field === "Checkbox2")!.legalCitationKey).toBe("deponi-category-basis");
+  });
+
+  it("Checkbox9/Checkbox10 derive check from hasDetectedHazardousSubstance, tri-state", () => {
+    const { source } = bkFromDatalab(datalabPayload(), blocks, ORIGIN);
+
+    const detected: BkSource = { ...source, hasDetectedHazardousSubstance: true };
+    const detectedFields = buildBkFields(detected);
+    expect(detectedFields.find(f => f.field === "Checkbox9")!.check).toBe(false);
+    expect(detectedFields.find(f => f.field === "Checkbox10")!.check).toBe(true);
+
+    const notDetected: BkSource = { ...source, hasDetectedHazardousSubstance: false };
+    const notDetectedFields = buildBkFields(notDetected);
+    expect(notDetectedFields.find(f => f.field === "Checkbox9")!.check).toBe(true);
+    expect(notDetectedFields.find(f => f.field === "Checkbox10")!.check).toBe(false);
+
+    const unknown: BkSource = { ...source, hasDetectedHazardousSubstance: null };
+    const unknownFields = buildBkFields(unknown);
+    expect(unknownFields.find(f => f.field === "Checkbox9")!.check).toBe(false);
+    expect(unknownFields.find(f => f.field === "Checkbox10")!.check).toBe(false);
+    expect(unknownFields.find(f => f.field === "Checkbox9")!.note).toContain("GAP");
   });
 
   it("Checkbox1/2/3 all carry the same deponi-category-basis citation when one is resolved", () => {

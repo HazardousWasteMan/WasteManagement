@@ -199,6 +199,42 @@ describe("classifySample", () => {
     expect(result.hazard.resultsByHp.HP7).not.toBe(true);
   });
 
+  it("gates a genuinely liquid waste stream to isHazardous: null with an accurate 'liquid stream' message, not the leaching-test framing", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
+    const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).toContain("liquid waste stream");
+    expect(result.hazard.confidenceFlags[0]).not.toContain("leaching-test");
+    expect(result.hazard.confidenceFlagsNo?.[0]).toContain("flytende avfallsstrøm");
+  });
+
+  it("a solid sample's liquid-unit data still gates exactly as before", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    // baseMetadata's physicalState is "solid".
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // still gates, same as pre-existing behavior
+  });
+
+  it("a liquid sample with an explicit leaching-only claim still gates, using the liquid-stream message (physicalState checked first)", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const liquidLeachingOnlyMetadata: SampleMetadata = {
+      ...baseMetadata, physicalState: "liquid", ristetestUtfort: true, totalinnholdUtfort: false,
+    };
+    const result = classifySample(liquidLeachingOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.hazard.confidenceFlags[0]).toContain("liquid waste stream");
+  });
+
   it("leaves a traceable confidenceFlags note when a liquid-basis row was excluded from a non-gated classification", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
@@ -233,6 +269,97 @@ describe("classifySample", () => {
     expect(result.hazard.isHazardous).toBeNull();
     expect(result.hazard.confidenceFlags[0]).not.toContain("overriding the extraction's own totalinnhold_utfort flag");
     expect(result.hazard.confidenceFlags[0]).toContain("even though the extraction did not confirm total-content data was collected");
+  });
+
+  it("sets hasDetectedHazardousSubstance: true when a real hazardous substance is detected above LOQ", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(true);
+  });
+
+  it("sets hasDetectedHazardousSubstance: false when no detected result maps to a known CLP hazard classification", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "unregistered", rawAnalyteName: "unknown",
+        resultValue: 99, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(false);
+  });
+
+  it("does NOT count a below-LOQ (non-detect) row as a detected hazardous substance", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(false);
+  });
+
+  it("still counts a real above-LOQ detection alongside a below-LOQ non-detect of a different analyte", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (detected)",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+      {
+        resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (non-detect)",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(true);
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the keyword leaching-only flag", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const leachateOnlyMetadata: SampleMetadata = {
+      ...baseMetadata, ristetestUtfort: true, kolonnetestUtfort: false, totalinnholdUtfort: false,
+    };
+    const result = classifySample(leachateOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the unit-based fallback", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+      {
+        resultId: "r2", sampleId: "t", analyteId: "test-carcinogen-2", rawAnalyteName: "Cr",
+        resultValue: 0.059, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // confirms this test genuinely hits the gate
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the liquid-waste-stream physicalState message", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
+    const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // confirms this test genuinely hits the gate
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
   });
 });
 

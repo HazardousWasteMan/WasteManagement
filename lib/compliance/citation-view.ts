@@ -23,9 +23,16 @@ const DOCUMENT_LABELS: Record<string, string> = {
 
 function buildSingleCitation(paragraph: LegalParagraph, primary: boolean, disputed: boolean): SingleCitation {
   const docLabel = DOCUMENT_LABELS[paragraph.documentId] ?? paragraph.documentId;
+  // A bare "Vedlegg <n>" is genuinely ambiguous: the real archive has multiple unrelated
+  // chapters each with their own "vedlegg2" (kap. 1's EAL waste-list annex vs. kap. 11's
+  // HP-criteria table, e.g.) — the chapter number this parsing layer disambiguates by must
+  // stay visible in the citation a reviewer actually reads, not just in its underlying href.
+  const label = paragraph.paragraph.startsWith("vedlegg-")
+    ? `${docLabel} kap. ${paragraph.article} Vedlegg ${paragraph.paragraph.slice("vedlegg-".length)}`
+    : `${docLabel} § ${paragraph.article}-${paragraph.paragraph}`;
   return {
     paragraphId: paragraph.id,
-    label: `${docLabel} § ${paragraph.article}-${paragraph.paragraph}`,
+    label,
     sourceLink: paragraph.sourceLink,
     verifiedAt: paragraph.lastVerifiedAt,
     disputed,

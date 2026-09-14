@@ -58,6 +58,15 @@ const ARCHIVE_URL = "https://api.lovdata.no/v1/publicData/get/gjeldende-sentrale
 const AVFALLSFORSKRIFTEN_ARCHIVE_PATH = "sf/sf-20040601-0930.xml";
 const AVFALLSFORSKRIFTEN_DOC_ID = "2004-06-01-930";
 
+// Archive-internal chapter numbering is offset from the human-facing chapter label (same quirk
+// already known for §-paragraph ids, e.g. § 9-6's real internal id is kapittel-11-paragraf-6).
+// Confirmed by direct inspection of the real archive (2026-09-06) — extend only after
+// independently confirming a new chapter's real internal id the same way, never guess.
+const CHAPTER_INTERNAL_ID: Record<string, string> = {
+  "9": "11",
+  "11": "14",
+};
+
 interface ParagraphResult {
   text: string;
   lastChangedAt: string;
@@ -111,6 +120,91 @@ export function parseParagraphFromHtml(
   };
 }
 
+// Locates a Vedlegg (annex) section, disambiguated by chapter: the same vedlegg label (e.g.
+// "vedlegg2") recurs across multiple unrelated chapters in the real archive, so a bare
+// data-name match is not enough — the section's own `id` attribute (which always starts with
+// `kapittel-<internalChapterId>-`) is the real disambiguator. Returns null if no section with
+// BOTH the right data-name AND the right chapter-id prefix exists — never a wrong chapter's
+// same-labeled vedlegg.
+export function parseVedleggFromHtml(
+  html: string,
+  internalChapterId: string,
+  vedleggLabel: string
+): ParagraphResult | null {
+  const marker = `data-name="vedlegg${vedleggLabel}"`;
+  let searchFrom = 0;
+  let tagStart = -1;
+  let sectionId = "";
+  let sourceUrl = "";
+  for (;;) {
+    const markerIdx = html.indexOf(marker, searchFrom);
+    if (markerIdx === -1) return null;
+    const candidateTagStart = html.lastIndexOf("<section", markerIdx);
+    if (candidateTagStart === -1) {
+      searchFrom = markerIdx + marker.length;
+      continue;
+    }
+    const tagEnd = html.indexOf(">", candidateTagStart);
+    const openTag = html.slice(candidateTagStart, tagEnd + 1);
+    const idMatch = openTag.match(/id="([^"]+)"/);
+    const candidateId = idMatch ? idMatch[1] : "";
+    if (candidateId.startsWith(`kapittel-${internalChapterId}-`)) {
+      tagStart = candidateTagStart;
+      sectionId = candidateId;
+      const urlMatch = openTag.match(/data-lovdata-URL="([^"]+)"/);
+      sourceUrl = urlMatch ? urlMatch[1] : "";
+      break;
+    }
+    searchFrom = markerIdx + marker.length;
+  }
+
+  // Find the next sibling <section class="section" whose id does NOT nest under this one's id —
+  // that's the true end of this vedlegg. An id that DOES nest under it (starts with sectionId +
+  // "-") is a subsection belonging to the same vedlegg, not a boundary — keep scanning past it.
+  let boundaryIdx = html.length;
+  let searchBoundaryFrom = tagStart + 1;
+  for (;;) {
+    const nextSectionIdx = html.indexOf('<section class="section"', searchBoundaryFrom);
+    if (nextSectionIdx === -1) break;
+    const nextTagEnd = html.indexOf(">", nextSectionIdx);
+    const nextOpenTag = html.slice(nextSectionIdx, nextTagEnd + 1);
+    const nextIdMatch = nextOpenTag.match(/id="([^"]+)"/);
+    const nextId = nextIdMatch ? nextIdMatch[1] : "";
+    if (nextId === sectionId || nextId.startsWith(`${sectionId}-`)) {
+      searchBoundaryFrom = nextTagEnd + 1;
+      continue;
+    }
+    boundaryIdx = nextSectionIdx;
+    break;
+  }
+
+  const sectionHtml = html.slice(tagStart, boundaryIdx);
+  const headerEnd = sectionHtml.indexOf("</h3>");
+  const bodyHtml = headerEnd === -1 ? sectionHtml : sectionHtml.slice(headerEnd + "</h3>".length);
+  const text = stripTags(bodyHtml);
+  if (!text) return null;
+
+  // Never fabricate: without a real data-lovdata-URL there is no genuine, disambiguated source
+  // link to cite — a bare "https://lovdata.no/" front-page fallback would present as a verified
+  // citation while resolving nowhere near the actual paragraph. Every vedlegg section in today's
+  // archive carries this attribute; if a future revision ever drops it, treat that as not found
+  // rather than seed an unverifiable link.
+  if (!sourceUrl) return null;
+
+  const lastChangeMatch = html.match(/<dd class="lastChangeInForce">([^<]+)<\/dd>/);
+  const lastChangedAt = lastChangeMatch
+    ? new Date(lastChangeMatch[1].trim()).toISOString()
+    : new Date(0).toISOString();
+
+  // The real, confirmed-live public URL for a vedlegg is its own data-lovdata-URL value with
+  // the leading "SF/" segment dropped — NOT a constructed "vedlegg<label>"-only URL, which is
+  // ambiguous even on the real site (confirmed: /forskrift/2004-06-01-930/vedlegg2 resolves to
+  // chapter 1's Vedlegg 2, not chapter 11's).
+  const sourceLink = `https://lovdata.no/${sourceUrl.replace(/^SF\//, "")}`;
+
+  return { text, lastChangedAt, sourceLink };
+}
+
 let cachedExtractionDir: string | null = null;
 
 async function ensureArchiveExtracted(): Promise<string> {
@@ -152,6 +246,13 @@ export async function getParagraphFromArchive(query: {
   const filePath = join(dir, AVFALLSFORSKRIFTEN_ARCHIVE_PATH);
   const html = await readFile(filePath, "utf-8").catch(() => null);
   if (!html) return null;
+
+  if (query.paragraph.startsWith("vedlegg-")) {
+    const internalChapterId = CHAPTER_INTERNAL_ID[query.article];
+    if (!internalChapterId) return null; // never guess an unconfirmed chapter's internal id
+    const vedleggLabel = query.paragraph.slice("vedlegg-".length);
+    return parseVedleggFromHtml(html, internalChapterId, vedleggLabel);
+  }
 
   return parseParagraphFromHtml(html, query.article, query.paragraph);
 }
