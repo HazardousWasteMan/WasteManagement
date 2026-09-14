@@ -1,3 +1,4 @@
+import { readHpOutcome } from "@/lib/hp-classification/hp-outcome";
 import { describe, it, expect } from "vitest";
 import { classifySample, unitsIndicateLeachate } from "@/lib/hp-classification/classify-sample";
 import type { SampleMetadata, SampleResult, AnalyteReference } from "@/lib/hp-classification/types";
@@ -5,6 +6,7 @@ import type { ElementCompoundForm } from "@/lib/hp-classification/speciate";
 import analyteReferenceRaw from "@/lib/data/analyte-reference.json";
 
 const baseMetadata: SampleMetadata = {
+  totalinnholdUtfort: true,
   sampleId: "t", externalReportNo: "t", labName: "t", customerName: "t", sampleMarking: "t",
   matrixType: "jord", samplingDate: null, receiptDate: null, originProcess: "test-origin",
   producerName: null, physicalState: "solid", viscosity40cMm2s: null, ph: null,
@@ -28,7 +30,7 @@ describe("classifySample", () => {
       },
     ];
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.resultsByHp.HP7).toBe(true);
+    expect(readHpOutcome("HP7", result.hazard.resultsByHp.HP7).status).toBe("triggered");
     expect(result.hazard.isHazardous).toBe(true);
     expect(result.eal.code).toBe("17 05 03*");
   });
@@ -41,14 +43,14 @@ describe("classifySample", () => {
       },
     ];
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.isHazardous).toBe(false);
-    expect(result.eal.code).toBe("17 05 04");
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.eal.code).toBeNull();
   });
 
   it("sets noDataWarning true when no results are provided, false otherwise", () => {
     const emptyResult = classifySample(baseMetadata, [], [], analyteRef, [], { "test-origin": "1705" });
     expect(emptyResult.noDataWarning).toBe(true);
-    expect(emptyResult.hazard.isHazardous).toBe(false);
+    expect(emptyResult.hazard.isHazardous).toBeNull();
 
     const results: SampleResult[] = [
       {
@@ -80,7 +82,7 @@ describe("classifySample", () => {
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(results.length).toBeGreaterThan(0);
     expect(result.noDataWarning).toBe(true);
-    expect(result.hazard.isHazardous).toBe(false);
+    expect(result.hazard.isHazardous).toBeNull();
   });
 
   it("a real newly-added PAH with a confirmed carcinogenicity classification correctly triggers HP7", () => {
@@ -92,7 +94,7 @@ describe("classifySample", () => {
       },
     ];
     const result = classifySample(baseMetadata, results, [], realAnalyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.resultsByHp.HP7).toBe(true);
+    expect(readHpOutcome("HP7", result.hazard.resultsByHp.HP7).status).toBe("triggered");
   });
 
   it("negative control: the same PAH below the real 0.1% Carc. 1B threshold does NOT trigger HP7", () => {
@@ -104,7 +106,7 @@ describe("classifySample", () => {
       },
     ];
     const result = classifySample(baseMetadata, results, [], realAnalyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.resultsByHp.HP7).toBe(false);
+    expect(readHpOutcome("HP7", result.hazard.resultsByHp.HP7).status).toBe("not_triggered");
   });
 
   it("gates HP classification to isHazardous: null when only leaching-test data exists (no total content)", () => {
@@ -122,24 +124,23 @@ describe("classifySample", () => {
     };
     const result = classifySample(leachateOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBeNull();
-    expect(result.hazard.confidenceFlags.some(f => f.includes("leach") || f.includes("total content"))).toBe(true);
-    expect(result.hazard.confidenceFlagsNo?.some(f => f.includes("utlekkingstest") || f.includes("totalinnhold"))).toBe(true);
     expect(result.eal.code).toBeNull();
   });
 
-  it("does NOT gate when totalinnholdUtfort is absent (default-absent means assume present)", () => {
+  it("excludes ambiguous rows when total-content evidence is absent", () => {
     const results: SampleResult[] = [
       {
         resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
         resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
       },
     ];
-    const metadataWithLeachFlagOnly: SampleMetadata = { ...baseMetadata, ristetestUtfort: true };
+    const metadataWithLeachFlagOnly: SampleMetadata = { ...baseMetadata, totalinnholdUtfort: undefined, ristetestUtfort: true };
     const result = classifySample(metadataWithLeachFlagOnly, results, [], analyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.isHazardous).toBe(true); // unaffected — same as the existing non-gated test above
+    expect(result.noDataWarning).toBe(true);
+    expect(result.measurementBoundary.measurements[0].analyticalRole).toBe("unknown");
   });
 
-  it("does NOT gate when totalinnholdUtfort is explicitly true, even alongside a leaching flag", () => {
+  it("requires row-specific context in a mixed-method sample", () => {
     const results: SampleResult[] = [
       {
         resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
@@ -150,10 +151,11 @@ describe("classifySample", () => {
       ...baseMetadata, ristetestUtfort: true, totalinnholdUtfort: true,
     };
     const result = classifySample(mixedMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.isHazardous).toBe(true);
+    expect(result.noDataWarning).toBe(true);
+    expect(result.measurementBoundary.measurements[0].hpEligibility.eligible).toBe(false);
   });
 
-  it("gates via the unit check alone (overriding an explicit totalinnholdUtfort: true) and carries the distinct override message", () => {
+  it("excludes liquid units without overriding the reported analytical role", () => {
     const results: SampleResult[] = [
       { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",
         resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
@@ -165,14 +167,13 @@ describe("classifySample", () => {
     };
     const result = classifySample(metadataWithExplicitTotalContentClaim, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBeNull();
-    expect(result.hazard.confidenceFlags[0]).toContain("overriding the extraction's own totalinnhold_utfort flag");
-    expect(result.hazard.confidenceFlagsNo?.[0]).toContain("overstyrer ekstraksjonens eget totalinnhold_utfort-flagg");
+    expect(result.measurementBoundary.measurements.every(m => m.analyticalRole === "total_content" && !m.hpEligibility.eligible)).toBe(true);
     expect(result.eal.code).toBeNull();
   });
 
   it("does NOT gate a mixed report where total-content data exists for the same analytes also re-reported in mg/l (real dual-reporting pattern)", () => {
     const results: SampleResult[] = [
-      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)", analyticalContext: "Total-content table",
         resultValue: 5000, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null }, // 5000 mg/kg TS = 0.5% dry basis, above the 0.1% HP7 threshold
       { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
         resultValue: 0.01, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
@@ -186,7 +187,7 @@ describe("classifySample", () => {
 
   it("does NOT misclassify a mixed report by feeding a dual-reported analyte's liquid-unit row into classification as if it were dry-basis %", () => {
     const results: SampleResult[] = [
-      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)", analyticalContext: "Total-content table",
         resultValue: 10, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null }, // 10 mg/kg TS = 0.001% dry basis — well below the 0.1% HP7/H350 threshold
       { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
         resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null }, // same analyte, liquid-basis re-reporting — must be excluded from classification entirely
@@ -195,21 +196,55 @@ describe("classifySample", () => {
     // Without this fix, the 0.13 mg/l row would be misread as 0.13% dry basis (> 0.1% threshold),
     // wrongly triggering HP7. With the fix, only the real 10 mg/kg TS (0.001%) row is classified,
     // which is safely below threshold.
-    expect(result.hazard.isHazardous).toBe(false);
-    expect(result.hazard.resultsByHp.HP7).not.toBe(true);
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(readHpOutcome("HP7", result.hazard.resultsByHp.HP7).status).not.toBe("triggered");
+  });
+
+  it("gates a genuinely liquid waste stream to isHazardous: null with an accurate 'liquid stream' message, not the leaching-test framing", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
+    const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.measurementBoundary.measurements[0].analyticalRole).toBe("total_content");
+  });
+
+  it("a solid sample's liquid-unit data still gates exactly as before", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    // baseMetadata's physicalState is "solid".
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // still gates, same as pre-existing behavior
+  });
+
+  it("explicit leaching context takes precedence over physical state", () => {
+    const results: SampleResult[] = [
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
+    ];
+    const liquidLeachingOnlyMetadata: SampleMetadata = {
+      ...baseMetadata, physicalState: "liquid", ristetestUtfort: true, totalinnholdUtfort: false,
+    };
+    const result = classifySample(liquidLeachingOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull();
+    expect(result.measurementBoundary.measurements[0].analyticalRole).toBe("leaching_batch");
   });
 
   it("leaves a traceable confidenceFlags note when a liquid-basis row was excluded from a non-gated classification", () => {
     const results: SampleResult[] = [
-      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)",
+      { resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (total)", analyticalContext: "Total-content table",
         resultValue: 10, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null },
       { resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (eluat)",
         resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null },
     ];
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
-    expect(result.hazard.isHazardous).toBe(false); // real classification proceeded, not gated
-    expect(result.hazard.confidenceFlags.some(f => f.includes("excluded from HP classification") && f.includes("liquid/eluate"))).toBe(true);
-    expect(result.hazard.confidenceFlagsNo?.some(f => f.includes("utelatt fra HP-klassifiseringen") && f.includes("væske-/eluat"))).toBe(true);
+    expect(result.hazard.isHazardous).toBeNull(); // real classification proceeded, not gated
+    expect(result.measurementBoundary.measurements[1].hpEligibility.reasons).toContain("unsupported_unit");
+    expect(result.hazard.confidenceFlags.some(f => f.includes("measurement-boundary-1"))).toBe(true);
   });
 
   it("does NOT add the exclusion note when no liquid-basis rows were present", () => {
@@ -231,8 +266,97 @@ describe("classifySample", () => {
     // baseMetadata has totalinnholdUtfort left unset (undefined) — no claim was ever made to override.
     const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
     expect(result.hazard.isHazardous).toBeNull();
-    expect(result.hazard.confidenceFlags[0]).not.toContain("overriding the extraction's own totalinnhold_utfort flag");
-    expect(result.hazard.confidenceFlags[0]).toContain("even though the extraction did not confirm total-content data was collected");
+  });
+
+  it("sets hasDetectedHazardousSubstance: true when a real hazardous substance is detected above LOQ", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(true);
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when no detected result maps to a known CLP hazard classification", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "unregistered", rawAnalyteName: "unknown",
+        resultValue: 99, isBelowLoq: false, loqValue: null, unitRaw: "%", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
+  });
+
+  it("does NOT count a below-LOQ (non-detect) row as a detected hazardous substance", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(false);
+  });
+
+  it("still counts a real above-LOQ detection alongside a below-LOQ non-detect of a different analyte", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (detected)",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+      {
+        resultId: "r2", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen (non-detect)",
+        resultValue: null, isBelowLoq: true, loqValue: 0.5, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBe(true);
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the keyword leaching-only flag", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/kg TS", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const leachateOnlyMetadata: SampleMetadata = {
+      ...baseMetadata, ristetestUtfort: true, kolonnetestUtfort: false, totalinnholdUtfort: false,
+    };
+    const result = classifySample(leachateOnlyMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the unit-based fallback", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "Ba",
+        resultValue: 0.13, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+      {
+        resultId: "r2", sampleId: "t", analyteId: "test-carcinogen-2", rawAnalyteName: "Cr",
+        resultValue: 0.059, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const result = classifySample(baseMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // confirms this test genuinely hits the gate
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
+  });
+
+  it("sets hasDetectedHazardousSubstance: null when gated by the liquid-waste-stream physicalState message", () => {
+    const results: SampleResult[] = [
+      {
+        resultId: "r1", sampleId: "t", analyteId: "test-carcinogen", rawAnalyteName: "test carcinogen",
+        resultValue: 0.5, isBelowLoq: false, loqValue: null, unitRaw: "mg/l", expressedOnDryBasis: true, method: null,
+      },
+    ];
+    const liquidStreamMetadata: SampleMetadata = { ...baseMetadata, physicalState: "liquid" };
+    const result = classifySample(liquidStreamMetadata, results, [], analyteRef, [], { "test-origin": "1705" });
+    expect(result.hazard.isHazardous).toBeNull(); // confirms this test genuinely hits the gate
+    expect(result.hazard.hasDetectedHazardousSubstance).toBeNull();
   });
 });
 

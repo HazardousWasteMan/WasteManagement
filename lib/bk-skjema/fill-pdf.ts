@@ -1,5 +1,5 @@
 // Fills the BK-skjema AcroForm from BkFields. Shared by the Data Lab route and bk/fill-form.test.ts.
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, defaultTextFieldAppearanceProvider, layoutMultilineText, layoutSinglelineText } from "pdf-lib";
 import type { BkField } from "./form-map";
 
 export const BK_BLANK_FORM_PATH = "public/forms/bk-skjema-blank.pdf";
@@ -15,7 +15,8 @@ export interface FillOutcome {
 
 export async function fillBkPdf(
   blank: Uint8Array | Buffer,
-  fields: BkField[]
+  fields: BkField[],
+  options: { fitText?: boolean } = {}
 ): Promise<{ pdf: Uint8Array; outcomes: FillOutcome[] }> {
   const doc = await PDFDocument.load(blank, { updateMetadata: false });
   const form = doc.getForm();
@@ -29,11 +30,36 @@ export async function fillBkPdf(
       if (f.select !== undefined) {
         form.getRadioGroup(f.field).select(f.select);
         filled = true;
+      } else if (f.field.startsWith("group")) {
+        // Explicit unresolved radio groups must not inherit the blank template defaults.
+        form.getRadioGroup(f.field).clear();
       } else if (f.check !== undefined) {
         const cb = form.getCheckBox(f.field);
         if (f.check) { cb.check(); filled = true; } else { cb.uncheck(); }
       } else if (f.value) {
-        form.getTextField(f.field).setText(f.value);
+        const textField = form.getTextField(f.field);
+        textField.setText(f.value);
+        if (options.fitText) {
+          const rectangle = textField.acroField.getWidgets()[0].getRectangle();
+          // Appearance streams use plain Tj operators (no kerning adjustments). Measure
+          // individual glyph advances so line wrapping matches what PDF viewers draw.
+          // Keep this metric adapter local: neither the shared font nor field text changes.
+          const font = new Proxy(form.getDefaultFont(), {
+            get(target, key, receiver) {
+              if (key === "widthOfTextAtSize") return (text: string, size: number) =>
+                Array.from(text).reduce((width, glyph) => width + target.widthOfTextAtSize(glyph, size), 0);
+              return Reflect.get(target, key, receiver);
+            },
+          });
+          const layout = textField.isMultiline() ? layoutMultilineText : layoutSinglelineText;
+          const fitted = layout(f.value, { alignment: textField.getAlignment(), font, fontSize: 0,
+            bounds: { x: 0, y: 0, width: rectangle.width - 6, height: rectangle.height - 6 } });
+          textField.setFontSize(Math.min(10, fitted.fontSize));
+          // This template carries widget-level /DA overrides. Keep them consistent with
+          // the field, otherwise the appearance provider silently uses the old font size.
+          for (const widget of textField.acroField.getWidgets()) widget.setDefaultAppearance(textField.acroField.getDefaultAppearance()!);
+          textField.updateAppearances(font, defaultTextFieldAppearanceProvider);
+        }
         filled = true;
       }
     } catch (err) {

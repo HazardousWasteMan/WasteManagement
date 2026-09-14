@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { analyseBundle, citedBlocks } from "@/lib/bk-skjema/analyse-bundle";
 import { ORIGIN_OPTIONS } from "@/lib/hp-classification/origin-options";
-import { resolveLegalCitationsWithTimeout } from "@/lib/compliance/resolve-legal-citations";
-import { LovdataSource } from "@/lib/compliance/sources/lovdata-source";
-import { createSupabaseParagraphStore } from "@/lib/compliance/store";
-import { createSupabaseCorrectionStore } from "@/lib/compliance/corrections";
+import { resolveBundleLegalCitations } from "@/lib/bk-skjema/legal-citations";
 
 // Datalab parses and extracts server-side; both are polled. Comfortable margin under Vercel's cap.
 export const maxDuration = 300;
@@ -56,27 +53,7 @@ export async function POST(request: NextRequest) {
   const pdf = Buffer.from(await file.arrayBuffer());
   const filename = file instanceof File ? file.name : "analyse.pdf";
 
-  // Resolves the one field this slice grounds (Checkbox10 / "eal-legal-basis") against the live
-  // compliance layer ONCE per request, before analyseBundle runs — not once per sub-report. The
-  // citation resolved here is the same for every sample in the bundle, so there is nothing to
-  // gain (and real cost — duplicate Supabase/Voyage/Lovdata round trips, out-of-order stream
-  // writes, blocked first-sample latency) from re-resolving it per sample. It is threaded into
-  // analyseBundle -> bkFromDatalab -> buildBkFields, so form-map.ts's own Checkbox10 branch
-  // produces the citation-grounded field the first time — no post-hoc mutation here.
-  // Defensive on top of resolveLegalCitationsWithTimeout's own internal try/catch and bounded
-  // timeout: a Supabase/Voyage outage or hang must never take down the surrounding extraction —
-  // legalCitations just comes back {} and every sample keeps Task 3's plain fallback note (see
-  // lib/bk-skjema/form-map.ts's Checkbox10 entry).
-  let legalCitations: Record<string, import("@/lib/compliance/citation-view").LegalCitationView | null> = {};
-  try {
-    legalCitations = await resolveLegalCitationsWithTimeout(
-      createSupabaseParagraphStore(),
-      new LovdataSource(),
-      createSupabaseCorrectionStore()
-    );
-  } catch (err) {
-    console.error("Legal citation resolution failed, keeping fallback notes:", err);
-  }
+  const legalCitations = await resolveBundleLegalCitations();
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({

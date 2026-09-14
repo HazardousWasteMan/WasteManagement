@@ -7,6 +7,9 @@ export interface Highlight {
   bbox: [number, number, number, number];
   blockId: string | null;
 }
+export function highlightSelectionKey(highlight:Highlight|undefined) {
+  return highlight ? `${highlight.page}:${highlight.bbox.join(",")}:${highlight.blockId??""}` : "";
+}
 
 /**
  * Renders the analysed pages and draws the source region for whichever field is selected.
@@ -67,10 +70,14 @@ export function DocumentPane({
 
   // Bring the newest highlight into view.
   const firstHighlight = highlights[0];
+  const selectedHighlightKey=highlightSelectionKey(firstHighlight);
+  const selectedPage=firstHighlight?.page;
   useEffect(() => {
-    if (!firstHighlight) return;
-    pageRefs.current.get(firstHighlight.page)?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [firstHighlight]);
+    if (selectedPage===undefined) return;
+    pageRefs.current.get(selectedPage)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // The primitive key changes only when a person selects different evidence. A workspace save
+    // may allocate new field/citation objects but must not move the document viewport.
+  }, [selectedHighlightKey,selectedPage]);
 
   if (error) {
     return (

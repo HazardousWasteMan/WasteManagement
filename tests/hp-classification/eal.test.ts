@@ -1,124 +1,70 @@
-import { describe, it, expect } from "vitest";
-import { assignEalCode } from "@/lib/hp-classification/eal";
+import { describe,expect,it } from "vitest";
+import { EAL_MODEL_VERSION,readEalAssignment,resolveEal,reviewEalSelection } from "@/lib/hp-classification/eal";
 
-const originLookup = { "escavo terre e rocce": "1705" };
+const mirror = [
+  {nivaa:3,kode:"170503",beskrivelse:"Jord og stein som inneholder farlige stoffer",beskrivelseEn:"soil and stones containing dangerous substances",farlig:true},
+  {nivaa:3,kode:"170504",beskrivelse:"Annen jord og stein",beskrivelseEn:"soil and stones other than those mentioned in 17 05 03",farlig:false},
+];
+const absolute = [{nivaa:3,kode:"100101",beskrivelse:"Bunnaske",beskrivelseEn:"bottom ash",farlig:false}];
+const base={originProcess:"excavation",material:"soil and stones",labStatedEalCode:null,originToChapterLookup:{excavation:"1705"}};
 
-describe("assignEalCode", () => {
-  it("halts with a clear message when originProcess is null", () => {
-    const result = assignEalCode(true, null, null, originLookup);
-    expect(result.code).toBeNull();
-    expect(result.confidence).toBe("HALT — missing origin/process metadata, cannot select EAL chapter");
-    expect(result.confidenceNo).toBe("STANS — mangler informasjon om opprinnelse/prosess, kan ikke velge EAL-kapittel");
+describe("structured EAL resolution",()=>{
+  it("does not let catalogue order change the suggestion or selection",()=>{
+    const first=resolveEal({...base,hazardStatus:"hazardous",catalogue:mirror});
+    const reversed=resolveEal({...base,hazardStatus:"hazardous",catalogue:[...mirror].reverse()});
+    expect(first.suggestedCode).toBe("17 05 03*");
+    expect(reversed.suggestedCode).toBe(first.suggestedCode);
+    expect(reversed.selectedCode).toBe(first.selectedCode);
+    expect(reversed.candidates.map(candidate=>candidate.code)).toEqual(first.candidates.map(candidate=>candidate.code));
   });
 
-  it("assigns the hazardous mirror code (17 05 03*) for hazardous soil with no lab cross-check, flagging ambiguity since chapter 1705 hazardous has multiple candidates", () => {
-    const result = assignEalCode(true, "escavo terre e rocce", null, originLookup);
-    expect(result.code).toBe("17 05 03*");
-    expect(result.confidence).toContain("AMBIGUOUS");
+  it("does not default chapter 17 01 to concrete when material is unknown",()=>{
+    const result=resolveEal({hazardStatus:"indeterminate",originProcess:"construction",material:null,labStatedEalCode:null,originToChapterLookup:{construction:"1701"}});
+    expect(result.candidates.some(candidate=>candidate.code==="17 01 01")).toBe(true);
+    expect(result.suggestedCode).toBeNull();
+    expect(result.selectedCode).toBeNull();
+    expect(result.resolutionStatus).toBe("ambiguous");
   });
 
-  it("assigns the non-hazardous mirror code (17 05 04) for non-hazardous soil", () => {
-    const result = assignEalCode(false, "escavo terre e rocce", null, originLookup);
-    expect(result.code).toBe("17 05 04");
+  it("leaves a mirror pair unresolved when HP is indeterminate",()=>{
+    const result=resolveEal({...base,hazardStatus:"indeterminate",catalogue:mirror});
+    expect(result.selectedCode).toBeNull();
+    expect(result.resolutionStatus).toBe("requires_human_review");
+    expect(result.reason).toContain("indeterminate");
   });
 
-  it("reports high confidence when the engine agrees with the lab's own stated code", () => {
-    const result = assignEalCode(true, "escavo terre e rocce", "17 05 03*", originLookup);
-    expect(result.confidence).toBe("high — engine agrees with lab's own classification");
-    expect(result.confidenceNo).toBe("høy — motoren er enig med laboratoriets egen klassifisering");
+  it("resolves a material-specific mirror pair from a reviewed HP aggregate",()=>{
+    expect(resolveEal({...base,hazardStatus:"hazardous",catalogue:mirror}).selectedCode).toBe("17 05 03*");
+    expect(resolveEal({...base,hazardStatus:"non_hazardous",catalogue:mirror}).selectedCode).toBe("17 05 04");
   });
 
-  it("reports a flag-for-review when the engine disagrees with the lab's own stated code", () => {
-    const result = assignEalCode(false, "escavo terre e rocce", "17 05 03*", originLookup);
-    expect(result.confidence).toBe("FLAG FOR REVIEW — engine disagrees with lab, do not auto-proceed");
-    expect(result.confidenceNo).toBe("FLAGG FOR GJENNOMGANG — motoren er uenig med laboratoriet, ikke fortsett automatisk");
+  it("allows a unique absolute entry to resolve independently of HP",()=>{
+    const common={originProcess:"ash",material:"bottom ash",labStatedEalCode:null,originToChapterLookup:{ash:"1001"},catalogue:absolute};
+    expect(resolveEal({...common,hazardStatus:"hazardous"}).selectedCode).toBe("10 01 01");
+    expect(resolveEal({...common,hazardStatus:"indeterminate"}).selectedCode).toBe("10 01 01");
   });
 
-  it("halts when originProcess has no entry in the lookup table", () => {
-    const result = assignEalCode(true, "unknown process", null, originLookup);
-    expect(result.code).toBeNull();
-    expect(result.confidence).toContain("no chapter mapping found");
+  it("requires origin/process before generating a confident decision",()=>{
+    const result=resolveEal({...base,hazardStatus:"hazardous",originProcess:null,catalogue:mirror});
+    expect(result.resolutionStatus).toBe("insufficient_context");
+    expect(result.candidates).toEqual([]);
   });
 
-  it("flags ambiguity when multiple hazardous nivaa-3 candidates exist in the chapter and there is no lab code to cross-check", () => {
-    // Chapter 1705 hazardous has three real candidates: 170503, 170505, 170507.
-    const result = assignEalCode(true, "escavo terre e rocce", null, originLookup);
-    expect(result.confidence).toContain("AMBIGUOUS");
-    expect(result.confidence).toContain("170503");
-    expect(result.confidence).toContain("170505");
-    expect(result.confidence).toContain("170507");
-    expect(result.confidence).toContain("manual review recommended");
-    expect(result.confidenceNo).toContain("TVETYDIG");
-    expect(result.confidenceNo).toContain("170503");
-    expect(result.confidenceNo).toContain("manuell gjennomgang anbefales");
+  it("keeps machine suggestion and evidence when a person selects a candidate",()=>{
+    const machine=resolveEal({...base,hazardStatus:"indeterminate",labStatedEalCode:"17 05 03*",catalogue:mirror});
+    const reviewed=reviewEalSelection(machine,{selectedCode:"17 05 04",reason:"Site records confirm uncontaminated excavated soil."});
+    expect(reviewed.modelVersion).toBe(EAL_MODEL_VERSION);
+    expect(reviewed.machineSuggestion.code).toBe("17 05 03*");
+    expect(reviewed.selectedCode).toBe("17 05 04");
+    expect(reviewed.humanSelection?.reason).toContain("Site records");
+    expect(reviewed.humanSelection?.evidenceSnapshot).toEqual([...machine.originEvidence,...machine.materialEvidence]);
   });
 
-  it("prefers the lab-agreement message over the ambiguity note when both would apply", () => {
-    const result = assignEalCode(true, "escavo terre e rocce", "17 05 03*", originLookup);
-    expect(result.confidence).toBe("high — engine agrees with lab's own classification");
-  });
-
-  it("real quirk: chapter 1301 (hydraulic oil waste) is entirely hazardous in the real EAL catalogue — resolves for isHazardous=true, reports no match (not a guess) for isHazardous=false", () => {
-    const lookup = { "hydraulic oil waste": "1301" };
-    const hazardousResult = assignEalCode(true, "hydraulic oil waste", null, lookup);
-    expect(hazardousResult.code).toBe("13 01 01*");
-    expect(hazardousResult.confidence).toContain("AMBIGUOUS");
-
-    const nonHazardousResult = assignEalCode(false, "hydraulic oil waste", null, lookup);
-    expect(nonHazardousResult.code).toBeNull();
-    expect(nonHazardousResult.confidence).toContain("no matching EAL code found in chapter 1301 for hazardous=false");
-  });
-
-  it("real quirk: chapter 2003 (other municipal waste) is entirely non-hazardous in the real EAL catalogue — resolves for isHazardous=false, reports no match (not a guess) for isHazardous=true", () => {
-    const lookup = { "other municipal waste": "2003" };
-    const nonHazardousResult = assignEalCode(false, "other municipal waste", null, lookup);
-    expect(nonHazardousResult.code).toBe("20 03 01");
-    expect(nonHazardousResult.confidence).toContain("AMBIGUOUS");
-
-    const hazardousResult = assignEalCode(true, "other municipal waste", null, lookup);
-    expect(hazardousResult.code).toBeNull();
-    expect(hazardousResult.confidence).toContain("no matching EAL code found in chapter 2003 for hazardous=true");
-  });
-
-  it("chapter 1602 (WEEE) has real hazardous and non-hazardous mirror pairs, confirming the fuller data file didn't change existing mirror-pair behavior", () => {
-    const lookup = { "electrical or electronic equipment waste (WEEE)": "1602" };
-    const hazardousResult = assignEalCode(true, "electrical or electronic equipment waste (WEEE)", null, lookup);
-    expect(hazardousResult.code).toBe("16 02 09*");
-
-    const nonHazardousResult = assignEalCode(false, "electrical or electronic equipment waste (WEEE)", null, lookup);
-    expect(nonHazardousResult.code).toBe("16 02 14");
-  });
-
-  it("returns the real English description for a well-known EAL code (170503, hazardous soil/rock)", () => {
-    const result = assignEalCode(true, "escavo terre e rocce", null, originLookup);
-    expect(result.description).toBe("soil and stones containing dangerous substances");
-  });
-
-  it("falls back to the Norwegian description for a code with no real English translation", () => {
-    // Chapter 1650 (Norway-specific oil-drilling extension) has no real English source match —
-    // this test uses a synthetic lookup pointing at that chapter to prove the fallback works,
-    // since 1650 isn't one of this app's curated origin-process options. All 8 real leaf codes
-    // under chapter 1650 are farlig=true (hazardous) with no non-hazardous mirror — verified
-    // during planning by reading the real data — so this test must use isHazardous=true, or it
-    // will hit the unrelated "no matching EAL code found" path instead of the fallback this
-    // test is meant to exercise.
-    const lookup = { "test-oil-drilling-origin": "1650" };
-    const result = assignEalCode(true, "test-oil-drilling-origin", null, lookup);
-    // The first hazardous chapter-1650 candidate (in file order) is 165071, which has no real
-    // English translation (missingEnglishTranslation: true) — verified against the real data in
-    // lib/data/eal-koder-full.json. Assert the exact real Norwegian beskrivelse to prove the
-    // fallback genuinely returns the Norwegian text, not that some non-empty string was returned
-    // (which would also pass if the English field were mistakenly used).
-    expect(result.code).toBe("16 50 71*");
-    expect(result.description).toBe(
-      "Oljebasert borevæske (enhver borevæske som inneholder olje eller oljeemulsjon av mineralopprinnelse)"
-    );
-  });
-
-  it("returns no code and a clear message when isHazardous is null (indeterminate)", () => {
-    const result = assignEalCode(null, "escavo terre e rocce", null, originLookup);
-    expect(result.code).toBeNull();
-    expect(result.confidence).toContain("indeterminate");
-    expect(result.confidenceNo).toContain("ikke bestemt");
+  it("keeps legacy snapshots readable without promoting them to modern finalization evidence",()=>{
+    const legacy=readEalAssignment({code:"17 05 03*",description:"soil",confidence:"old result",confidenceNo:"eldre resultat"});
+    expect(legacy.code).toBe("17 05 03*");
+    expect(legacy.modelVersion).toBe("legacy");
+    expect(legacy.resolutionStatus).toBe("requires_human_review");
+    expect(()=>reviewEalSelection(legacy,{selectedCode:"17 05 03*",reason:"review"})).toThrow(/reprocessed/);
   });
 });

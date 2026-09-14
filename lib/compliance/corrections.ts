@@ -5,6 +5,7 @@ export interface DisputeRecord {
   id: string;
   freezeId: string | null;
   disputedParagraphId: string;
+  citedFieldKey: string;
   raisedBy: string;
   raisedAt: string;
   reason: string;
@@ -17,17 +18,19 @@ export interface DisputeRecord {
 export interface CorrectionStore {
   raise(args: {
     disputedParagraphId: string;
+    citedFieldKey: string;
     freezeId: string | null;
     raisedBy: string;
     reason: string;
   }): Promise<DisputeRecord>;
-  hasUnresolved(paragraphId: string): Promise<boolean>;
+  hasUnresolved(paragraphId: string, fieldKey: string): Promise<boolean>;
 }
 
 interface Row {
   id: string;
   freeze_id: string | null;
   disputed_paragraph_id: string;
+  cited_field_key: string;
   raised_by: string;
   raised_at: string;
   reason: string;
@@ -42,6 +45,7 @@ function rowToRecord(row: Row): DisputeRecord {
     id: row.id,
     freezeId: row.freeze_id,
     disputedParagraphId: row.disputed_paragraph_id,
+    citedFieldKey: row.cited_field_key,
     raisedBy: row.raised_by,
     raisedAt: row.raised_at,
     reason: row.reason,
@@ -65,6 +69,7 @@ export function createSupabaseCorrectionStore(): CorrectionStore {
         .insert({
           freeze_id: args.freezeId,
           disputed_paragraph_id: args.disputedParagraphId,
+          cited_field_key: args.citedFieldKey,
           raised_by: args.raisedBy,
           reason: args.reason,
         } as never)
@@ -74,11 +79,12 @@ export function createSupabaseCorrectionStore(): CorrectionStore {
       return rowToRecord(data as Row);
     },
 
-    async hasUnresolved(paragraphId) {
+    async hasUnresolved(paragraphId, fieldKey) {
       const { data, error } = await client
         .from("compliance_corrections")
         .select("id")
         .eq("disputed_paragraph_id", paragraphId)
+        .eq("cited_field_key", fieldKey)
         .is("resolution", null)
         .limit(1);
       if (error) throw new Error(`hasUnresolved check failed: ${error.message}`);

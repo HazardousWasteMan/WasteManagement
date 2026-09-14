@@ -18,10 +18,28 @@ describe("POST /api/compliance/disputes", () => {
     expect(res.status).toBe(400);
   });
 
+  it("returns 400 when citedFieldKey is missing", async () => {
+    const res = await POST(req({
+      paragraphId: "no-avfallsforskriften-11-4", freezeId: null,
+      raisedBy: "Kari Nordmann", reason: "doesn't apply",
+    }) as never);
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 400 when citedFieldKey isn't a real RESOLVED_FIELDS key", async () => {
+    const res = await POST(req({
+      paragraphId: "no-avfallsforskriften-11-4", freezeId: null,
+      raisedBy: "Kari Nordmann", reason: "doesn't apply",
+      citedFieldKey: "not-a-real-key",
+    }) as never);
+    expect(res.status).toBe(400);
+  });
+
   it("raises a dispute and returns it as JSON on success", async () => {
     vi.spyOn(corrections, "createSupabaseCorrectionStore").mockReturnValue({
       raise: vi.fn().mockResolvedValue({
         id: "dispute-1", freezeId: null, disputedParagraphId: "no-avfallsforskriften-11-4",
+        citedFieldKey: "eal-legal-basis",
         raisedBy: "Kari Nordmann", raisedAt: "2026-09-04T00:00:00.000Z",
         reason: "doesn't apply", resolution: null, correctedParagraphId: null,
         resolvedBy: null, resolvedAt: null,
@@ -32,11 +50,13 @@ describe("POST /api/compliance/disputes", () => {
     const res = await POST(req({
       paragraphId: "no-avfallsforskriften-11-4", freezeId: null,
       raisedBy: "Kari Nordmann", reason: "doesn't apply",
+      citedFieldKey: "eal-legal-basis",
     }) as never);
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.id).toBe("dispute-1");
     expect(body.disputedParagraphId).toBe("no-avfallsforskriften-11-4");
+    expect(body.citedFieldKey).toBe("eal-legal-basis");
   });
 
   it("returns 500 with a clear error when the store throws, never a fabricated success", async () => {
@@ -48,6 +68,7 @@ describe("POST /api/compliance/disputes", () => {
     const res = await POST(req({
       paragraphId: "no-avfallsforskriften-11-4", freezeId: null,
       raisedBy: "Kari Nordmann", reason: "doesn't apply",
+      citedFieldKey: "eal-legal-basis",
     }) as never);
     expect(res.status).toBe(500);
     const body = await res.json();

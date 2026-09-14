@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "seed:lovdata": "tsx scripts/seed-lovdata.ts"
+    "seed:lovdata": "tsx scripts/seed-lovdata.ts",
+    "production:verify-local": "tsx scripts/production/verify-local.ts",
+    "production:bootstrap-local": "tsx scripts/production/bootstrap-local.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
@@ -27,9 +29,12 @@
     "pdfjs-dist": "5.4.296",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-pgvector": "^0.0.9",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

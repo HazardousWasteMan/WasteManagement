@@ -324,6 +324,10 @@ export function buildBkPageSchema(): object {
         items: {
           type: "object",
           properties: {
+            raw_value_text: { type: "string", description: "Exact printed result text, preserving <, <=, ND and decimal notation. Do not invent a measured value." },
+            analytical_context: { type: "string", description: "Quote the row/table heading or nearby test context establishing total content, batch/ristetest, column/kolonne, eluate, L/S or composition. Include dry/as-received footnotes if present. Do not infer purpose from units. Omit if absent." },
+            concentration_basis: { type: "string", enum: ["dry", "as_received", "liquid_volume", "unknown"], description: "Reported basis from units/footnotes; unknown when not established. No automatic dry assumption." },
+            method: { type: "string", description: "Reported analytical/test method, if present." },
             parameter: { type: "string", description: "Parameternavnet slik det står i rapporten, f.eks. 'Arsen (As)'" },
             analyte_id: {
               type: "string",

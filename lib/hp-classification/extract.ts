@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import Anthropic, { APIUserAbortError } from "@anthropic-ai/sdk";
 import type { SampleMetadata, SampleResult, AnalyteReference } from "./types";
 import type { TestResult } from "./hazard";
@@ -7,7 +8,7 @@ import { shouldBatchDocument, computeBatchPageRanges, getPdfPageCount, splitPdfI
 
 export interface ExtractionResult {
   metadata: Partial<SampleMetadata>;
-  results: Omit<SampleResult, "sampleId" | "method">[];
+  results: (Omit<SampleResult, "sampleId" | "method"> & { method?: string | null })[];
   testResults: TestResult[];
   unmatchedAnalytes: string[];
   // Claude's own best-guess match against the real ORIGIN_OPTIONS list (or null if unsure).
@@ -91,7 +92,7 @@ Return ONLY a JSON object matching this exact shape, with no markdown fences and
     "labStatedEalCode": string | null
   },
   "results": [
-    { "rawAnalyteName": string, "analyteId": string | null, "resultValue": number | null, "isBelowLoq": boolean, "loqValue": number | null, "unitRaw": string, "expressedOnDryBasis": boolean }
+    { "rawAnalyteName": string, "analyteId": string | null, "resultValue": number | null, "isBelowLoq": boolean, "loqValue": number | null, "unitRaw": string, "expressedOnDryBasis": boolean, "rawValueText": string | null, "analyticalContext": string | null, "concentrationBasis": "dry" | "as_received" | "liquid_volume" | "unknown", "method": string | null }
   ],
 
   "testResults": [
@@ -103,7 +104,9 @@ Return ONLY a JSON object matching this exact shape, with no markdown fences and
 
 For "location", extract the site/property address, name, or municipality where the waste was generated or where the sampling took place, if the document clearly states one (e.g. a project name, site address, or municipality mentioned in the report header or sampling details) — set it to null if the document does not clearly state a location; never guess or infer a location from unrelated context.
 
-Do not report a row as an analyte result if it is a quality-control/methodology parameter (e.g. dry-matter or moisture content, measurement uncertainty, temperature) or a pre-calculated aggregate sum of other rows already being reported individually (e.g. a "Sum X" total) — these are never real, individually classifiable substances. Carbon-range hydrocarbon fraction rows (e.g. total petroleum hydrocarbon ranges reported by carbon-chain length) ARE real substances and must still be reported individually — do not exclude these.
+For each row preserve the exact printed rawValueText (including censoring symbols). In analyticalContext quote the applicable row/table/test heading (total content, bulk, batch, column, eluate, L/S) and basis footnotes. Do not infer analytical purpose from units or guess missing context. Concentration basis must be reported or unknown. Preserve composition and sum rows as evidence; label their context accurately so the shared eligibility layer can exclude them.
+
+
 
 Do NOT populate an "originProcess" field — it is intentionally absent from this schema. It is never present in a lab report and must be supplied by the user, not guessed by you.
 
@@ -412,6 +415,12 @@ export async function extractSampleData(
   analyteRef: AnalyteReference[],
   sampleIdentifier: string | null
 ): Promise<ExtractionResult> {
+  const documentRef = `sha256:${createHash("sha256").update(pdfBuffer).digest("hex")}`;
+  // The legacy extractor has no verified page/region coordinates. Preserve a real document
+  // reference and row identity without manufacturing a location from provider guesses.
+  const withProvenance = (result: ExtractionResult): ExtractionResult => ({ ...result, results: result.results.map(row => ({
+    ...row, source: [{documentRef, reference: `${documentRef}/${sampleIdentifier ?? result.metadata.sampleId ?? "unresolved-sample"}/${row.resultId}`}],
+  })) });
   if (!hasUsableText(pdfText)) {
     // The page-count probe (via pdf-lib's PDFDocument.load) can throw for PDFs the existing
     // pdf-parse-based pipeline tolerates just fine today — owner-password-encrypted PDFs
@@ -458,8 +467,8 @@ export async function extractSampleData(
         const firstRejected = rejected[0];
         throw firstRejected ? firstRejected.reason : new Error("All extraction batches failed");
       }
-      return mergeExtractionResults(fragments);
+      return withProvenance(mergeExtractionResults(fragments));
     }
   }
-  return extractSingleDocumentBatch(pdfText, pdfBuffer, analyteRef, sampleIdentifier);
+  return withProvenance(await extractSingleDocumentBatch(pdfText, pdfBuffer, analyteRef, sampleIdentifier));
 }

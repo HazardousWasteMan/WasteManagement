@@ -88,7 +88,7 @@ export function mergeExtractionResults(fragments: ExtractionResult[]): Extractio
   // duplicate case) get merged.
   const dedupedResults = dedupeBy(
     allResults,
-    r => `${r.rawAnalyteName}::${r.resultValue}::${r.unitRaw}::${r.expressedOnDryBasis}::${r.isBelowLoq}`
+    r => JSON.stringify([r.rawAnalyteName, r.analyteId, r.resultValue, r.unitRaw, r.expressedOnDryBasis, r.isBelowLoq, r.loqValue, r.rawValueText, r.analyticalContext, r.concentrationBasis, r.method, r.source])
   );
   const results: Omit<SampleResult, "sampleId" | "method">[] = dedupedResults.map((r, i) => ({
     ...r,

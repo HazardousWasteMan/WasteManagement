@@ -10,20 +10,19 @@ export interface FreezeStore {
 // are copied by value into a new FormFreeze object, so a later mutation of the caller's
 // `paragraph` reference (e.g. the cache being updated in place elsewhere) can never retroactively
 // alter an already-frozen record. This is the one behavior spec §8 exists to guarantee.
+export function buildFormFreeze(args: {caseId: string; fieldName: string; paragraph: LegalParagraph}, frozenAt = new Date().toISOString()): FormFreeze {
+  return {
+    id: crypto.randomUUID(), caseId: args.caseId, fieldName: args.fieldName,
+    citedParagraphId: args.paragraph.id, paragraphTextAtFreeze: args.paragraph.text,
+    lastVerifiedAtAtFreeze: args.paragraph.lastVerifiedAt, sourceLinkAtFreeze: args.paragraph.sourceLink, frozenAt,
+  };
+}
+
 export async function freezeFormField(
   store: FreezeStore,
   args: { caseId: string; fieldName: string; paragraph: LegalParagraph }
 ): Promise<FormFreeze> {
-  const freeze: FormFreeze = {
-    id: crypto.randomUUID(),
-    caseId: args.caseId,
-    fieldName: args.fieldName,
-    citedParagraphId: args.paragraph.id,
-    paragraphTextAtFreeze: args.paragraph.text,
-    lastVerifiedAtAtFreeze: args.paragraph.lastVerifiedAt,
-    sourceLinkAtFreeze: args.paragraph.sourceLink,
-    frozenAt: new Date().toISOString(),
-  };
+  const freeze = buildFormFreeze(args);
   await store.save(freeze);
   return freeze;
 }

@@ -2,15 +2,8 @@
 import { Card, Chip, Button } from "@heroui/react";
 import { HeroCard, StatCard } from "@/components/dashboard/DashboardCards";
 
-type HpOutcome = boolean | "not tested — assumed not applicable" | "requires case-specific assessment — not automatable from lab data alone" | "superseded by HP8";
-
-interface HazardClassification {
-  resultsByHp: Record<string, HpOutcome>;
-  triggeringSubstancesByHp: Record<string, string[]>;
-  isHazardous: boolean | null;
-  triggeredHps: string[];
-  confidenceFlags: string[];
-}
+import { readHpOutcome, type HpOutcome, type LegacyHpOutcome } from "@/lib/hp-classification/hp-outcome";
+import type { HazardClassification } from "@/lib/hp-classification/hazard";
 
 interface EalAssignment {
   code: string | null;
@@ -18,10 +11,9 @@ interface EalAssignment {
   confidence: string;
 }
 
-function outcomeLabel(outcome: HpOutcome): string {
-  if (outcome === true) return "Triggered";
-  if (outcome === false) return "Not triggered";
-  return outcome;
+function outcomeLabel(outcome: HpOutcome | LegacyHpOutcome): string {
+  if (typeof outcome === "object") return `${outcome.status.replaceAll("_", " ")} — ${outcome.reason}`;
+  return outcome === true ? "Triggered (legacy)" : outcome === false ? "Not triggered (legacy; evidence not verified)" : outcome;
 }
 
 export function ClassificationResultsStep({ hazard, eal, noDataWarning, onContinue }: {
@@ -64,7 +56,7 @@ export function ClassificationResultsStep({ hazard, eal, noDataWarning, onContin
               return (
                 <div key={hp} className="flex flex-col gap-0.5">
                   <div className="flex items-center gap-3 text-sm">
-                    <Chip color={outcome === true ? "danger" : "default"} variant="soft" className="w-14 justify-center">
+                    <Chip color={readHpOutcome(hp, outcome).status === "triggered" ? "danger" : "default"} variant="soft" className="w-14 justify-center">
                       {hp}
                     </Chip>
                     <span className="text-black/70">{outcomeLabel(outcome)}</span>

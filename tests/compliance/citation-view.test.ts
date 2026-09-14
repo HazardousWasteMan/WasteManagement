@@ -20,6 +20,15 @@ const paragraph9_6: LegalParagraph = {
   humanSignedOff: false, sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/§9-6",
 };
 
+const vedlegg2: LegalParagraph = {
+  id: "no-avfallsforskriften-11-vedlegg-2", source: "no", jurisdictionApplies: ["no"],
+  documentId: "avfallsforskriften", article: "11", paragraph: "vedlegg-2",
+  text: "Vedlegget skal benyttes for avfallstyper...", inForce: true,
+  lastVerifiedAt: "2026-09-06T00:00:00.000Z", lastChangedAt: "2020-01-01T00:00:00.000Z",
+  verificationStatus: "current", amendedBy: [], previousVersionId: null,
+  humanSignedOff: false, sourceLink: "https://lovdata.no/forskrift/2004-06-01-930/KAPITTEL_14-2",
+};
+
 describe("buildLegalCitationView", () => {
   it("builds one SingleCitation per paragraph, in the order given", () => {
     const view = buildLegalCitationView(
@@ -66,5 +75,15 @@ describe("buildLegalCitationView", () => {
     const view = buildLegalCitationView([{ paragraph: paragraph9_5, primary: true }], {});
     expect(view.citations).toHaveLength(1);
     expect(view.citations[0].primary).toBe(true);
+  });
+
+  it("renders a vedlegg-shaped paragraph as 'Vedlegg <label>', not '§ 11-vedlegg-2'", () => {
+    const view = buildLegalCitationView([{ paragraph: vedlegg2, primary: false }], {});
+    expect(view.citations[0].label).toBe("Avfallsforskriften kap. 11 Vedlegg 2");
+  });
+
+  it("still renders an ordinary paragraph's label unchanged, regression coverage", () => {
+    const view = buildLegalCitationView([{ paragraph: paragraph9_6, primary: true }], {});
+    expect(view.citations[0].label).toBe("Avfallsforskriften § 9-6");
   });
 });
