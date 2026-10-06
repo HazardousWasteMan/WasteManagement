@@ -5,10 +5,12 @@ export interface OriginOption {
 }
 
 // Real EAL origin/process options, transcribed from lib/data/eal-koder-full.json's level-2
-// (nivaa: 2) descriptions across the 7 chapters the user identified as relevant to their
+// (nivaa: 2) descriptions across the 8 chapters the user identified as relevant to their
 // customer base: 17 (construction/demolition), 13 (oils), 14 (organic solvents/refrigerants/
 // propellants), 08 (paints/adhesives), 15 (packaging/absorbents), 16 (WEEE/batteries/misc),
-// 20 (municipal waste). "escavo terre e rocce" is kept as the exact value string for chapter
+// 20 (municipal waste), 12 (shaping/surface treatment of metals and plastics, incl. blasting
+// waste — added for a real customer sample, "blåsesand fra industri", EWC 12 01 16*/12 01 17).
+// "escavo terre e rocce" is kept as the exact value string for chapter
 // 1705 since it's already what the Italian sample fixture and the existing
 // ORIGIN_TO_CHAPTER_LOOKUP key on — changing it would break that regression test.
 //
@@ -44,6 +46,7 @@ export const ORIGIN_OPTIONS: OriginOption[] = [
   { value: "batteries and accumulators", label: "Batteries and accumulators", chapter: "1606" },
   { value: "separately collected municipal waste fraction (excl. packaging)", label: "Separately collected municipal waste fraction (excl. packaging, see chapter 15 01)", chapter: "2001" },
   { value: "other municipal waste", label: "Other municipal waste", chapter: "2003" },
+  { value: "blasting or abrasive waste from metal or plastic surface treatment", label: "Blasting or abrasive waste (metal/plastic surface treatment)", chapter: "1201" },
 ];
 
 // All 20 real EAL top-level chapters, with their real English titles — transcribed from

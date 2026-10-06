@@ -3,8 +3,8 @@ import { ORIGIN_OPTIONS, withCustomOrigin, deriveOriginFromLabCode, suggestOrigi
 import ealKoderFull from "@/lib/data/eal-koder-full.json";
 
 describe("ORIGIN_OPTIONS", () => {
-  it("has exactly 25 real origin types across 7 chapters", () => {
-    expect(ORIGIN_OPTIONS).toHaveLength(25);
+  it("has exactly 26 real origin types across 8 chapters", () => {
+    expect(ORIGIN_OPTIONS).toHaveLength(26);
   });
 
   it("every option has a non-empty value, label, and a 4-digit chapter code", () => {
@@ -36,9 +36,15 @@ describe("ORIGIN_OPTIONS", () => {
     }
   });
 
-  it("covers all 7 chapters the user identified as relevant: 08, 13, 14, 15, 16, 17, 20", () => {
+  it("covers all 8 chapters the user identified as relevant: 08, 12, 13, 14, 15, 16, 17, 20", () => {
     const chaptersCovered = new Set(ORIGIN_OPTIONS.map(o => o.chapter.slice(0, 2)));
-    expect(chaptersCovered).toEqual(new Set(["08", "13", "14", "15", "16", "17", "20"]));
+    expect(chaptersCovered).toEqual(new Set(["08", "12", "13", "14", "15", "16", "17", "20"]));
+  });
+
+  it("includes blasting/abrasive waste mapped to chapter 1201, real customer sample (blåsesand, EWC 12 01 16*)", () => {
+    const blastingOption = ORIGIN_OPTIONS.find(o => o.chapter === "1201");
+    expect(blastingOption).toBeDefined();
+    expect(blastingOption!.label).toContain("Blasting");
   });
 });
 
