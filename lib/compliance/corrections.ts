@@ -1,5 +1,5 @@
 // lib/compliance/corrections.ts
-import { createClient } from "@supabase/supabase-js";
+import { createComplianceSupabaseClient } from "@/lib/compliance/supabase-client";
 
 export interface DisputeRecord {
   id: string;
@@ -57,10 +57,7 @@ function rowToRecord(row: Row): DisputeRecord {
 }
 
 export function createSupabaseCorrectionStore(): CorrectionStore {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY are not configured");
-  const client = createClient(url, key);
+  const client = createComplianceSupabaseClient();
 
   return {
     async raise(args) {

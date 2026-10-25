@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createComplianceSupabaseClient } from "@/lib/compliance/supabase-client";
 import type { FormFreeze, LegalParagraph } from "@/lib/compliance/types";
 
 export interface FreezeStore {
@@ -28,10 +28,7 @@ export async function freezeFormField(
 }
 
 export function createSupabaseFreezeStore(): FreezeStore {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY are not configured");
-  const client = createClient(url, key);
+  const client = createComplianceSupabaseClient();
 
   return {
     async save(freeze) {

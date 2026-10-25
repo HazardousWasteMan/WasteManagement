@@ -1,5 +1,5 @@
 // lib/compliance/store.ts
-import { createClient } from "@supabase/supabase-js";
+import { createComplianceSupabaseClient } from "@/lib/compliance/supabase-client";
 import type { Jurisdiction, LegalParagraph } from "@/lib/compliance/types";
 
 export interface ParagraphStore {
@@ -74,10 +74,7 @@ function paragraphToRow(p: LegalParagraph, embedding: number[]): Row & { embeddi
 }
 
 export function createSupabaseParagraphStore(): ParagraphStore {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY are not configured");
-  const client = createClient(url, key);
+  const client = createComplianceSupabaseClient();
 
   return {
     async findByLocation(documentId, article, paragraph) {
